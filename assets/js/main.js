@@ -38,6 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+
+function resolveSiteHref(path) {
+  if (!path || /^(?:[a-z]+:)?\/\//i.test(path) || path.startsWith('#') || path.startsWith('mailto:') || path.startsWith('tel:')) return path;
+  const inPages = window.location.pathname.includes('/pages/');
+  const base = inPages ? '..' : '.';
+  return `${base}/${path}`;
+}
+
 /* ──────────────────────────────────────────
    Header Builder
    ────────────────────────────────────────── */
@@ -48,14 +56,14 @@ function injectHeader() {
   // Build nav items
   const navItems = SITE.nav.map(item => {
     if (item.children) {
-      const sub = item.children.map(c => `<a href="${c.href}">${c.label}</a>`).join('');
+      const sub = item.children.map(c => `<a href="${resolveSiteHref(c.href)}">${c.label}</a>`).join('');
       return `
         <li class="nav-item">
-          <a class="nav-link" href="${item.href}">${item.label} <span style="font-size:.7em;opacity:.6">▾</span></a>
+          <a class="nav-link" href="${resolveSiteHref(item.href)}">${item.label} <span style="font-size:.7em;opacity:.6">▾</span></a>
           <div class="nav-dropdown">${sub}</div>
         </li>`;
     }
-    return `<li class="nav-item"><a class="nav-link" href="${item.href}">${item.label}</a></li>`;
+    return `<li class="nav-item"><a class="nav-link" href="${resolveSiteHref(item.href)}">${item.label}</a></li>`;
   }).join('');
 
   // Mobile nav items (flat)
@@ -63,18 +71,18 @@ function injectHeader() {
     if (item.children) {
       return [
         `<li><span class="sub-label">${item.label}</span></li>`,
-        ...item.children.map(c => `<li><a href="${c.href}">${c.label}</a></li>`)
+        ...item.children.map(c => `<li><a href="${resolveSiteHref(c.href)}">${c.label}</a></li>`)
       ];
     }
-    return [`<li><a href="${item.href}">${item.label}</a></li>`];
+    return [`<li><a href="${resolveSiteHref(item.href)}">${item.label}</a></li>`];
   }).join('');
 
   placeholder.outerHTML = `
   <nav class="nav-outer" id="main-nav">
     <div class="nav-inner">
-      <a class="nav-logo" href="/index.html">${SITE.logoText}</a>
+      <a class="nav-logo" href="${resolveSiteHref('index.html')}">${SITE.logoText}</a>
       <ul class="nav-links">${navItems}</ul>
-      <a class="btn btn--primary btn--sm nav-cta" href="/pages/contact.html">Get in Touch</a>
+      <a class="btn btn--primary btn--sm nav-cta" href="${resolveSiteHref('pages/contact.html')}">Get in Touch</a>
       <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
         <span></span><span></span><span></span>
       </button>
@@ -83,7 +91,7 @@ function injectHeader() {
   <nav class="nav-mobile" id="nav-mobile">
     <ul>${mobileItems}</ul>
     <div class="nav-mobile-cta">
-      <a class="btn btn--primary w-full" href="/pages/contact.html">Get in Touch</a>
+      <a class="btn btn--primary w-full" href="${resolveSiteHref('pages/contact.html')}">Get in Touch</a>
     </div>
   </nav>`;
 
@@ -97,7 +105,7 @@ function injectHeader() {
   const currentPath = window.location.pathname;
   document.querySelectorAll('.nav-link, .nav-mobile a').forEach(link => {
     if (link.getAttribute('href') === currentPath ||
-        (currentPath.endsWith('/') && link.getAttribute('href') === '/index.html')) {
+        ((currentPath.endsWith('/') || currentPath.endsWith('/index.html')) && link.getAttribute('href') === resolveSiteHref('index.html'))) {
       link.classList.add('active');
     }
   });
@@ -111,7 +119,7 @@ function injectFooter() {
   if (!placeholder) return;
 
   const quickLinks = SITE.footerLinks.map(l =>
-    `<li><a href="${l.href}">${l.label}</a></li>`
+    `<li><a href="${resolveSiteHref(l.href)}">${l.label}</a></li>`
   ).join('');
 
   const socialIcons = {
@@ -142,12 +150,12 @@ function injectFooter() {
         <div class="footer-col">
           <div class="footer-col__title">Programs</div>
           <ul>
-            <li><a href="/pages/training.html">EV Seminars</a></li>
-            <li><a href="/pages/training.html">Workshops</a></li>
-            <li><a href="/pages/training.html">Internship</a></li>
-            <li><a href="/pages/training.html">Industrial Visit</a></li>
-            <li><a href="/pages/training.html">Placements</a></li>
-            <li><a href="/pages/expo.html">Expo & Events</a></li>
+            <li><a href="${resolveSiteHref('pages/training.html')}">EV Seminars</a></li>
+            <li><a href="${resolveSiteHref('pages/training.html')}">Workshops</a></li>
+            <li><a href="${resolveSiteHref('pages/training.html')}">Internship</a></li>
+            <li><a href="${resolveSiteHref('pages/training.html')}">Industrial Visit</a></li>
+            <li><a href="${resolveSiteHref('pages/training.html')}">Placements</a></li>
+            <li><a href="${resolveSiteHref('pages/expo.html')}">Expo & Events</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -173,7 +181,7 @@ function injectFooter() {
         <div class="footer-bottom-links">
           <a href="#">Privacy Policy</a>
           <a href="#">Terms of Use</a>
-          <a href="/pages/contact.html">Contact</a>
+          <a href="${resolveSiteHref('pages/contact.html')}">Contact</a>
         </div>
       </div>
     </div>
