@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="page-title" content="Customer List"/>
+  <meta name="description" content="ITI Pro customers — institutions, enterprises, government bodies, and individuals across India's EV ecosystem."/>
+  <link rel="stylesheet" href="/assets/css/style.css"/>
+  <style>
+
+    /* ── Segment cards ── */
+    .segment-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-5);
+    }
+    @media (max-width: 1024px) { .segment-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px)  { .segment-grid { grid-template-columns: 1fr; } }
+
+    .segment-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-6);
+      text-align: center;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .segment-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--clr-primary), transparent);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .segment-card:hover { border-color: var(--clr-primary); transform: translateY(-4px); box-shadow: var(--shadow-md), var(--shadow-glow); }
+    .segment-card:hover::before { opacity: 1; }
+    .seg-icon {
+      width: 64px; height: 64px;
+      margin: 0 auto var(--sp-4);
+      background: rgba(34,197,94,.1);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+    .seg-title { font-family: var(--ff-display); font-size: var(--fs-xl); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-2); }
+    .seg-count { font-family: var(--ff-display); font-size: var(--fs-3xl); font-weight: 700; color: var(--clr-primary); line-height: 1; margin-bottom: var(--sp-3); }
+    .seg-text { font-size: var(--fs-sm); color: var(--clr-text-muted); line-height: 1.7; }
+
+    /* ── Customer filter ── */
+    .cust-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-8);
+      justify-content: center;
+    }
+    .cust-filter-btn {
+      padding: var(--sp-2) var(--sp-5);
+      border-radius: var(--r-full);
+      border: 1px solid var(--clr-border);
+      color: var(--clr-text-muted);
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      cursor: pointer;
+      transition: all var(--transition);
+      background: transparent;
+    }
+    .cust-filter-btn:hover, .cust-filter-btn.active {
+      background: var(--clr-primary);
+      color: var(--clr-dark);
+      border-color: var(--clr-primary);
+    }
+
+    /* ── Customer card grid (alternative view) ── */
+    .customer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-4);
+    }
+    @media (max-width: 900px) { .customer-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .customer-grid { grid-template-columns: 1fr; } }
+
+    .customer-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-5);
+      transition: all var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+    }
+    .customer-card.hidden { display: none; }
+    .customer-card:hover { border-color: var(--clr-primary); transform: translateY(-3px); }
+    .cc-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--sp-3);
+    }
+    .cc-logo {
+      width: 44px; height: 44px;
+      background: var(--clr-dark-4);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ff-display);
+      font-weight: 700;
+      color: var(--clr-primary);
+      font-size: var(--fs-md);
+      flex-shrink: 0;
+    }
+    .cc-name { font-family: var(--ff-display); font-size: var(--fs-md); font-weight: 700; color: var(--clr-white); line-height: 1.3; margin-bottom: 2px; }
+    .cc-loc { font-size: var(--fs-xs); color: var(--clr-text-dim); font-family: var(--ff-mono); }
+    .cc-meta { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+    .cc-services { font-size: var(--fs-xs); color: var(--clr-text-muted); line-height: 1.6; padding-top: var(--sp-3); border-top: 1px solid rgba(255,255,255,.04); }
+    .cc-services-label { font-family: var(--ff-mono); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--clr-text-dim); margin-bottom: var(--sp-1); display: block; }
+
+    /* ── View toggle ── */
+    .view-toggle {
+      display: flex;
+      gap: var(--sp-2);
+      justify-content: center;
+      margin-bottom: var(--sp-6);
+    }
+    .view-toggle button {
+      padding: var(--sp-2) var(--sp-4);
+      border-radius: var(--r-md);
+      border: 1px solid var(--clr-border);
+      background: transparent;
+      color: var(--clr-text-muted);
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .view-toggle button.active {
+      background: var(--clr-primary);
+      color: var(--clr-dark);
+      border-color: var(--clr-primary);
+    }
+
+    /* ── Testimonial card ── */
+    .testimonial-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-6);
+      transition: all var(--transition);
+    }
+    .testimonial-card:hover { border-color: var(--clr-primary); }
+    .tc-quote { font-size: 2.5rem; color: var(--clr-primary); opacity: .35; font-family: Georgia, serif; line-height: 1; margin-bottom: var(--sp-3); }
+    .tc-text { font-size: var(--fs-sm); color: var(--clr-text-muted); line-height: 1.8; font-style: italic; margin-bottom: var(--sp-5); }
+    .tc-author { display: flex; align-items: center; gap: var(--sp-3); padding-top: var(--sp-4); border-top: 1px solid var(--clr-border); }
+    .tc-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--clr-dark-4);
+      border: 1px solid var(--clr-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .tc-name { font-weight: 600; color: var(--clr-white); font-size: var(--fs-sm); }
+    .tc-role { font-size: var(--fs-xs); color: var(--clr-text-dim); font-family: var(--ff-mono); margin-top: 2px; }
+  </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+<div class="nav-spacer"></div>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero">
+  <div class="container">
+    <p class="page-hero__eyebrow">Our Clients</p>
+    <h1 class="page-hero__title">Customer <span>List</span></h1>
+    <p class="page-hero__subtitle">Trusted by educational institutions, EV enterprises, government bodies, and thousands of individuals across India's electric vehicle ecosystem.</p>
+    <div class="btn-group mt-8">
+      <a href="/pages/contact.html" class="btn btn--primary btn--lg">Become a Customer</a>
+      <a href="#customer-list" class="btn btn--outline btn--lg">View Customer List</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUICK STATS ── -->
+<div style="background:var(--clr-dark-4); border-top:1px solid var(--clr-border); border-bottom:1px solid var(--clr-border); padding-block:var(--sp-10);">
+  <div class="container">
+    <div class="grid grid--4">
+      <div class="stat-block"><div class="stat-block__number">120+</div><div class="stat-block__label">Institutions</div></div>
+      <div class="stat-block"><div class="stat-block__number">60+</div><div class="stat-block__label">Corporate Clients</div></div>
+      <div class="stat-block"><div class="stat-block__number">15+</div><div class="stat-block__label">Government Bodies</div></div>
+      <div class="stat-block"><div class="stat-block__number">5000+</div><div class="stat-block__label">Individual Alumni</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CUSTOMER SEGMENTS ── -->
+<section class="section section--dark">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Who We Serve</span>
+      <h2 class="section-title">Customer <span>Segments</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">From large enterprises to individual learners — every ITI Pro customer is part of India's growing clean mobility movement.</p>
+    </div>
+    <div class="segment-grid">
+      <div class="segment-card">
+        <div class="seg-icon">🏫</div>
+        <div class="seg-title">Educational Institutes</div>
+        <div class="seg-count">120+</div>
+        <p class="seg-text">ITI colleges, polytechnics, engineering institutions, and vocational training centres using our curriculum.</p>
+      </div>
+      <div class="segment-card">
+        <div class="seg-icon">🏢</div>
+        <div class="seg-title">Corporates</div>
+        <div class="seg-count">60+</div>
+        <p class="seg-text">EV OEMs, component manufacturers, fleet operators, and auto-tech companies upskilling their workforce.</p>
+      </div>
+      <div class="segment-card">
+        <div class="seg-icon">🏛️</div>
+        <div class="seg-title">Government Bodies</div>
+        <div class="seg-count">15+</div>
+        <p class="seg-text">State skill missions, municipalities, transport departments, and urban development authorities.</p>
+      </div>
+      <div class="segment-card">
+        <div class="seg-icon">👤</div>
+        <div class="seg-title">Individuals</div>
+        <div class="seg-count">5000+</div>
+        <p class="seg-text">Students, technicians, entrepreneurs, and career-switchers enrolled in our certification programs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CUSTOMER DIRECTORY ── -->
+<section class="section section--dark2" id="customer-list">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Directory</span>
+      <h2 class="section-title">Featured <span>Customers</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">A representative sample of organisations we've worked with. Filter by type, or switch between table and card views.</p>
+    </div>
+
+    <!-- View toggle -->
+    <div class="view-toggle">
+      <button class="active" data-view="table">📋 Table View</button>
+      <button data-view="cards">🃏 Card View</button>
+    </div>
+
+    <!-- Filter -->
+    <div class="cust-filter">
+      <button class="cust-filter-btn active" data-filter="all">All</button>
+      <button class="cust-filter-btn" data-filter="government">Government</button>
+      <button class="cust-filter-btn" data-filter="corporate">Corporate</button>
+      <button class="cust-filter-btn" data-filter="institution">Institutions</button>
+    </div>
+
+    <!-- Table view -->
+    <div class="table-wrap" id="table-view">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Organisation</th>
+            <th>Type</th>
+            <th>State</th>
+            <th>Services</th>
+            <th>Since</th>
+          </tr>
+        </thead>
+        <tbody id="customer-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- Card view (hidden initially) -->
+    <div class="customer-grid" id="card-view" style="display:none;"></div>
+
+    <p class="text-dim mt-6" style="font-size: var(--fs-xs); font-family: var(--ff-mono);">
+      * Representative sample. Full client list available on request to verified partners.
+      <a href="/pages/contact.html" style="color: var(--clr-primary);">Request full list →</a>
+    </p>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section class="section section--dark3">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Customer Voices</span>
+      <h2 class="section-title">What They <span>Say About Us</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Hear directly from the institutions, companies, and government bodies we've partnered with.</p>
+    </div>
+    <div class="grid grid--3">
+      <div class="testimonial-card">
+        <div class="tc-quote">"</div>
+        <p class="tc-text">ITI Pro's workshop completely changed how our students approach EV technology. The hands-on focus, industry expertise, and OEM partnerships are genuinely unmatched in India.</p>
+        <div class="tc-author">
+          <div class="tc-avatar">👨‍🏫</div>
+          <div>
+            <div class="tc-name">Dr. S. Raghunath</div>
+            <div class="tc-role">Principal · MVJ College of Engineering</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tc-quote">"</div>
+        <p class="tc-text">We partnered with ITI Pro to train our regional service network. The quality of technicians they produce is exactly what the EV industry needs right now — practical, professional, and customer-ready.</p>
+        <div class="tc-author">
+          <div class="tc-avatar">👨‍💼</div>
+          <div>
+            <div class="tc-name">Ramesh P.</div>
+            <div class="tc-role">Regional Service Head · Hero Electric</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tc-quote">"</div>
+        <p class="tc-text">The government collaboration with ITI Pro helped us place 300+ certified EV technicians in just one quarter. Their execution speed and quality control are remarkable.</p>
+        <div class="tc-author">
+          <div class="tc-avatar">👩‍💼</div>
+          <div>
+            <div class="tc-name">Sunita Kumari</div>
+            <div class="tc-role">District Coordinator · APSSDC</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tc-quote">"</div>
+        <p class="tc-text">As a fleet operator with 80+ electric three-wheelers, we needed dependable service and technicians who understand EVs. ITI Pro is the only partner who consistently delivers on both.</p>
+        <div class="tc-author">
+          <div class="tc-avatar">👨‍💼</div>
+          <div>
+            <div class="tc-name">Vikram Joshi</div>
+            <div class="tc-role">Founder · Green Fleet Logistics</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tc-quote">"</div>
+        <p class="tc-text">Our polytechnic students now have a real EV certification pathway, thanks to ITI Pro. Their curriculum aligns with industry needs, and their trainer support is outstanding.</p>
+        <div class="tc-author">
+          <div class="tc-avatar">👩‍🏫</div>
+          <div>
+            <div class="tc-name">Prof. Lakshmi Iyer</div>
+            <div class="tc-role">Dept. Head · Rajiv Gandhi Polytechnic</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tc-quote">"</div>
+        <p class="tc-text">From a learner's perspective, ITI Pro gave me a real career — not just a certificate. Six months after my course, I'm working at an OEM service network, earning twice what I did before.</p>
+        <div class="tc-author">
+          <div class="tc-avatar">👨‍🔧</div>
+          <div>
+            <div class="tc-name">Suresh Anand</div>
+            <div class="tc-role">Alumni · EV Technician Course 2023</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="section section--dark2">
+  <div class="container container--md">
+    <div class="highlight-box text-center">
+      <span class="section-label">Become a Customer</span>
+      <h2 class="section-title mt-4">Ready to <span>Partner With Us?</span></h2>
+      <p style="color:var(--clr-text-muted); font-size:var(--fs-md); max-width:520px; margin-inline:auto; margin-block:var(--sp-5) var(--sp-8);">
+        Whether you're an institution, enterprise, government body, or individual — ITI Pro has a tailored engagement for you. Let's talk.
+      </p>
+      <div class="btn-group" style="justify-content:center;">
+        <a href="/pages/contact.html" class="btn btn--primary btn--lg">Contact Us</a>
+        <a href="/pages/training.html" class="btn btn--outline btn--lg">Explore Programs</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+(function() {
+  const customers = [
+    { name: 'APSSDC — AP Skill Dev. Corp.',   type: 'government',  state: 'Andhra Pradesh', services: 'Training, Placement, Certification', since: '2019' },
+    { name: 'Telangana ITI Council',          type: 'government',  state: 'Telangana',      services: 'Curriculum Affiliation, Audits',     since: '2020' },
+    { name: 'Hero Electric (Regional)',       type: 'corporate',   state: 'Karnataka',      services: 'Technician Training, AMC',           since: '2021' },
+    { name: 'Ola Electric Service',           type: 'corporate',   state: 'Tamil Nadu',     services: 'Service Training, Diagnostic Kit',   since: '2022' },
+    { name: 'MVJ College of Engineering',     type: 'institution', state: 'Karnataka',      services: 'Workshop, Industrial Visit',         since: '2020' },
+    { name: 'Rajiv Gandhi Polytechnic',       type: 'institution', state: 'Telangana',      services: 'Seminar, Certification Course',      since: '2021' },
+    { name: 'Green Fleet Logistics',          type: 'corporate',   state: 'Maharashtra',    services: 'Fleet Service, AMC, Training',       since: '2022' },
+    { name: 'Karnataka SUDA',                 type: 'government',  state: 'Karnataka',      services: 'E-Rickshaw Driver Certification',    since: '2023' },
+    { name: 'Ampere Vehicles (Greaves)',      type: 'corporate',   state: 'Tamil Nadu',     services: 'Dealer Service Training',            since: '2023' },
+    { name: 'Smart City Hyderabad',           type: 'government',  state: 'Telangana',      services: 'EV Awareness, Training',             since: '2022' },
+    { name: 'Ather Energy Service Hub',       type: 'corporate',   state: 'Karnataka',      services: 'Workshop, Spare Parts Training',     since: '2024' },
+    { name: 'JNTU Hyderabad',                 type: 'institution', state: 'Telangana',      services: 'MoU, Joint Certifications',          since: '2022' },
+    { name: 'IIT Madras CoE',                 type: 'institution', state: 'Tamil Nadu',     services: 'Industrial Visits, Hackathons',      since: '2023' },
+    { name: 'Mahindra Electric Mobility',     type: 'corporate',   state: 'Maharashtra',    services: 'Service Network Training',           since: '2024' },
+    { name: 'Maharashtra Skill Mission',      type: 'government',  state: 'Maharashtra',    services: 'EV Skill Scheme Implementation',     since: '2023' },
+    { name: 'Coimbatore Polytechnic',         type: 'institution', state: 'Tamil Nadu',     services: 'Curriculum, Trainer Certification',  since: '2022' },
+    { name: 'Okinawa Autotech Service',       type: 'corporate',   state: 'Haryana',        services: 'Service Technician Upskilling',      since: '2023' },
+    { name: 'Bengaluru BMTC',                 type: 'government',  state: 'Karnataka',      services: 'Electric Bus Driver Training',       since: '2024' },
+  ];
+
+  function typeBadge(type) {
+    var classes = { government: 'badge--accent', corporate: 'badge--primary', institution: 'badge--dim' };
+    var labels  = { government: 'Government',  corporate: 'Corporate',     institution: 'Institution' };
+    return '<span class="badge ' + (classes[type] || 'badge--dim') + '">' + (labels[type] || type) + '</span>';
+  }
+  function initials(name) {
+    return name.split(/\s+/).map(function(w){return w[0]||'';}).join('').replace(/[^A-Za-z]/g,'').slice(0,2).toUpperCase();
+  }
+
+  // Build table
+  var tbody = document.getElementById('customer-tbody');
+  // Build cards
+  var cardWrap = document.getElementById('card-view');
+
+  customers.forEach(function(c, i) {
+    // Table row
+    var tr = document.createElement('tr');
+    tr.setAttribute('data-type', c.type);
+    tr.innerHTML =
+      '<td>' + (i + 1) + '</td>' +
+      '<td><strong style="color:var(--clr-white);">' + c.name + '</strong></td>' +
+      '<td>' + typeBadge(c.type) + '</td>' +
+      '<td>' + c.state + '</td>' +
+      '<td>' + c.services + '</td>' +
+      '<td><span style="font-family:var(--ff-mono); color:var(--clr-primary);">' + c.since + '</span></td>';
+    tbody.appendChild(tr);
+
+    // Card
+    var card = document.createElement('div');
+    card.className = 'customer-card';
+    card.setAttribute('data-type', c.type);
+    card.innerHTML =
+      '<div class="cc-header">' +
+        '<div class="cc-logo">' + initials(c.name) + '</div>' +
+        '<div style="flex:1;">' +
+          '<div class="cc-name">' + c.name + '</div>' +
+          '<div class="cc-loc">📍 ' + c.state + ' · Since ' + c.since + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="cc-meta">' + typeBadge(c.type) + '</div>' +
+      '<div class="cc-services">' +
+        '<span class="cc-services-label">Services Used</span>' +
+        c.services +
+      '</div>';
+    cardWrap.appendChild(card);
+  });
+
+  // Filter behaviour
+  document.querySelectorAll('.cust-filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.cust-filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      var f = this.getAttribute('data-filter');
+      document.querySelectorAll('[data-type]').forEach(function(item) {
+        if (f === 'all' || item.getAttribute('data-type') === f) {
+          item.classList.remove('hidden');
+          if (item.tagName === 'TR') item.style.display = '';
+          else item.style.display = '';
+        } else {
+          item.classList.add('hidden');
+          if (item.tagName === 'TR') item.style.display = 'none';
+          else item.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // View toggle
+  var tableView = document.getElementById('table-view');
+  var cardView = document.getElementById('card-view');
+  document.querySelectorAll('.view-toggle button').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.view-toggle button').forEach(function(b){ b.classList.remove('active'); });
+      this.classList.add('active');
+      var v = this.getAttribute('data-view');
+      if (v === 'table') {
+        tableView.style.display = '';
+        cardView.style.display = 'none';
+      } else {
+        tableView.style.display = 'none';
+        cardView.style.display = 'grid';
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="page-title" content="Video Gallery"/>
+  <meta name="description" content="ITI Pro video gallery — watch training demos, event highlights, and EV technology explainers."/>
+  <link rel="stylesheet" href="/assets/css/style.css"/>
+  <style>
+
+    /* ── Video filter ── */
+    .video-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-10);
+      justify-content: center;
+    }
+    .video-filter-btn {
+      padding: var(--sp-2) var(--sp-5);
+      border-radius: var(--r-full);
+      border: 1px solid var(--clr-border);
+      color: var(--clr-text-muted);
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      cursor: pointer;
+      transition: all var(--transition);
+      background: transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+    .video-filter-btn:hover, .video-filter-btn.active {
+      background: var(--clr-primary);
+      color: var(--clr-dark);
+      border-color: var(--clr-primary);
+    }
+    .video-filter-btn .count {
+      background: rgba(0,0,0,.15);
+      padding: 1px 6px;
+      border-radius: var(--r-full);
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .video-filter-btn.active .count { background: rgba(0,0,0,.3); }
+
+    /* ── Featured video ── */
+    .featured-video-wrap {
+      max-width: 900px;
+      margin: 0 auto var(--sp-12);
+    }
+    .featured-video {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-primary);
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-md), var(--shadow-glow);
+    }
+    .fv-embed {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      background: var(--clr-dark-4);
+    }
+    .fv-embed iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .fv-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-3);
+      background: radial-gradient(circle at center, var(--clr-dark-3) 0%, var(--clr-dark-4) 100%);
+    }
+    .fv-placeholder .play-icon {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: var(--clr-primary);
+      color: var(--clr-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: var(--shadow-glow);
+      cursor: pointer;
+      transition: transform var(--transition);
+    }
+    .fv-placeholder .play-icon:hover { transform: scale(1.08); }
+    .fv-placeholder-label {
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--clr-text-dim);
+    }
+    .fv-body {
+      padding: var(--sp-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-5);
+      flex-wrap: wrap;
+    }
+    .fv-info { flex: 1; min-width: 240px; }
+    .fv-badge { margin-bottom: var(--sp-3); }
+    .fv-title { font-family: var(--ff-display); font-size: var(--fs-2xl); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-2); line-height: 1.25; }
+    .fv-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-4);
+      font-size: var(--fs-xs);
+      color: var(--clr-text-dim);
+      font-family: var(--ff-mono);
+    }
+
+    /* ── Video grid ── */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-5);
+    }
+    @media (max-width: 1024px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px)  { .video-grid { grid-template-columns: 1fr; } }
+
+    .video-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      transition: all var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .video-card.hidden { display: none; }
+    .video-card:hover {
+      border-color: var(--clr-primary);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md), var(--shadow-glow);
+    }
+    .video-card__embed {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      background: var(--clr-dark-4);
+    }
+    .video-card__embed iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .video-card__placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-2);
+      background: linear-gradient(135deg, var(--clr-dark-3), var(--clr-dark-4));
+      transition: background var(--transition);
+    }
+    .video-card:hover .video-card__placeholder { background: linear-gradient(135deg, var(--clr-dark-3), rgba(34,197,94,.05)); }
+    .video-card__placeholder .play-btn {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(34,197,94,.15);
+      border: 1px solid var(--clr-primary);
+      color: var(--clr-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      transition: all var(--transition);
+    }
+    .video-card:hover .video-card__placeholder .play-btn {
+      background: var(--clr-primary);
+      color: var(--clr-dark);
+      box-shadow: var(--shadow-glow);
+    }
+    .video-card__icon-bg { font-size: 2.5rem; opacity: .15; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    .video-card__placeholder .ph-label {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--clr-text-dim);
+      margin-top: var(--sp-1);
+    }
+    .video-card__cat-badge {
+      position: absolute;
+      top: var(--sp-3);
+      left: var(--sp-3);
+      background: rgba(13,26,13,.92);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-full);
+      padding: 3px var(--sp-3);
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--clr-primary);
+      z-index: 1;
+    }
+    .video-card__duration {
+      position: absolute;
+      bottom: var(--sp-3);
+      right: var(--sp-3);
+      background: rgba(6,14,6,.85);
+      backdrop-filter: blur(8px);
+      border-radius: var(--r-sm);
+      padding: 2px var(--sp-2);
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      color: var(--clr-white);
+      z-index: 1;
+    }
+    .video-card__body { padding: var(--sp-5); display: flex; flex-direction: column; flex: 1; }
+    .video-card__title {
+      font-family: var(--ff-display);
+      font-size: var(--fs-lg);
+      font-weight: 700;
+      color: var(--clr-white);
+      line-height: 1.3;
+      margin-bottom: var(--sp-2);
+    }
+    .video-card__desc {
+      font-size: var(--fs-xs);
+      color: var(--clr-text-muted);
+      line-height: 1.65;
+      margin-bottom: var(--sp-3);
+      flex: 1;
+    }
+    .video-card__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: var(--sp-3);
+      border-top: 1px solid var(--clr-border);
+      font-size: 11px;
+      color: var(--clr-text-dim);
+      font-family: var(--ff-mono);
+    }
+    .video-card__meta .views { color: var(--clr-primary); }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center;
+      padding: var(--sp-16) var(--sp-6);
+      color: var(--clr-text-dim);
+      display: none;
+    }
+    .empty-state.show { display: block; }
+    .empty-state .es-icon { font-size: 3rem; margin-bottom: var(--sp-3); opacity: .4; }
+    .empty-state .es-text { font-size: var(--fs-sm); }
+  </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+<div class="nav-spacer"></div>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero">
+  <div class="container">
+    <p class="page-hero__eyebrow">Watch &amp; Learn</p>
+    <h1 class="page-hero__title">Video <span>Gallery</span></h1>
+    <p class="page-hero__subtitle">Training demos, event highlights, technical walkthroughs, alumni interviews, and EV technology explainers — all in one place.</p>
+    <div class="btn-group mt-8">
+      <a href="/pages/photo-gallery.html" class="btn btn--outline btn--lg">📷 Switch to Photo Gallery</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUICK STATS ── -->
+<div style="background:var(--clr-dark-4); border-top:1px solid var(--clr-border); border-bottom:1px solid var(--clr-border); padding-block:var(--sp-10);">
+  <div class="container">
+    <div class="grid grid--4">
+      <div class="stat-block"><div class="stat-block__number">100+</div><div class="stat-block__label">Videos Published</div></div>
+      <div class="stat-block"><div class="stat-block__number">50K+</div><div class="stat-block__label">Total Views</div></div>
+      <div class="stat-block"><div class="stat-block__number">8</div><div class="stat-block__label">Content Categories</div></div>
+      <div class="stat-block"><div class="stat-block__number">5</div><div class="stat-block__label">Languages</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FEATURED VIDEO ── -->
+<section class="section section--dark">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Featured</span>
+      <h2 class="section-title">Watch the <span>Intro</span></h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="featured-video-wrap">
+      <div class="featured-video">
+        <div class="fv-embed">
+          <!-- To activate, replace placeholder div below with: <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe> -->
+          <div class="fv-placeholder">
+            <div class="play-icon">▶</div>
+            <div class="fv-placeholder-label">Featured Video Placeholder — Replace with YouTube embed</div>
+          </div>
+        </div>
+        <div class="fv-body">
+          <div class="fv-info">
+            <div class="fv-badge"><span class="badge badge--primary">⚡ Featured</span></div>
+            <div class="fv-title">ITI Pro — India's #1 EV Training &amp; Service Organisation</div>
+            <div class="fv-meta">
+              <span>📅 Updated Nov 2024</span>
+              <span>⏱️ 8 min</span>
+              <span class="text-primary">👁 12,400 views</span>
+            </div>
+          </div>
+          <a href="/pages/contact.html" class="btn btn--primary">Get in Touch</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VIDEO GALLERY ── -->
+<section class="section section--dark2">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Browse</span>
+      <h2 class="section-title">All <span>Videos</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Filter by category to find content relevant to your interest — training, technical demos, success stories, expos, and more.</p>
+    </div>
+
+    <!-- Filter -->
+    <div class="video-filter" id="video-filter"></div>
+
+    <!-- Grid -->
+    <div class="video-grid" id="video-grid"></div>
+
+    <!-- Empty state -->
+    <div class="empty-state" id="empty-state">
+      <div class="es-icon">📺</div>
+      <div class="es-text">No videos in this category yet. Check back soon.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW TO ADD REAL VIDEOS NOTE ── -->
+<section class="section section--dark3">
+  <div class="container container--md">
+    <div class="card" style="display:flex; gap:var(--sp-5); align-items:flex-start;">
+      <div style="font-size:2rem; flex-shrink:0;">💡</div>
+      <div>
+        <div class="card__title">Adding Real YouTube Videos</div>
+        <p class="card__text">All video cards currently use placeholder play icons. To embed a real YouTube video, edit the <code style="background:var(--clr-dark-4); padding:2px 6px; border-radius:var(--r-sm); font-size:.9em; color:var(--clr-primary);">videos</code> array in this page's inline script and replace the <code style="background:var(--clr-dark-4); padding:2px 6px; border-radius:var(--r-sm); font-size:.9em; color:var(--clr-primary);">videoId: ''</code> field with the YouTube video ID (the part after <code style="background:var(--clr-dark-4); padding:2px 6px; border-radius:var(--r-sm); font-size:.9em; color:var(--clr-primary);">watch?v=</code>). When a valid video ID is provided, the placeholder is automatically replaced with an embedded iframe.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SUBSCRIBE CTA ── -->
+<section class="section section--dark2">
+  <div class="container container--md">
+    <div class="highlight-box text-center">
+      <span class="section-label">Stay Connected</span>
+      <h2 class="section-title mt-4">Subscribe for <span>New Videos</span></h2>
+      <p style="color:var(--clr-text-muted); font-size:var(--fs-md); max-width:520px; margin-inline:auto; margin-block:var(--sp-5) var(--sp-8);">
+        We publish new training tutorials, expo recaps, and technical deep-dives every week. Subscribe on YouTube and never miss an upload.
+      </p>
+      <div class="btn-group" style="justify-content:center;">
+        <a href="#" class="btn btn--primary btn--lg" target="_blank" rel="noopener" id="youtube-link">▶ Subscribe on YouTube</a>
+        <a href="/pages/contact.html" class="btn btn--outline btn--lg">Request a Topic</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+(function() {
+  // Videos array — replace `videoId` with real YouTube IDs to activate embeds
+  const videos = [
+    { cat: 'training', title: 'EV Battery Training Workshop Highlights',  desc: 'A 5-minute walkthrough of our hands-on battery training session.',          duration: '5:24',  date: 'Aug 2024', views: '4.2K',  videoId: '' },
+    { cat: 'expo',     title: 'ITI Pro EV Expo 2024 — Full Recap',         desc: 'The best moments from India\'s fastest-growing EV industry event.',          duration: '7:18',  date: 'Sep 2024', views: '8.7K',  videoId: '' },
+    { cat: 'technical',title: 'How to Diagnose an EV Motor — Live Demo',   desc: 'Step-by-step diagnostic walkthrough on a real BLDC hub motor.',             duration: '12:05', date: 'Jul 2024', views: '15.3K', videoId: '' },
+    { cat: 'stories',  title: 'Alumni Success Story — From ITI to OEM',    desc: 'Suresh Anand shares his journey from polytechnic student to EV technician.', duration: '6:42',  date: 'Jun 2024', views: '3.1K',  videoId: '' },
+    { cat: 'business', title: 'Franchise Partner Interview — Pune Centre', desc: 'Anita Desai on her experience opening an ITI Pro Training Studio.',         duration: '9:15',  date: 'May 2024', views: '2.4K',  videoId: '' },
+    { cat: 'training', title: 'Industrial Visit — Inside an EV Factory',   desc: 'Behind-the-scenes look at electric scooter manufacturing in Tamil Nadu.',   duration: '4:38',  date: 'Apr 2024', views: '6.8K',  videoId: '' },
+    { cat: 'technical',title: 'BMS Cell Balancing — Complete Tutorial',    desc: 'Active vs passive cell balancing explained, with real-world examples.',     duration: '14:22', date: 'Mar 2024', views: '11.6K', videoId: '' },
+    { cat: 'stories',  title: 'Female Technicians Leading EV Service',     desc: 'Meet the women redefining the EV service industry across India.',           duration: '8:09',  date: 'Mar 2024', views: '5.5K',  videoId: '' },
+    { cat: 'expo',     title: 'EV Skill Competition — Final Round',        desc: 'The grand finale of our national EV technician skill competition.',         duration: '10:44', date: 'Sep 2024', views: '7.2K',  videoId: '' },
+    { cat: 'training', title: 'Seminar — EV Policy &amp; 2030 Roadmap',    desc: 'Industry experts decode India\'s EV policy and market outlook.',            duration: '23:11', date: 'Feb 2024', views: '9.0K',  videoId: '' },
+    { cat: 'technical',title: 'Controller Replacement — Fast Walkthrough', desc: 'How our certified technicians replace EV controllers in under 30 minutes.', duration: '5:53',  date: 'Jan 2024', views: '13.4K', videoId: '' },
+    { cat: 'business', title: 'Dealer Onboarding — What to Expect',        desc: 'Everything you need to know about joining the ITI Pro dealer network.',     duration: '6:28',  date: 'Oct 2024', views: '1.8K',  videoId: '' },
+  ];
+
+  // Categories
+  const categories = [
+    { id: 'all',       label: 'All Videos', icon: '🎥' },
+    { id: 'training',  label: 'Training',   icon: '🎓' },
+    { id: 'technical', label: 'Technical',  icon: '🔧' },
+    { id: 'expo',      label: 'Expo',       icon: '🏆' },
+    { id: 'stories',   label: 'Stories',    icon: '💬' },
+    { id: 'business',  label: 'Business',   icon: '💼' },
+  ];
+
+  // Build filter buttons
+  const filterWrap = document.getElementById('video-filter');
+  categories.forEach(function(cat, idx) {
+    var count = cat.id === 'all' ? videos.length : videos.filter(function(v){ return v.cat === cat.id; }).length;
+    var btn = document.createElement('button');
+    btn.className = 'video-filter-btn' + (idx === 0 ? ' active' : '');
+    btn.setAttribute('data-filter', cat.id);
+    btn.innerHTML = '<span>' + cat.icon + '</span> ' + cat.label + ' <span class="count">' + count + '</span>';
+    filterWrap.appendChild(btn);
+  });
+
+  // Build video grid
+  const grid = document.getElementById('video-grid');
+  videos.forEach(function(v) {
+    var card = document.createElement('div');
+    card.className = 'video-card';
+    card.setAttribute('data-cat', v.cat);
+
+    var catLabel = (categories.find(function(c){return c.id===v.cat;}) || {}).label || v.cat;
+    var embedInner;
+    if (v.videoId && v.videoId.length > 0) {
+      embedInner =
+        '<iframe src="https://www.youtube.com/embed/' + v.videoId + '" allowfullscreen loading="lazy" title="' + v.title + '"></iframe>';
+    } else {
+      embedInner =
+        '<div class="video-card__placeholder">' +
+          '<div class="play-btn">▶</div>' +
+          '<div class="ph-label">Video Placeholder</div>' +
+        '</div>';
+    }
+
+    card.innerHTML =
+      '<div class="video-card__embed">' +
+        '<div class="video-card__cat-badge">' + catLabel + '</div>' +
+        '<div class="video-card__duration">' + v.duration + '</div>' +
+        embedInner +
+      '</div>' +
+      '<div class="video-card__body">' +
+        '<div class="video-card__title">' + v.title + '</div>' +
+        '<p class="video-card__desc">' + v.desc + '</p>' +
+        '<div class="video-card__meta">' +
+          '<span>📅 ' + v.date + '</span>' +
+          '<span class="views">👁 ' + v.views + ' views</span>' +
+        '</div>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+
+  // Filter behaviour
+  var emptyState = document.getElementById('empty-state');
+  document.querySelectorAll('.video-filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.video-filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      var f = this.getAttribute('data-filter');
+      var visibleCount = 0;
+      document.querySelectorAll('.video-card').forEach(function(item) {
+        if (f === 'all' || item.getAttribute('data-cat') === f) {
+          item.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+      if (visibleCount === 0) emptyState.classList.add('show');
+      else emptyState.classList.remove('show');
+    });
+  });
+
+  // Wire up YouTube subscribe button from config (if present)
+  if (typeof SITE !== 'undefined' && SITE.social && SITE.social.youtube) {
+    var ytLink = document.getElementById('youtube-link');
+    if (ytLink) ytLink.setAttribute('href', SITE.social.youtube);
+  }
+})();
+</script>
+</body>
+</html>

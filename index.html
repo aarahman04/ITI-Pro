@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="page-title" content="Home"/>
+  <meta name="description" content="ITI Pro — India's premier Electric Vehicle training, service, sales and franchise organization."/>
+  <title>ITI Pro — EV Organization</title>
+  <link rel="stylesheet" href="/assets/css/style.css"/>
+  <style>
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: var(--clr-dark);
+      position: relative;
+      overflow: hidden;
+      padding-top: var(--nav-height);
+    }
+    .hero-bg-glow-1 {
+      position: absolute;
+      top: -15%;
+      right: -8%;
+      width: 750px; height: 750px;
+      background: radial-gradient(circle, rgba(34,197,94,.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-bg-glow-2 {
+      position: absolute;
+      bottom: -20%;
+      left: -8%;
+      width: 550px; height: 550px;
+      background: radial-gradient(circle, rgba(250,204,21,.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(34,197,94,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34,197,94,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-16);
+      align-items: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      color: var(--clr-primary);
+      border: 1px solid rgba(34,197,94,.3);
+      padding: var(--sp-2) var(--sp-4);
+      border-radius: var(--r-full);
+      margin-bottom: var(--sp-6);
+      animation: fadeUp .5s ease both;
+    }
+    .hero-eyebrow-dot {
+      width: 7px; height: 7px;
+      background: var(--clr-primary);
+      border-radius: 50%;
+      animation: pulse-glow 2s infinite;
+      flex-shrink: 0;
+    }
+    .hero-title {
+      font-family: var(--ff-display);
+      font-size: var(--fs-hero);
+      font-weight: 700;
+      color: var(--clr-white);
+      line-height: 1.04;
+      letter-spacing: .01em;
+      margin-bottom: var(--sp-6);
+      animation: fadeUp .55s ease .08s both;
+    }
+    .hero-title .hl-green  { color: var(--clr-primary); }
+    .hero-title .hl-yellow { color: var(--clr-accent); }
+    .hero-desc {
+      font-size: var(--fs-md);
+      color: var(--clr-text-muted);
+      max-width: 480px;
+      margin-bottom: var(--sp-8);
+      line-height: 1.75;
+      animation: fadeUp .55s ease .16s both;
+    }
+    .hero-actions { animation: fadeUp .55s ease .24s both; }
+    .hero-trust {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-5);
+      margin-top: var(--sp-6);
+      flex-wrap: wrap;
+      animation: fadeUp .55s ease .32s both;
+    }
+    .hero-trust-item {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      font-size: var(--fs-xs);
+      color: var(--clr-text-dim);
+      font-family: var(--ff-mono);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .hero-trust-item span:first-child { color: var(--clr-primary); font-size: .9rem; }
+    .hero-stats-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-1);
+      margin-top: var(--sp-10);
+      padding-top: var(--sp-8);
+      border-top: 1px solid var(--clr-border);
+      animation: fadeUp .55s ease .4s both;
+    }
+    .hero-stat { text-align: center; padding: var(--sp-3); }
+    .hero-stat-num {
+      font-family: var(--ff-display);
+      font-size: var(--fs-3xl);
+      font-weight: 700;
+      color: var(--clr-primary);
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: var(--fs-xs);
+      color: var(--clr-text-dim);
+      margin-top: var(--sp-1);
+      font-family: var(--ff-mono);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+    }
+    /* Hero visual */
+    .hero-visual {
+      position: relative;
+      animation: fadeUp .6s ease .2s both;
+    }
+    .hero-visual-img {
+      width: 100%;
+      border-radius: var(--r-xl);
+      border: 1px solid var(--clr-border);
+      box-shadow: 0 16px 60px rgba(0,0,0,.7), 0 0 40px rgba(34,197,94,.15);
+      aspect-ratio: 5/4;
+      object-fit: cover;
+      display: block;
+      background: var(--clr-dark-3);
+    }
+    .hero-img-placeholder {
+      width: 100%;
+      aspect-ratio: 5/4;
+      border-radius: var(--r-xl);
+      border: 1px solid var(--clr-border);
+      background: linear-gradient(135deg, var(--clr-dark-3) 0%, var(--clr-dark-4) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-4);
+      box-shadow: 0 16px 60px rgba(0,0,0,.7), 0 0 40px rgba(34,197,94,.15);
+    }
+    .hero-img-placeholder .ev-icon { font-size: 5rem; }
+    .hero-img-placeholder p { font-family: var(--ff-mono); font-size: var(--fs-xs); color: var(--clr-text-dim); text-transform: uppercase; letter-spacing: .1em; }
+    .hero-float-tag {
+      position: absolute;
+      background: rgba(13,26,13,.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      padding: var(--sp-3) var(--sp-4);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      box-shadow: var(--shadow-md);
+    }
+    .hero-float-tag .tag-icon { font-size: 1.2rem; }
+    .hero-float-tag .tag-text { font-size: var(--fs-xs); font-weight: 600; color: var(--clr-white); }
+    .hero-float-tag .tag-sub  { font-size: 10px; color: var(--clr-text-dim); font-family: var(--ff-mono); }
+    .hero-float-1 { top: var(--sp-6); left: calc(-1 * var(--sp-10)); }
+    .hero-float-2 { bottom: var(--sp-10); right: calc(-1 * var(--sp-8)); }
+    .hero-float-3 { top: 50%; right: calc(-1 * var(--sp-8)); transform: translateY(-50%); }
+    /* ── Pillar Strip ── */
+    .pillars-strip {
+      background: var(--clr-dark-4);
+      border-top: 1px solid var(--clr-border);
+      border-bottom: 1px solid var(--clr-border);
+      padding-block: var(--sp-5);
+    }
+    .pillars-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--sp-8);
+    }
+    .pillar-item {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      font-family: var(--ff-display);
+      font-size: var(--fs-lg);
+      font-weight: 600;
+      color: var(--clr-text-muted);
+      letter-spacing: .03em;
+    }
+    .pillar-item span { font-size: 1.3rem; }
+    .pillar-sep { color: var(--clr-border); font-size: 1.5rem; }
+    /* ── Featured ── */
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-5);
+    }
+    /* ── Logos Band ── */
+    .logos-band {
+      padding-block: var(--sp-12);
+      background: var(--clr-dark-2);
+      border-top: 1px solid var(--clr-border);
+      border-bottom: 1px solid var(--clr-border);
+      overflow: hidden;
+    }
+    .logos-label {
+      text-align: center;
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: var(--clr-text-dim);
+      margin-bottom: var(--sp-8);
+    }
+    .logos-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--sp-8);
+    }
+    .logo-pill {
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-full);
+      padding: var(--sp-2) var(--sp-6);
+      font-family: var(--ff-display);
+      font-size: var(--fs-base);
+      font-weight: 600;
+      color: var(--clr-text-dim);
+      letter-spacing: .04em;
+      transition: all var(--transition);
+    }
+    .logo-pill:hover { border-color: var(--clr-primary); color: var(--clr-primary); }
+    /* ── How It Works ── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-6);
+      position: relative;
+    }
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 32px;
+      left: 12%;
+      right: 12%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--clr-border), var(--clr-border), transparent);
+    }
+    .step-card { text-align: center; position: relative; }
+    .step-num {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: var(--clr-dark-4);
+      border: 1px solid var(--clr-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ff-display);
+      font-size: var(--fs-2xl);
+      font-weight: 700;
+      color: var(--clr-primary);
+      margin-inline: auto;
+      margin-bottom: var(--sp-4);
+      position: relative;
+      z-index: 1;
+      background: var(--clr-dark-3);
+    }
+    .step-title { font-family: var(--ff-display); font-size: var(--fs-lg); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-2); }
+    .step-text  { font-size: var(--fs-sm); color: var(--clr-text-muted); }
+    /* ── Testimonials ── */
+    .testimonial-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-6);
+      transition: all var(--transition);
+    }
+    .testimonial-card:hover { border-color: var(--clr-primary); }
+    .testimonial-quote { font-size: var(--fs-3xl); color: var(--clr-primary); line-height: 1; margin-bottom: var(--sp-4); opacity: .4; font-family: Georgia, serif; }
+    .testimonial-text { font-size: var(--fs-sm); color: var(--clr-text-muted); line-height: 1.8; margin-bottom: var(--sp-5); font-style: italic; }
+    .testimonial-author { display: flex; align-items: center; gap: var(--sp-3); }
+    .testimonial-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--clr-dark-4);
+      border: 1px solid var(--clr-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+    .testimonial-name { font-weight: 600; color: var(--clr-white); font-size: var(--fs-sm); }
+    .testimonial-role { font-size: var(--fs-xs); color: var(--clr-text-dim); font-family: var(--ff-mono); }
+    /* ── CTA Band ── */
+    .cta-band {
+      background: linear-gradient(135deg, rgba(34,197,94,.12) 0%, rgba(34,197,94,.03) 50%, rgba(250,204,21,.04) 100%);
+      border-top: 1px solid var(--clr-border);
+      border-bottom: 1px solid var(--clr-border);
+    }
+    /* ── Responsive ── */
+    @media (max-width: 1100px) {
+      .featured-grid { grid-template-columns: repeat(2,1fr); }
+      .steps-grid { grid-template-columns: repeat(2,1fr); }
+      .steps-grid::before { display: none; }
+      .hero-float-1, .hero-float-2, .hero-float-3 { display: none; }
+    }
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .hero-stats-bar { grid-template-columns: repeat(3,1fr); }
+    }
+    @media (max-width: 600px) {
+      .featured-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .pillars-inner { gap: var(--sp-5); }
+      .pillar-sep { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<!-- ████ HERO ████ -->
+<section class="hero">
+  <div class="hero-bg-glow-1"></div>
+  <div class="hero-bg-glow-2"></div>
+  <div class="hero-bg-grid"></div>
+  <div class="hero-inner">
+    <div class="container">
+      <div class="hero-grid">
+
+        <!-- Left: copy -->
+        <div class="hero-copy">
+          <div class="hero-eyebrow">
+            <span class="hero-eyebrow-dot"></span>
+            India's EV Training &amp; Service Organization
+          </div>
+          <h1 class="hero-title">
+            Powering India's<br>
+            <span class="hl-green">Electric Vehicle</span><br>
+            <span class="hl-yellow">Revolution</span>
+          </h1>
+          <p class="hero-desc">
+            ITI Pro is the country's most trusted EV organization — delivering world-class training, certified service, smart sales, and scalable franchise models to fuel India's clean mobility future.
+          </p>
+          <div class="hero-actions btn-group">
+            <a href="/pages/training.html" class="btn btn--primary btn--lg">Explore Training</a>
+            <a href="/pages/about.html" class="btn btn--outline btn--lg">About ITI Pro</a>
+          </div>
+          <div class="hero-trust">
+            <div class="hero-trust-item"><span>✔</span> NSDC Certified</div>
+            <div class="hero-trust-item"><span>✔</span> Govt. Recognised</div>
+            <div class="hero-trust-item"><span>✔</span> 98% Placement</div>
+          </div>
+          <div class="hero-stats-bar">
+            <div class="hero-stat">
+              <div class="hero-stat-num">5000+</div>
+              <div class="hero-stat-label">Trained Pros</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-num">50+</div>
+              <div class="hero-stat-label">Franchise Centres</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-num">12+</div>
+              <div class="hero-stat-label">States</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: visual -->
+        <div class="hero-visual">
+          <div class="hero-img-placeholder">
+            <span class="ev-icon">⚡</span>
+            <p>Hero Image Placeholder</p>
+            <p style="font-size:10px; opacity:.5;">Replace with real EV photo</p>
+          </div>
+          <div class="hero-float-tag hero-float-1">
+            <span class="tag-icon">🎓</span>
+            <div><div class="tag-text">Certified Programs</div><div class="tag-sub">NSQF Aligned</div></div>
+          </div>
+          <div class="hero-float-tag hero-float-2">
+            <span class="tag-icon">🏆</span>
+            <div><div class="tag-text">Top Rated</div><div class="tag-sub">EV Org 2024</div></div>
+          </div>
+          <div class="hero-float-tag hero-float-3">
+            <span class="tag-icon">⚡</span>
+            <div><div class="tag-text">EV Ready</div><div class="tag-sub">50+ Centres</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ████ PILLARS STRIP ████ -->
+<div class="pillars-strip">
+  <div class="container">
+    <div class="pillars-inner">
+      <div class="pillar-item"><span>🎓</span> Training</div>
+      <div class="pillar-sep">·</div>
+      <div class="pillar-item"><span>🔧</span> Service</div>
+      <div class="pillar-sep">·</div>
+      <div class="pillar-item"><span>⚡</span> Sales</div>
+      <div class="pillar-sep">·</div>
+      <div class="pillar-item"><span>🏢</span> Franchise</div>
+      <div class="pillar-sep">·</div>
+      <div class="pillar-item"><span>🏆</span> Expo</div>
+      <div class="pillar-sep">·</div>
+      <div class="pillar-item"><span>💼</span> Careers</div>
+    </div>
+  </div>
+</div>
+
+<!-- ████ ABOUT SNIPPET ████ -->
+<section class="section section--dark2">
+  <div class="container">
+    <div class="two-col">
+      <div>
+        <span class="section-label">Who We Are</span>
+        <h2 class="section-title">A Complete <span>EV Ecosystem</span></h2>
+        <div class="divider"></div>
+        <p class="text-muted mb-6">
+          ITI Pro bridges the gap between electric vehicle technology and skilled manpower. Founded in Hyderabad, we have grown into a national organisation spanning training centres, service hubs, sales networks, and franchise partners across 12+ states.
+        </p>
+        <p class="text-muted mb-8">
+          Our programs are designed in partnership with OEMs, government bodies, and industry experts — ensuring every certification we issue carries genuine market value.
+        </p>
+        <div class="feature-list">
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Government-aligned EV training programs &amp; NSQF certifications</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Pan-India service centres for two and three-wheelers</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Franchise model empowering local EV entrepreneurs</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Dedicated placement cell with 200+ hiring partners</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Annual EV Expo connecting industry, talent &amp; investment</div></div>
+        </div>
+        <div class="mt-8">
+          <a href="/pages/about.html" class="btn btn--outline">Read Our Full Story</a>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap: var(--sp-5);">
+        <div style="background: var(--clr-dark-3); border:1px solid var(--clr-border); border-radius: var(--r-xl); overflow:hidden; aspect-ratio:4/3; display:flex; align-items:center; justify-content:center; color: var(--clr-text-dim); flex-direction:column; gap:var(--sp-3);">
+          <span style="font-size:3.5rem">🏢</span>
+          <p style="font-size:var(--fs-xs); font-family:var(--ff-mono); text-transform:uppercase; letter-spacing:.1em;">About Image Placeholder</p>
+        </div>
+        <div class="grid grid--2" style="gap:var(--sp-4);">
+          <div class="card" style="padding:var(--sp-4);">
+            <div style="font-family:var(--ff-display); font-size:var(--fs-2xl); font-weight:700; color:var(--clr-primary);">10+</div>
+            <div style="font-size:var(--fs-xs); color:var(--clr-text-dim);">Years in Industry</div>
+          </div>
+          <div class="card" style="padding:var(--sp-4);">
+            <div style="font-family:var(--ff-display); font-size:var(--fs-2xl); font-weight:700; color:var(--clr-primary);">200+</div>
+            <div style="font-size:var(--fs-xs); color:var(--clr-text-dim);">Certified Trainers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ████ FEATURED SECTIONS ████ -->
+<section class="section section--dark3">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">What We Offer</span>
+      <h2 class="section-title">Everything <span>EV</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">From classroom to workshop to the road — our ecosystem covers every aspect of the electric vehicle industry across India.</p>
+    </div>
+    <div class="featured-grid">
+      <a href="/pages/training.html" class="card card--link">
+        <div class="card__icon">🎓</div>
+        <div class="card__title">Training</div>
+        <p class="card__text">Seminars, workshops, internships, industrial visits, competitions, and placement-linked EV certification courses.</p>
+        <div class="card__link">Explore Programs →</div>
+      </a>
+      <a href="/pages/service.html" class="card card--link">
+        <div class="card__icon">🔧</div>
+        <div class="card__title">Service</div>
+        <p class="card__text">Onsite and centre-based EV diagnostics, repair, and maintenance with transparent published tariffs.</p>
+        <div class="card__link">View Services →</div>
+      </a>
+      <a href="/pages/sales.html" class="card card--link">
+        <div class="card__icon">⚡</div>
+        <div class="card__title">Sales</div>
+        <p class="card__text">Authorised distribution of EV components, battery packs, controllers, motors, and assembled vehicles.</p>
+        <div class="card__link">See Products →</div>
+      </a>
+      <a href="/pages/franchise.html" class="card card--link">
+        <div class="card__icon">🏢</div>
+        <div class="card__title">Franchise</div>
+        <p class="card__text">Partner with ITI Pro to open a certified EV training and service centre in your city. Full setup support.</p>
+        <div class="card__link">Apply Now →</div>
+      </a>
+      <a href="/pages/team.html" class="card card--link">
+        <div class="card__icon">👥</div>
+        <div class="card__title">Our Team</div>
+        <p class="card__text">Meet the leadership team driving ITI Pro's mission across training, technology, operations and finance.</p>
+        <div class="card__link">Meet Team →</div>
+      </a>
+      <a href="/pages/photo-gallery.html" class="card card--link">
+        <div class="card__icon">📷</div>
+        <div class="card__title">Gallery</div>
+        <p class="card__text">Photos and videos from our events, expos, hands-on workshops, and field operations nationwide.</p>
+        <div class="card__link">View Gallery →</div>
+      </a>
+      <a href="/pages/expo.html" class="card card--link">
+        <div class="card__icon">🏆</div>
+        <div class="card__title">Expo</div>
+        <p class="card__text">India's fastest-growing EV Expo — showcasing the latest innovations, brands, and career opportunities.</p>
+        <div class="card__link">See Expo →</div>
+      </a>
+      <a href="/pages/contact.html" class="card card--link">
+        <div class="card__icon">📞</div>
+        <div class="card__title">Contact</div>
+        <p class="card__text">Reach our team for training enrolment, franchise inquiries, service bookings, or general information.</p>
+        <div class="card__link">Contact Us →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ████ STATS BAND ████ -->
+<div style="background: linear-gradient(135deg, var(--clr-dark-4), var(--clr-dark-3)); border-top:1px solid var(--clr-border); border-bottom:1px solid var(--clr-border); padding-block: var(--sp-16);">
+  <div class="container">
+    <div class="grid grid--4">
+      <div class="stat-block">
+        <div class="stat-block__number">10+</div>
+        <div class="stat-block__label">Years in EV Industry</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-block__number">5000+</div>
+        <div class="stat-block__label">Certified Professionals</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-block__number">50+</div>
+        <div class="stat-block__label">Franchise Centres</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-block__number">98%</div>
+        <div class="stat-block__label">Placement Rate</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ████ HOW IT WORKS ████ -->
+<section class="section section--dark2">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Process</span>
+      <h2 class="section-title">How It <span>Works</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">From enrolment to employment — a clear, supported pathway for every learner.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-title">Enrol in a Program</div>
+        <p class="step-text">Choose from short workshops to 6-month certification courses. Online and in-centre options available.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-title">Hands-On Training</div>
+        <p class="step-text">Learn from certified EV professionals using real components, live vehicles, and industry-grade labs.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-title">Get Certified</div>
+        <p class="step-text">Earn NSQF-aligned certificates recognised by OEMs, government bodies, and 200+ hiring partners.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-title">Launch Your Career</div>
+        <p class="step-text">Access our placement cell, job drives, and entrepreneurship support to start or advance your EV career.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ████ PARTNER LOGOS ████ -->
+<div class="logos-band">
+  <div class="container">
+    <div class="logos-label">Trusted by India's Leading EV Brands &amp; Institutions</div>
+    <div class="logos-row">
+      <div class="logo-pill">Hero Electric</div>
+      <div class="logo-pill">Ola Electric</div>
+      <div class="logo-pill">Ampere EV</div>
+      <div class="logo-pill">NSDC</div>
+      <div class="logo-pill">Ather Energy</div>
+      <div class="logo-pill">APSSDC</div>
+      <div class="logo-pill">Greaves EV</div>
+      <div class="logo-pill">Govt. of Telangana</div>
+    </div>
+  </div>
+</div>
+
+<!-- ████ TESTIMONIALS ████ -->
+<section class="section section--dark3">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Testimonials</span>
+      <h2 class="section-title">What People <span>Say</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="grid grid--3">
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">ITI Pro's workshop completely transformed how our students engage with EV technology. The hands-on curriculum and industry connections are genuinely world-class.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">👨‍🏫</div>
+          <div>
+            <div class="testimonial-name">Dr. S. Raghunath</div>
+            <div class="testimonial-role">Principal · MVJ College of Engineering</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">We partnered with ITI Pro to upskill our regional service network. The quality of technicians they produce is exactly what the EV industry needs right now.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">👨‍💼</div>
+          <div>
+            <div class="testimonial-name">Ramesh P.</div>
+            <div class="testimonial-role">Regional Service Head · Hero Electric</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Opening an ITI Pro franchise was the best business decision I made. Full setup support, strong brand recognition, and steady student demand from day one.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">👩‍💼</div>
+          <div>
+            <div class="testimonial-name">Anita Desai</div>
+            <div class="testimonial-role">Franchise Partner · Pune Centre</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ████ CTA BAND ████ -->
+<section class="section cta-band">
+  <div class="container container--md">
+    <div class="text-center">
+      <span class="section-label">Get Started Today</span>
+      <h2 class="section-title mt-4">Ready to Join the <span>EV Revolution?</span></h2>
+      <p style="color:var(--clr-text-muted); font-size:var(--fs-md); max-width:520px; margin-inline:auto; margin-block:var(--sp-5) var(--sp-8);">
+        Whether you're a student, technician, entrepreneur, or enterprise — ITI Pro has the right pathway for you.
+      </p>
+      <div class="btn-group" style="justify-content:center;">
+        <a href="/pages/training.html" class="btn btn--primary btn--lg">Start Training</a>
+        <a href="/pages/franchise.html" class="btn btn--outline btn--lg">Open a Franchise</a>
+        <a href="/pages/contact.html" class="btn btn--ghost btn--lg">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>

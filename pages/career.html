@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="page-title" content="Careers"/>
+  <meta name="description" content="Careers at ITI Pro — join India's leading EV training and service organisation. Hiring across training, technical, marketing and operations roles."/>
+  <link rel="stylesheet" href="/assets/css/style.css"/>
+  <style>
+
+    /* ── Why work here cards ── */
+    .perks-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-5);
+    }
+    @media (max-width: 1024px) { .perks-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px)  { .perks-grid { grid-template-columns: 1fr; } }
+
+    .perk-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-6);
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .perk-card:hover { border-color: var(--clr-primary); transform: translateY(-4px); box-shadow: var(--shadow-md), var(--shadow-glow); }
+    .perk-icon {
+      width: 56px; height: 56px;
+      margin: 0 auto var(--sp-4);
+      background: rgba(34,197,94,.1);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+    }
+    .perk-title { font-family: var(--ff-display); font-size: var(--fs-lg); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-2); }
+    .perk-text  { font-size: var(--fs-sm); color: var(--clr-text-muted); line-height: 1.7; }
+
+    /* ── Job filter ── */
+    .job-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-8);
+      justify-content: center;
+    }
+    .job-filter-btn {
+      padding: var(--sp-2) var(--sp-5);
+      border-radius: var(--r-full);
+      border: 1px solid var(--clr-border);
+      background: transparent;
+      color: var(--clr-text-muted);
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+    .job-filter-btn:hover, .job-filter-btn.active {
+      background: var(--clr-primary);
+      color: var(--clr-dark);
+      border-color: var(--clr-primary);
+    }
+    .job-filter-btn .count {
+      background: rgba(0,0,0,.15);
+      padding: 1px 6px;
+      border-radius: var(--r-full);
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .job-filter-btn.active .count { background: rgba(0,0,0,.3); }
+
+    /* ── Job card ── */
+    .job-list { display: flex; flex-direction: column; gap: var(--sp-4); }
+    .job-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-6);
+      transition: all var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+    }
+    .job-card.hidden { display: none; }
+    .job-card:hover { border-color: var(--clr-primary); box-shadow: var(--shadow-md); }
+    .job-card__top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--sp-4);
+      flex-wrap: wrap;
+    }
+    .job-card__info { flex: 1; min-width: 240px; }
+    .job-card__title {
+      font-family: var(--ff-display);
+      font-size: var(--fs-xl);
+      font-weight: 700;
+      color: var(--clr-white);
+      line-height: 1.3;
+      margin-bottom: var(--sp-2);
+    }
+    .job-card__tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+    .job-card__desc {
+      font-size: var(--fs-sm);
+      color: var(--clr-text-muted);
+      line-height: 1.75;
+    }
+    .job-card__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-4);
+      padding-top: var(--sp-4);
+      border-top: 1px solid rgba(255,255,255,.04);
+      flex-wrap: wrap;
+    }
+    .job-card__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-5);
+      font-size: var(--fs-xs);
+      color: var(--clr-text-dim);
+      font-family: var(--ff-mono);
+    }
+    .job-card__meta span { display: inline-flex; align-items: center; gap: 4px; }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center;
+      padding: var(--sp-16) var(--sp-6);
+      color: var(--clr-text-dim);
+      display: none;
+    }
+    .empty-state.show { display: block; }
+    .empty-state .es-icon { font-size: 3rem; margin-bottom: var(--sp-3); opacity: .4; }
+
+    /* ── Hiring process steps ── */
+    .hiring-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-5);
+      position: relative;
+    }
+    .hiring-steps::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: 12%;
+      right: 12%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--clr-border), var(--clr-border), transparent);
+    }
+    @media (max-width: 900px) {
+      .hiring-steps { grid-template-columns: repeat(2, 1fr); }
+      .hiring-steps::before { display: none; }
+    }
+    @media (max-width: 540px) { .hiring-steps { grid-template-columns: 1fr; } }
+    .hs-item { text-align: center; }
+    .hs-num {
+      width: 56px; height: 56px;
+      margin: 0 auto var(--sp-3);
+      border-radius: 50%;
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ff-display);
+      font-size: var(--fs-xl);
+      font-weight: 700;
+      color: var(--clr-primary);
+      position: relative;
+      z-index: 1;
+    }
+    .hs-title { font-family: var(--ff-display); font-size: var(--fs-lg); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-2); }
+    .hs-text  { font-size: var(--fs-xs); color: var(--clr-text-muted); line-height: 1.7; }
+  </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+<div class="nav-spacer"></div>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero">
+  <div class="container">
+    <p class="page-hero__eyebrow">Join Our Team</p>
+    <h1 class="page-hero__title">Careers at <span>ITI Pro</span></h1>
+    <p class="page-hero__subtitle">Work at the intersection of education, technology, and India's clean energy future. We are hiring across training, technical, business, and operations roles.</p>
+    <div class="btn-group mt-8">
+      <a href="#openings" class="btn btn--primary btn--lg">View Open Positions</a>
+      <a href="#apply" class="btn btn--outline btn--lg">Apply Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUICK STATS ── -->
+<div style="background:var(--clr-dark-4); border-top:1px solid var(--clr-border); border-bottom:1px solid var(--clr-border); padding-block:var(--sp-10);">
+  <div class="container">
+    <div class="grid grid--4">
+      <div class="stat-block"><div class="stat-block__number">12+</div><div class="stat-block__label">Open Positions</div></div>
+      <div class="stat-block"><div class="stat-block__number">200+</div><div class="stat-block__label">Team Members</div></div>
+      <div class="stat-block"><div class="stat-block__number">12+</div><div class="stat-block__label">Cities Hiring</div></div>
+      <div class="stat-block"><div class="stat-block__number">4.6★</div><div class="stat-block__label">Employee Rating</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── WHY WORK WITH US ── -->
+<section class="section section--dark">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Culture &amp; Perks</span>
+      <h2 class="section-title">Why Work <span>With Us?</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">A mission-driven workplace where your work directly contributes to India's clean energy transition.</p>
+    </div>
+    <div class="perks-grid">
+      <div class="perk-card">
+        <div class="perk-icon">🌱</div>
+        <div class="perk-title">Mission-Driven</div>
+        <p class="perk-text">Every role contributes to a greener India. Your work matters beyond a job description.</p>
+      </div>
+      <div class="perk-card">
+        <div class="perk-icon">📚</div>
+        <div class="perk-title">Learning Culture</div>
+        <p class="perk-text">Free access to all ITI Pro courses, certifications, and industry conferences for every employee.</p>
+      </div>
+      <div class="perk-card">
+        <div class="perk-icon">🚀</div>
+        <div class="perk-title">Growth Paths</div>
+        <p class="perk-text">Fast-growing organisation with clear vertical and cross-functional advancement opportunities.</p>
+      </div>
+      <div class="perk-card">
+        <div class="perk-icon">🏠</div>
+        <div class="perk-title">Flexible Work</div>
+        <p class="perk-text">Hybrid and remote options for most non-field roles. Work from anywhere in India.</p>
+      </div>
+      <div class="perk-card">
+        <div class="perk-icon">💰</div>
+        <div class="perk-title">Competitive Pay</div>
+        <p class="perk-text">Market-aligned salaries, performance bonuses, and annual review cycles with structured raises.</p>
+      </div>
+      <div class="perk-card">
+        <div class="perk-icon">🏥</div>
+        <div class="perk-title">Health Benefits</div>
+        <p class="perk-text">Comprehensive medical insurance for employee and dependents, plus annual health check-ups.</p>
+      </div>
+      <div class="perk-card">
+        <div class="perk-icon">🎉</div>
+        <div class="perk-title">Team Culture</div>
+        <p class="perk-text">Annual retreats, quarterly team offsites, and a no-nonsense culture that values output over hours.</p>
+      </div>
+      <div class="perk-card">
+        <div class="perk-icon">⚡</div>
+        <div class="perk-title">EV Perks</div>
+        <p class="perk-text">Subsidised EV purchase plan and free charging at all ITI Pro centres for employees.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── OPEN POSITIONS ── -->
+<section class="section section--dark2" id="openings">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Openings</span>
+      <h2 class="section-title">Open <span>Positions</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Browse our current openings across training, technical, marketing, and operations. Filter by department to focus on what suits you.</p>
+    </div>
+
+    <!-- Filter -->
+    <div class="job-filter" id="job-filter"></div>
+
+    <!-- Job list -->
+    <div class="job-list" id="job-list"></div>
+
+    <!-- Empty state -->
+    <div class="empty-state" id="empty-state">
+      <div class="es-icon">💼</div>
+      <div>No openings in this department right now. Check back soon or send us your resume — we are always looking for talent.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HIRING PROCESS ── -->
+<section class="section section--dark3">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Process</span>
+      <h2 class="section-title">Our <span>Hiring Process</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">A transparent, respectful, and time-bound hiring journey — typically completed within 3 weeks from application.</p>
+    </div>
+    <div class="hiring-steps">
+      <div class="hs-item">
+        <div class="hs-num">01</div>
+        <div class="hs-title">Apply</div>
+        <p class="hs-text">Submit your application via the form below or email. We acknowledge every application within 48 hours.</p>
+      </div>
+      <div class="hs-item">
+        <div class="hs-num">02</div>
+        <div class="hs-title">Screening Call</div>
+        <p class="hs-text">A 30-minute conversation with our HR team to understand your background, goals, and fit.</p>
+      </div>
+      <div class="hs-item">
+        <div class="hs-num">03</div>
+        <div class="hs-title">Skills Round</div>
+        <p class="hs-text">A practical assessment relevant to the role — technical task, teaching demo, or case study.</p>
+      </div>
+      <div class="hs-item">
+        <div class="hs-num">04</div>
+        <div class="hs-title">Final Round &amp; Offer</div>
+        <p class="hs-text">Conversation with the hiring manager and leadership. Offer letter issued within 5 working days.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── APPLICATION FORM ── -->
+<section class="section section--dark2" id="apply">
+  <div class="container container--md">
+    <div class="section-header section-header--center">
+      <span class="section-label">Apply Now</span>
+      <h2 class="section-title">Submit Your <span>Application</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Apply to a specific opening or send a general application. We review every submission.</p>
+    </div>
+
+    <div class="card" style="padding: var(--sp-8);">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input class="form-input" type="text" placeholder="Your full name"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email *</label>
+          <input class="form-input" type="email" placeholder="you@email.com"/>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Phone *</label>
+          <input class="form-input" type="tel" placeholder="+91 XXXXX XXXXX"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Position Applying For</label>
+          <select class="form-select" id="position-select">
+            <option value="">Select a position</option>
+            <option value="general">General Application — Open to roles</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Current Location</label>
+          <input class="form-input" type="text" placeholder="City, State"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Years of Experience</label>
+          <select class="form-select">
+            <option value="">Select experience</option>
+            <option>Fresher / 0–1 years</option>
+            <option>1–3 years</option>
+            <option>3–5 years</option>
+            <option>5–10 years</option>
+            <option>10+ years</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">LinkedIn / Portfolio URL</label>
+        <input class="form-input" type="url" placeholder="https://linkedin.com/in/yourprofile"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cover Letter / Message</label>
+        <textarea class="form-textarea" placeholder="Tell us about yourself, your interest in ITI Pro, and why you would be a good fit for this role..."></textarea>
+      </div>
+      <div style="display:flex; align-items:center; gap:var(--sp-3); margin-bottom:var(--sp-6);">
+        <input type="checkbox" id="agree-tnc" style="width:18px; height:18px; accent-color:var(--clr-primary); flex-shrink:0;"/>
+        <label for="agree-tnc" style="font-size:var(--fs-sm); color:var(--clr-text-muted); cursor:pointer;">I consent to ITI Pro processing my application data for recruitment purposes.</label>
+      </div>
+      <button class="btn btn--primary btn--lg w-full"
+        onclick="alert('Application received. Our team will review and respond within 5 working days.')">
+        Submit Application
+      </button>
+    </div>
+
+    <p class="text-dim text-center mt-6" style="font-size:var(--fs-xs); font-family:var(--ff-mono);">
+      Prefer email? Send your resume directly to <a id="hr-email" href="#" style="color:var(--clr-primary);">hr@itipro.in</a>
+    </p>
+  </div>
+</section>
+
+<!-- ── FINAL CTA ── -->
+<section class="section section--dark3">
+  <div class="container container--md">
+    <div class="highlight-box text-center">
+      <span class="section-label">Stay in Touch</span>
+      <h2 class="section-title mt-4">Not the Right Role <span>Right Now?</span></h2>
+      <p style="color:var(--clr-text-muted); font-size:var(--fs-md); max-width:520px; margin-inline:auto; margin-block:var(--sp-5) var(--sp-8);">
+        We open new positions every month. Send us a general application and we will reach out when something suitable opens up.
+      </p>
+      <div class="btn-group" style="justify-content:center;">
+        <a href="#apply" class="btn btn--primary btn--lg">Send General Application</a>
+        <a href="/pages/team.html" class="btn btn--outline btn--lg">Meet the Team</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+(function() {
+  // Jobs data
+  const jobs = [
+    { dept: 'training',  title: 'EV Trainer — Hyderabad',                 type: 'Full-time', loc: 'Hyderabad, TG',     exp: '2–5 yrs',  ctc: '₹4–7 LPA',    desc: 'Deliver hands-on EV training sessions for technician-level students. Curriculum is provided. We are looking for an engineer or technician with strong communication skills and prior EV industry exposure.' },
+    { dept: 'business',  title: 'Franchise Development Manager',           type: 'Full-time', loc: 'Pan-India (Field)',  exp: '4–8 yrs',  ctc: '₹8–14 LPA',   desc: 'Identify, onboard, and support new franchise partners across target cities. Strong B2B sales background and relationship management skills required. Heavy travel role.' },
+    { dept: 'technical', title: 'Senior EV Service Technician',           type: 'Full-time', loc: 'Multiple Cities',     exp: '3–6 yrs',  ctc: '₹3.5–6 LPA',  desc: 'Lead diagnostic and repair work on 2W/3W electric vehicles at our service centres. Mentor junior technicians and maintain service quality standards.' },
+    { dept: 'marketing', title: 'Digital Marketing Executive',             type: 'Full-time', loc: 'Hyderabad / Remote',  exp: '1–3 yrs',  ctc: '₹3.5–6 LPA',  desc: 'Manage social media, SEO, performance campaigns, and content for ITI Pro. Strong analytical mindset and hands-on experience with Meta Ads and Google Ads required.' },
+    { dept: 'training',  title: 'Curriculum Developer — EV Tech',          type: 'Contract',  loc: 'Remote',              exp: '3–5 yrs',  ctc: '₹50–80K /mo', desc: 'Design and update training modules for EV technician courses. Strong domain knowledge in BLDC motors, BMS, and battery systems required. Instructional design experience a plus.' },
+    { dept: 'operations',title: 'Operations Coordinator',                 type: 'Full-time', loc: 'Hyderabad',          exp: '1–3 yrs',  ctc: '₹3–5 LPA',    desc: 'Support day-to-day operations including scheduling, logistics, vendor coordination, and centre administration. Strong organisational skills required.' },
+    { dept: 'technical', title: 'BMS R&amp;D Engineer',                    type: 'Full-time', loc: 'Hyderabad',          exp: '2–5 yrs',  ctc: '₹6–10 LPA',   desc: 'Design and prototype battery management systems for our in-house product line. Experience with active cell balancing and CAN protocols essential.' },
+    { dept: 'business',  title: 'B2B Sales Executive',                     type: 'Full-time', loc: 'Bengaluru / Chennai', exp: '2–4 yrs',  ctc: '₹4–7 LPA + var.', desc: 'Drive component sales to dealers and corporate fleet operators. Quota-driven role with incentive structure. EV industry exposure preferred but not required.' },
+    { dept: 'training',  title: 'Placement Manager',                       type: 'Full-time', loc: 'Hyderabad',          exp: '3–6 yrs',  ctc: '₹5–8 LPA',    desc: 'Run our placement cell — manage hiring partner relationships, organise campus drives, prepare students for interviews, and track placement outcomes.' },
+    { dept: 'marketing', title: 'Content Writer — EV / Technical',         type: 'Full-time', loc: 'Remote',              exp: '1–4 yrs',  ctc: '₹3–5 LPA',    desc: 'Write blog posts, course materials, social copy, and case studies for ITI Pro. Strong English and Hindi writing skills required. Technical writing experience a plus.' },
+    { dept: 'operations',title: 'HR Generalist',                           type: 'Full-time', loc: 'Hyderabad',          exp: '2–5 yrs',  ctc: '₹4–6 LPA',    desc: 'Manage hiring, onboarding, employee relations, and HR ops across our 50+ centre network. Multi-location HR experience preferred.' },
+    { dept: 'technical', title: 'Junior EV Technician (Trainee)',          type: 'Full-time', loc: 'Multiple Cities',     exp: 'Fresher',  ctc: '₹2.4–3 LPA',  desc: 'Entry-level role for ITI graduates and freshers. 6-month structured training followed by deployment to one of our service centres. ITI Pro alumni preferred.' },
+  ];
+
+  // Departments
+  const departments = [
+    { id: 'all',        label: 'All Departments', icon: '💼' },
+    { id: 'training',   label: 'Training',         icon: '🎓' },
+    { id: 'technical',  label: 'Technical',        icon: '🔧' },
+    { id: 'business',   label: 'Business',         icon: '📈' },
+    { id: 'marketing',  label: 'Marketing',        icon: '📣' },
+    { id: 'operations', label: 'Operations',       icon: '⚙️' },
+  ];
+
+  // Build filter
+  const filterWrap = document.getElementById('job-filter');
+  departments.forEach(function(d, idx) {
+    var count = d.id === 'all' ? jobs.length : jobs.filter(function(j){ return j.dept === d.id; }).length;
+    var btn = document.createElement('button');
+    btn.className = 'job-filter-btn' + (idx === 0 ? ' active' : '');
+    btn.setAttribute('data-filter', d.id);
+    btn.innerHTML = '<span>' + d.icon + '</span> ' + d.label + ' <span class="count">' + count + '</span>';
+    filterWrap.appendChild(btn);
+  });
+
+  // Build job cards + dropdown options
+  const list = document.getElementById('job-list');
+  const sel = document.getElementById('position-select');
+
+  jobs.forEach(function(job) {
+    // Card
+    var card = document.createElement('div');
+    card.className = 'job-card';
+    card.setAttribute('data-dept', job.dept);
+    var deptLabel = (departments.find(function(d){return d.id===job.dept;}) || {}).label || job.dept;
+
+    card.innerHTML =
+      '<div class="job-card__top">' +
+        '<div class="job-card__info">' +
+          '<div class="job-card__title">' + job.title + '</div>' +
+          '<div class="job-card__tags">' +
+            '<span class="badge badge--primary">' + deptLabel + '</span>' +
+            '<span class="badge badge--dim">' + job.type + '</span>' +
+            '<span class="badge badge--dim">📍 ' + job.loc + '</span>' +
+          '</div>' +
+        '</div>' +
+        '<a href="#apply" class="btn btn--outline btn--sm">Apply Now</a>' +
+      '</div>' +
+      '<p class="job-card__desc">' + job.desc + '</p>' +
+      '<div class="job-card__footer">' +
+        '<div class="job-card__meta">' +
+          '<span>👔 ' + job.exp + '</span>' +
+          '<span>💰 ' + job.ctc + '</span>' +
+        '</div>' +
+        '<a href="#apply" class="card__link">Apply for this role →</a>' +
+      '</div>';
+    list.appendChild(card);
+
+    // Dropdown option
+    var opt = document.createElement('option');
+    opt.value = job.title;
+    opt.textContent = job.title;
+    sel.appendChild(opt);
+  });
+
+  // Filter behaviour
+  var emptyState = document.getElementById('empty-state');
+  document.querySelectorAll('.job-filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.job-filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      var f = this.getAttribute('data-filter');
+      var visibleCount = 0;
+      document.querySelectorAll('.job-card').forEach(function(card) {
+        if (f === 'all' || card.getAttribute('data-dept') === f) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      if (visibleCount === 0) emptyState.classList.add('show');
+      else emptyState.classList.remove('show');
+    });
+  });
+
+  // Wire HR email link from config if available
+  var hrEmailEl = document.getElementById('hr-email');
+  if (hrEmailEl && typeof SITE !== 'undefined') {
+    var hrAddr = 'hr@itipro.in';
+    hrEmailEl.textContent = hrAddr;
+    hrEmailEl.setAttribute('href', 'mailto:' + hrAddr);
+  }
+})();
+</script>
+</body>
+</html>

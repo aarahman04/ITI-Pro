@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="page-title" content="Franchise"/>
+  <meta name="description" content="Open an ITI Pro EV franchise — proven model, full setup support, strong brand, and a fast-growing market."/>
+  <link rel="stylesheet" href="/assets/css/style.css"/>
+  <style>
+
+    /* ── Why franchise cards ── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-5);
+    }
+    @media (max-width: 1024px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px)  { .why-grid { grid-template-columns: 1fr; } }
+
+    .why-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-6);
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .why-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--clr-primary), transparent);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .why-card:hover {
+      border-color: var(--clr-primary);
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md), var(--shadow-glow);
+    }
+    .why-card:hover::before { opacity: 1; }
+    .why-icon {
+      width: 52px; height: 52px;
+      background: rgba(34,197,94,.1);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: var(--sp-4);
+      transition: background var(--transition);
+    }
+    .why-card:hover .why-icon { background: rgba(34,197,94,.2); }
+    .why-title { font-family: var(--ff-display); font-size: var(--fs-xl); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-3); }
+    .why-text  { font-size: var(--fs-sm); color: var(--clr-text-muted); line-height: 1.75; }
+
+    /* ── Franchise model cards ── */
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-5);
+    }
+    @media (max-width: 900px) { .model-grid { grid-template-columns: 1fr; } }
+
+    .model-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-8) var(--sp-6);
+      display: flex;
+      flex-direction: column;
+      transition: all var(--transition);
+      position: relative;
+    }
+    .model-card.featured {
+      border-color: var(--clr-primary);
+      box-shadow: var(--shadow-glow);
+    }
+    .model-card.featured::after {
+      content: 'Most Popular';
+      position: absolute;
+      top: -1px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--clr-primary);
+      color: var(--clr-dark);
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      padding: 4px var(--sp-4);
+      border-radius: 0 0 var(--r-sm) var(--r-sm);
+    }
+    .model-card:hover { border-color: var(--clr-primary); transform: translateY(-5px); box-shadow: var(--shadow-md), var(--shadow-glow); }
+    .model-card.featured:hover { transform: translateY(-5px); }
+    .mc-badge { margin-bottom: var(--sp-5); }
+    .mc-title { font-family: var(--ff-display); font-size: var(--fs-2xl); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-2); line-height: 1.2; }
+    .mc-tagline { font-size: var(--fs-sm); color: var(--clr-text-muted); margin-bottom: var(--sp-6); line-height: 1.7; }
+    .mc-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: var(--sp-6);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      overflow: hidden;
+    }
+    .mc-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--sp-3) var(--sp-4);
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      gap: var(--sp-4);
+    }
+    .mc-row:last-child { border-bottom: none; }
+    .mc-row__label { font-size: var(--fs-xs); color: var(--clr-text-dim); font-family: var(--ff-mono); text-transform: uppercase; letter-spacing: .07em; flex-shrink: 0; }
+    .mc-row__val   { font-size: var(--fs-sm); font-weight: 600; color: var(--clr-white); text-align: right; }
+    .mc-row__val.green { color: var(--clr-primary); }
+    .mc-includes {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+      margin-bottom: var(--sp-6);
+      flex: 1;
+    }
+    .mc-include-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--sp-2);
+      font-size: var(--fs-sm);
+      color: var(--clr-text-muted);
+    }
+    .mc-include-item::before { content: '✓'; color: var(--clr-primary); font-weight: 700; flex-shrink: 0; }
+
+    /* ── Process timeline ── */
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--clr-border), var(--clr-border), transparent);
+    }
+    @media (max-width: 900px) { .process-steps { grid-template-columns: repeat(3, 1fr); } .process-steps::before { display: none; } }
+    @media (max-width: 560px) { .process-steps { grid-template-columns: 1fr; } }
+
+    .ps-item { text-align: center; padding: var(--sp-4); position: relative; }
+    .ps-num {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ff-display);
+      font-size: var(--fs-xl);
+      font-weight: 700;
+      color: var(--clr-primary);
+      margin-inline: auto;
+      margin-bottom: var(--sp-3);
+      position: relative;
+      z-index: 1;
+      transition: all var(--transition);
+    }
+    .ps-item:hover .ps-num { background: rgba(34,197,94,.15); border-color: var(--clr-primary); box-shadow: var(--shadow-glow); }
+    .ps-title { font-family: var(--ff-display); font-size: var(--fs-base); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-1); }
+    .ps-text  { font-size: var(--fs-xs); color: var(--clr-text-muted); line-height: 1.65; }
+
+    /* ── Agreement section ── */
+    .agreement-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-5);
+    }
+    @media (max-width: 760px) { .agreement-grid { grid-template-columns: 1fr; } }
+
+    .agreement-point {
+      background: var(--clr-dark-4);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-5) var(--sp-6);
+      transition: all var(--transition);
+    }
+    .agreement-point:hover { border-color: var(--clr-primary); }
+    .ap-label {
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--clr-primary);
+      margin-bottom: var(--sp-2);
+    }
+    .ap-title { font-family: var(--ff-display); font-size: var(--fs-lg); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-2); }
+    .ap-text  { font-size: var(--fs-sm); color: var(--clr-text-muted); line-height: 1.75; }
+
+    /* ── ROI estimator block ── */
+    .roi-block {
+      background: linear-gradient(135deg, rgba(34,197,94,.1) 0%, rgba(34,197,94,.03) 60%, rgba(250,204,21,.04) 100%);
+      border: 1px solid rgba(34,197,94,.2);
+      border-radius: var(--r-xl);
+      padding: var(--sp-10) var(--sp-8);
+    }
+    .roi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-5);
+      margin-top: var(--sp-8);
+    }
+    @media (max-width: 800px) { .roi-grid { grid-template-columns: repeat(2, 1fr); } }
+    .roi-item { text-align: center; }
+    .roi-val {
+      font-family: var(--ff-display);
+      font-size: var(--fs-3xl);
+      font-weight: 700;
+      color: var(--clr-primary);
+      line-height: 1;
+    }
+    .roi-label {
+      font-size: var(--fs-xs);
+      color: var(--clr-text-dim);
+      font-family: var(--ff-mono);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-top: var(--sp-2);
+    }
+    .roi-note { font-size: var(--fs-xs); color: var(--clr-text-dim); margin-top: 4px; }
+
+    /* ── Testimonial partner ── */
+    .partner-testimonial {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-6);
+    }
+    .pt-quote { font-size: 2rem; color: var(--clr-primary); opacity: .4; font-family: Georgia, serif; line-height: 1; margin-bottom: var(--sp-3); }
+    .pt-text  { font-size: var(--fs-sm); color: var(--clr-text-muted); line-height: 1.8; font-style: italic; margin-bottom: var(--sp-5); }
+    .pt-author { display: flex; align-items: center; gap: var(--sp-3); }
+    .pt-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--clr-dark-4); border: 1px solid var(--clr-border); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+    .pt-name { font-weight: 600; color: var(--clr-white); font-size: var(--fs-sm); }
+    .pt-role { font-size: var(--fs-xs); color: var(--clr-text-dim); font-family: var(--ff-mono); }
+  </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+<div class="nav-spacer"></div>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero">
+  <div class="container">
+    <p class="page-hero__eyebrow">Partner With ITI Pro</p>
+    <h1 class="page-hero__title">Open an ITI Pro <span>Franchise</span></h1>
+    <p class="page-hero__subtitle">Join India's fastest-growing EV training and service network. Proven model. Full setup support. Strong brand. A market that's only getting bigger.</p>
+    <div class="btn-group mt-8">
+      <a href="#models" class="btn btn--primary btn--lg">View Franchise Models</a>
+      <a href="#apply" class="btn btn--outline btn--lg">Apply Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUICK STATS ── -->
+<div style="background:var(--clr-dark-4); border-top:1px solid var(--clr-border); border-bottom:1px solid var(--clr-border); padding-block:var(--sp-10);">
+  <div class="container">
+    <div class="grid grid--4">
+      <div class="stat-block"><div class="stat-block__number">50+</div><div class="stat-block__label">Active Franchise Centres</div></div>
+      <div class="stat-block"><div class="stat-block__number">12+</div><div class="stat-block__label">States Covered</div></div>
+      <div class="stat-block"><div class="stat-block__number">10–15</div><div class="stat-block__label">Months Avg. ROI</div></div>
+      <div class="stat-block"><div class="stat-block__number">10+</div><div class="stat-block__label">Years Brand Track Record</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── WHY ITI PRO FRANCHISE ── -->
+<section class="section section--dark">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Why Choose Us</span>
+      <h2 class="section-title">Why the ITI Pro <span>Franchise?</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Eight reasons our franchise partners choose us — and why they stay, grow, and refer others.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🏆</div>
+        <div class="why-title">Proven Brand</div>
+        <p class="why-text">10+ years of credibility, 5,000+ certified alumni, government partnerships, and recognition from India's top EV OEMs.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📦</div>
+        <div class="why-title">Complete Setup Kit</div>
+        <p class="why-text">We provide curriculum, equipment list, lab design guide, branding kit, signage, digital assets, and full operational SOPs — ready to launch.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🎓</div>
+        <div class="why-title">Trainer Certification</div>
+        <p class="why-text">All franchise trainers attend ITI Pro's Train-the-Trainer program and receive a certified instructor credential before opening.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📈</div>
+        <div class="why-title">Multiple Revenue Streams</div>
+        <p class="why-text">Earn from training fees, service charges, product sales, corporate tie-ups, and government skill mission grants — all from one centre.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📍</div>
+        <div class="why-title">Territory Exclusivity</div>
+        <p class="why-text">Each franchise receives a defined exclusive territory. ITI Pro will not open or authorise another centre in your zone during the agreement period.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📣</div>
+        <div class="why-title">Marketing Support</div>
+        <p class="why-text">Centralised digital marketing, social media campaigns, event support, and co-branded collateral — all provided and managed by ITI Pro HQ.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🤝</div>
+        <div class="why-title">Placement Network Access</div>
+        <p class="why-text">Your students get access to ITI Pro's national placement network — 200+ hiring partners, campus drives, and the ITI Pro alumni ecosystem.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🔄</div>
+        <div class="why-title">Ongoing Updates</div>
+        <p class="why-text">EV technology evolves fast. We update your curriculum, trainer knowledge, and equipment list every 6 months — at no extra cost.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FRANCHISE MODELS ── -->
+<section class="section section--dark2" id="models">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Choose Your Format</span>
+      <h2 class="section-title">Franchise <span>Models</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Three formats designed for different budgets, spaces, and ambitions. Every model comes with the same ITI Pro brand quality and support system.</p>
+    </div>
+    <div class="model-grid">
+
+      <!-- Training Studio -->
+      <div class="model-card">
+        <div class="mc-badge"><span class="badge badge--dim">Starter Format</span></div>
+        <div class="mc-title">Training Studio</div>
+        <p class="mc-tagline">Small-format training centre focused on workshops, short courses, and seminars. Ideal for coaching institutes, ITI colleges, and first-time entrepreneurs.</p>
+        <div class="mc-details">
+          <div class="mc-row"><span class="mc-row__label">Space Needed</span><span class="mc-row__val">400–800 sq ft</span></div>
+          <div class="mc-row"><span class="mc-row__label">Investment</span><span class="mc-row__val green">₹5–8 Lakhs</span></div>
+          <div class="mc-row"><span class="mc-row__label">Franchise Fee</span><span class="mc-row__val">₹1 Lakh</span></div>
+          <div class="mc-row"><span class="mc-row__label">Revenue Share</span><span class="mc-row__val">15% to ITI Pro</span></div>
+          <div class="mc-row"><span class="mc-row__label">Avg. ROI Period</span><span class="mc-row__val green">12–18 Months</span></div>
+          <div class="mc-row"><span class="mc-row__label">Agreement Term</span><span class="mc-row__val">3 Years (renewable)</span></div>
+        </div>
+        <div class="mc-includes">
+          <div class="mc-include-item">Complete curriculum and courseware</div>
+          <div class="mc-include-item">Branding kit and signage design</div>
+          <div class="mc-include-item">Trainer certification (2 trainers)</div>
+          <div class="mc-include-item">Equipment checklist and vendor list</div>
+          <div class="mc-include-item">3-month launch marketing support</div>
+          <div class="mc-include-item">Student placement portal access</div>
+        </div>
+        <a href="#apply" class="btn btn--outline w-full">Apply for This Model</a>
+      </div>
+
+      <!-- Training + Service Hub -->
+      <div class="model-card featured">
+        <div class="mc-badge"><span class="badge badge--primary">Best Value</span></div>
+        <div class="mc-title">Training + Service Hub</div>
+        <p class="mc-tagline">Full-service centre combining a training room with a live EV service bay. Maximum revenue potential with two active income streams from day one.</p>
+        <div class="mc-details">
+          <div class="mc-row"><span class="mc-row__label">Space Needed</span><span class="mc-row__val">1,000–2,000 sq ft</span></div>
+          <div class="mc-row"><span class="mc-row__label">Investment</span><span class="mc-row__val green">₹12–20 Lakhs</span></div>
+          <div class="mc-row"><span class="mc-row__label">Franchise Fee</span><span class="mc-row__val">₹2.5 Lakhs</span></div>
+          <div class="mc-row"><span class="mc-row__label">Revenue Share</span><span class="mc-row__val">12% to ITI Pro</span></div>
+          <div class="mc-row"><span class="mc-row__label">Avg. ROI Period</span><span class="mc-row__val green">10–15 Months</span></div>
+          <div class="mc-row"><span class="mc-row__label">Agreement Term</span><span class="mc-row__val">3 Years (renewable)</span></div>
+        </div>
+        <div class="mc-includes">
+          <div class="mc-include-item">Full curriculum + service SOPs</div>
+          <div class="mc-include-item">Branding kit — interior + exterior</div>
+          <div class="mc-include-item">Trainer + technician certification (4 staff)</div>
+          <div class="mc-include-item">Diagnostic equipment support list</div>
+          <div class="mc-include-item">AMC (service contracts) onboarding help</div>
+          <div class="mc-include-item">6-month dedicated marketing campaign</div>
+          <div class="mc-include-item">Placement + service referral network</div>
+          <div class="mc-include-item">Dedicated franchise support manager</div>
+        </div>
+        <a href="#apply" class="btn btn--primary w-full">Apply for This Model</a>
+      </div>
+
+      <!-- Regional Master Franchise -->
+      <div class="model-card">
+        <div class="mc-badge"><span class="badge badge--accent">Enterprise Format</span></div>
+        <div class="mc-title">Regional Master Franchise</div>
+        <p class="mc-tagline">Own the exclusive rights to develop, launch, and manage multiple ITI Pro centres across your district or state. Sub-franchise to others under your territory.</p>
+        <div class="mc-details">
+          <div class="mc-row"><span class="mc-row__label">Territory</span><span class="mc-row__val">District or State</span></div>
+          <div class="mc-row"><span class="mc-row__label">Investment</span><span class="mc-row__val green">₹30–50 Lakhs</span></div>
+          <div class="mc-row"><span class="mc-row__label">Franchise Fee</span><span class="mc-row__val">₹8 Lakhs</span></div>
+          <div class="mc-row"><span class="mc-row__label">Revenue Share</span><span class="mc-row__val">8% to ITI Pro</span></div>
+          <div class="mc-row"><span class="mc-row__label">Avg. ROI Period</span><span class="mc-row__val green">18–24 Months</span></div>
+          <div class="mc-row"><span class="mc-row__label">Agreement Term</span><span class="mc-row__val">5 Years (renewable)</span></div>
+        </div>
+        <div class="mc-includes">
+          <div class="mc-include-item">Sub-franchise appointment rights</div>
+          <div class="mc-include-item">Full support to onboard sub-partners</div>
+          <div class="mc-include-item">Regional marketing budget (co-funded)</div>
+          <div class="mc-include-item">Priority access to government tie-ups</div>
+          <div class="mc-include-item">Dedicated regional account team</div>
+          <div class="mc-include-item">Annual performance incentive scheme</div>
+        </div>
+        <a href="#apply" class="btn btn--outline w-full">Apply for This Model</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── ROI ESTIMATOR ── -->
+<section class="section section--dark3">
+  <div class="container">
+    <div class="roi-block">
+      <div class="section-header section-header--center" style="margin-bottom:0;">
+        <span class="section-label">Earnings Potential</span>
+        <h2 class="section-title">What a Training + Service Hub <span>Can Earn</span></h2>
+        <div class="divider"></div>
+        <p class="section-subtitle" style="margin-bottom:0;">Illustrative monthly revenue estimate for a mid-size Training + Service Hub franchise. Actual results depend on location, execution, and market.</p>
+      </div>
+      <div class="roi-grid">
+        <div class="roi-item">
+          <div class="roi-val">₹80K–1.2L</div>
+          <div class="roi-label">Training Revenue / Mo.</div>
+          <div class="roi-note">20–30 students @ ₹4K–5K/mo avg.</div>
+        </div>
+        <div class="roi-item">
+          <div class="roi-val">₹40K–80K</div>
+          <div class="roi-label">Service Revenue / Mo.</div>
+          <div class="roi-note">50–100 service jobs/month</div>
+        </div>
+        <div class="roi-item">
+          <div class="roi-val">₹20K–40K</div>
+          <div class="roi-label">Product Sales / Mo.</div>
+          <div class="roi-note">Components and accessories</div>
+        </div>
+        <div class="roi-item">
+          <div class="roi-val">₹1.4L–2.4L</div>
+          <div class="roi-label">Total Gross / Mo.</div>
+          <div class="roi-note">Before operating expenses</div>
+        </div>
+      </div>
+      <div style="margin-top:var(--sp-6); text-align:center; font-size:var(--fs-xs); color:var(--clr-text-dim); font-family:var(--ff-mono);">
+        * Illustrative only. Actual earnings vary by location, market demand, and operational efficiency. Contact us for a location-specific feasibility report.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ONBOARDING PROCESS ── -->
+<section class="section section--dark2">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">How It Works</span>
+      <h2 class="section-title">From Application to <span>Opening Day</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">A structured, supported onboarding process — from your first enquiry to your grand opening, in as little as 60–90 days.</p>
+    </div>
+    <div class="process-steps">
+      <div class="ps-item">
+        <div class="ps-num">01</div>
+        <div class="ps-title">Apply Online</div>
+        <p class="ps-text">Submit your franchise application with basic details about your location, space, and investment readiness.</p>
+      </div>
+      <div class="ps-item">
+        <div class="ps-num">02</div>
+        <div class="ps-title">Screening Call</div>
+        <p class="ps-text">Our franchise team reviews your application and schedules a 30-minute discovery call within 3 working days.</p>
+      </div>
+      <div class="ps-item">
+        <div class="ps-num">03</div>
+        <div class="ps-title">Site Visit & Approval</div>
+        <p class="ps-text">We visit your proposed location, assess suitability, and provide a detailed feasibility and layout report.</p>
+      </div>
+      <div class="ps-item">
+        <div class="ps-num">04</div>
+        <div class="ps-title">Agreement & Setup</div>
+        <p class="ps-text">Sign the franchise agreement, receive the full setup kit, and begin interior fit-out with our design guidance.</p>
+      </div>
+      <div class="ps-item">
+        <div class="ps-num">05</div>
+        <div class="ps-title">Training & Launch</div>
+        <p class="ps-text">Your team attends the Train-the-Trainer program. We support your grand opening and first 3 months of marketing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FRANCHISE AGREEMENT ── -->
+<section class="section section--dark3">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Legal Framework</span>
+      <h2 class="section-title">The Franchise <span>Agreement</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">A fair, transparent agreement designed to protect both parties and create a long-term, mutually beneficial partnership.</p>
+    </div>
+
+    <div class="agreement-grid">
+      <div class="agreement-point">
+        <div class="ap-label">Scope</div>
+        <div class="ap-title">What the Agreement Covers</div>
+        <p class="ap-text">Brand usage rights, territorial exclusivity boundaries, training curriculum license, service SOP license, equipment sourcing rights, trainer certification entitlements, marketing support obligations, revenue sharing structure, quality audit schedule, and renewal and exit clauses. Duration is 3 years (5 years for Master Franchise), fully renewable.</p>
+      </div>
+      <div class="agreement-point">
+        <div class="ap-label">Territory</div>
+        <div class="ap-title">Exclusive Territory Rights</div>
+        <p class="ap-text">Each franchise is granted a clearly defined exclusive territory — a city zone, district, or state depending on the model — within which ITI Pro will not open, license, or authorise another centre during the active agreement period. Territory boundaries are defined in the agreement schedule and cannot be unilaterally altered by either party.</p>
+      </div>
+      <div class="agreement-point">
+        <div class="ap-label">Ongoing Support</div>
+        <div class="ap-title">What ITI Pro Provides Continuously</div>
+        <p class="ap-text">Bi-annual curriculum updates, trainer refresher certifications, national marketing campaigns benefiting all centres, student placement support through our central cell, quarterly quality audits with detailed feedback reports, access to the partner portal, and a dedicated franchise relationship manager for the duration of the agreement.</p>
+      </div>
+      <div class="agreement-point">
+        <div class="ap-label">Quality Standards</div>
+        <div class="ap-title">Maintaining the ITI Pro Standard</div>
+        <p class="ap-text">Franchise partners agree to deliver training and service to ITI Pro's defined quality benchmarks, use only approved branding and curriculum, maintain certified trainer ratios, and participate in quarterly audits. Non-compliance follows a structured improvement notice process before any escalation — we work with partners, not against them.</p>
+      </div>
+      <div class="agreement-point">
+        <div class="ap-label">Fees &amp; Financials</div>
+        <div class="ap-title">Revenue Sharing &amp; Fees</div>
+        <p class="ap-text">A one-time franchise fee is payable upon agreement signing. A monthly revenue share (8–15% depending on model) is reported and remitted by the 10th of the following month. No hidden royalties or surprise charges. Annual audit of financials is required. Approved government grant income (if applicable) is excluded from revenue share calculation.</p>
+      </div>
+      <div class="agreement-point">
+        <div class="ap-label">Exit &amp; Renewal</div>
+        <div class="ap-title">Exit and Renewal Terms</div>
+        <p class="ap-text">Franchisees may exit with a 90-day written notice after the first agreement year. No penalty applies if the centre is in good standing. Agreements are renewable every 3 years subject to performance review — high-performing partners receive a discounted renewal fee. In the event of a mutually agreed exit, ITI Pro will help transition students and service customers to the nearest alternative centre.</p>
+      </div>
+    </div>
+
+    <!-- Accordion for more details -->
+    <div style="margin-top: var(--sp-10);">
+      <div class="section-header section-header--center" style="margin-bottom:var(--sp-6);">
+        <h3 class="section-title" style="font-size:var(--fs-2xl);">Frequently Asked <span>Questions</span></h3>
+      </div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <div class="accordion-header">Do I need prior experience in the EV industry to open a franchise?<span class="accordion-icon">+</span></div>
+          <div class="accordion-body"><div class="accordion-body-inner">No prior EV industry experience is required for the Training Studio or Training + Service Hub models. ITI Pro's Train-the-Trainer program and trainer certification process equips your team with the required technical knowledge. We do recommend a background in business management or education management for the Master Franchise model.</div></div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header">Can I open a franchise in a tier-2 or tier-3 city?<span class="accordion-icon">+</span></div>
+          <div class="accordion-body"><div class="accordion-body-inner">Absolutely. Tier-2 and tier-3 cities are among our highest-priority expansion zones. EV adoption, ITI graduate density, and lower competition often create stronger unit economics in smaller cities than in metros. Several of our best-performing franchise centres are in tier-2 cities like Warangal, Davangere, Hubli, Rajahmundry, and Nanded.</div></div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header">Can I get government grants or PMEGP funding for the franchise?<span class="accordion-icon">+</span></div>
+          <div class="accordion-body"><div class="accordion-body-inner">Yes, many franchise partners have used PMEGP, MUDRA, and State Skill Mission subsidies to fund part of their setup costs. ITI Pro's partnership with NSDC and State Skill Missions also makes franchise centres eligible for per-trainee government grants under specific skill development schemes. Our franchise team will guide you on applicable schemes in your state.</div></div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header">What happens if I want to expand after opening one centre?<span class="accordion-icon">+</span></div>
+          <div class="accordion-body"><div class="accordion-body-inner">Existing franchise partners are given first right of refusal on adjacent territories before we open them to new applicants. High-performing single-centre partners can also apply to upgrade to a Master Franchise arrangement, giving them the right to open and sub-franchise multiple centres in their region.</div></div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header">How soon can I open after signing the agreement?<span class="accordion-icon">+</span></div>
+          <div class="accordion-body"><div class="accordion-body-inner">Most Training Studio partners open within 45–60 days of signing. Training + Service Hub partners typically open in 60–90 days, depending on fit-out requirements. Master Franchise territory development is a rolling process with no fixed opening date. Our onboarding team provides a week-by-week launch checklist to keep you on track.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PARTNER TESTIMONIALS ── -->
+<section class="section section--dark2">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Partner Stories</span>
+      <h2 class="section-title">From Our <span>Franchise Partners</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="grid grid--3">
+      <div class="partner-testimonial">
+        <div class="pt-quote">"</div>
+        <p class="pt-text">I had zero EV industry background — just a passion for clean energy and a background in running a coaching institute. ITI Pro's setup support and trainer certification made the launch completely stress-free. We broke even in month 11.</p>
+        <div class="pt-author">
+          <div class="pt-avatar">👩‍💼</div>
+          <div>
+            <div class="pt-name">Anita Desai</div>
+            <div class="pt-role">Training Studio · Pune, Maharashtra</div>
+          </div>
+        </div>
+      </div>
+      <div class="partner-testimonial">
+        <div class="pt-quote">"</div>
+        <p class="pt-text">The Training + Service Hub model was the right call. We earn from training fees during the day and service walk-ins in the afternoon. The service revenue alone covers our operating costs — training is pure profit on top.</p>
+        <div class="pt-author">
+          <div class="pt-avatar">👨‍🔧</div>
+          <div>
+            <div class="pt-name">Ravi Shankar</div>
+            <div class="pt-role">Training + Service Hub · Coimbatore, TN</div>
+          </div>
+        </div>
+      </div>
+      <div class="partner-testimonial">
+        <div class="pt-quote">"</div>
+        <p class="pt-text">As a Master Franchise holder, I've now opened four centres across my district in 18 months. The sub-franchise support from ITI Pro HQ made it very manageable. The brand opens doors — government bodies and colleges respond immediately.</p>
+        <div class="pt-author">
+          <div class="pt-avatar">👨‍💼</div>
+          <div>
+            <div class="pt-name">Mahesh Naidu</div>
+            <div class="pt-role">Master Franchise · Guntur District, AP</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── APPLICATION FORM ── -->
+<section class="section section--dark3" id="apply">
+  <div class="container container--md">
+    <div class="section-header section-header--center">
+      <span class="section-label">Get Started</span>
+      <h2 class="section-title">Apply for a <span>Franchise</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Fill in the form below and our franchise team will reach out within 2 working days to schedule a discovery call.</p>
+    </div>
+
+    <div class="card" style="padding: var(--sp-8);">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input class="form-input" type="text" placeholder="Your full name"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number *</label>
+          <input class="form-input" type="tel" placeholder="+91 XXXXX XXXXX"/>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Email Address *</label>
+          <input class="form-input" type="email" placeholder="you@email.com"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">City / Location *</label>
+          <input class="form-input" type="text" placeholder="City you want to open in"/>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Franchise Model *</label>
+          <select class="form-select">
+            <option value="">Select a model</option>
+            <option>Training Studio (₹5–8 Lakhs)</option>
+            <option>Training + Service Hub (₹12–20 Lakhs)</option>
+            <option>Regional Master Franchise (₹30–50 Lakhs)</option>
+            <option>Not sure — need guidance</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Available Space (sq ft)</label>
+          <select class="form-select">
+            <option value="">Select range</option>
+            <option>Less than 400 sq ft</option>
+            <option>400–800 sq ft</option>
+            <option>800–1,500 sq ft</option>
+            <option>1,500–2,500 sq ft</option>
+            <option>2,500+ sq ft</option>
+            <option>Looking for space</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Current Profession / Background</label>
+        <input class="form-input" type="text" placeholder="e.g. Education, Auto repair, Business owner, Engineer…"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tell Us About Your Interest</label>
+        <textarea class="form-textarea" placeholder="Why do you want to open an ITI Pro franchise? Any existing infrastructure, team, or background you'd like to share?"></textarea>
+      </div>
+      <div style="display:flex; align-items:center; gap:var(--sp-3); margin-bottom:var(--sp-6);">
+        <input type="checkbox" id="agree-terms" style="width:18px; height:18px; accent-color:var(--clr-primary); flex-shrink:0;"/>
+        <label for="agree-terms" style="font-size:var(--fs-sm); color:var(--clr-text-muted); cursor:pointer;">I agree to be contacted by the ITI Pro franchise team. I understand this is an enquiry, not a commitment.</label>
+      </div>
+      <button class="btn btn--primary btn--lg w-full"
+        onclick="alert('Thank you for your franchise application! Our team will contact you within 2 working days.')">
+        Submit Franchise Application
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ── FINAL CTA ── -->
+<section class="section section--dark2">
+  <div class="container container--md">
+    <div class="highlight-box text-center">
+      <span class="section-label">Ready to Talk?</span>
+      <h2 class="section-title mt-4">Have Questions Before <span>Applying?</span></h2>
+      <p style="color:var(--clr-text-muted); font-size:var(--fs-md); max-width:480px; margin-inline:auto; margin-block:var(--sp-5) var(--sp-8);">
+        Our franchise team is happy to answer any questions — about models, locations, investment, or the agreement. No pressure, no hard sell.
+      </p>
+      <div class="btn-group" style="justify-content:center;">
+        <a href="/pages/contact.html" class="btn btn--primary btn--lg">Speak to Franchise Team</a>
+        <a href="#models" class="btn btn--outline btn--lg">Compare Models Again</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>

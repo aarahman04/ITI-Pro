@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="page-title" content="Sales"/>
+  <meta name="description" content="ITI Pro EV Sales — authorised distribution of EV components, battery packs, motors, controllers and assembled vehicles."/>
+  <link rel="stylesheet" href="/assets/css/style.css"/>
+  <style>
+    .product-cat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-5);
+    }
+    @media (max-width: 900px) { .product-cat-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .product-cat-grid { grid-template-columns: 1fr; } }
+
+    .product-cat {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-6);
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .product-cat::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--clr-primary), transparent);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .product-cat:hover { border-color: var(--clr-primary); transform: translateY(-4px); box-shadow: var(--shadow-md), var(--shadow-glow); }
+    .product-cat:hover::before { opacity: 1; }
+    .pc-icon { font-size: 2.5rem; margin-bottom: var(--sp-4); display: block; }
+    .pc-title { font-family: var(--ff-display); font-size: var(--fs-xl); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-3); }
+    .pc-desc  { font-size: var(--fs-sm); color: var(--clr-text-muted); line-height: 1.75; margin-bottom: var(--sp-4); }
+    .pc-specs { display: flex; flex-direction: column; gap: var(--sp-2); }
+    .pc-spec  { display: flex; justify-content: space-between; font-size: var(--fs-xs); padding: var(--sp-2) 0; border-bottom: 1px solid rgba(255,255,255,.04); }
+    .pc-spec:last-child { border-bottom: none; }
+    .pc-spec__label { color: var(--clr-text-dim); }
+    .pc-spec__val   { color: var(--clr-primary); font-weight: 600; font-family: var(--ff-mono); }
+
+    .chart-mock {
+      background: var(--clr-dark-4);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-6);
+    }
+    .chart-mock__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--sp-5); flex-wrap: wrap; gap: var(--sp-3); }
+    .chart-mock__title { font-family: var(--ff-display); font-size: var(--fs-lg); font-weight: 700; color: var(--clr-white); }
+    .chart-mock__period { font-family: var(--ff-mono); font-size: var(--fs-xs); color: var(--clr-text-dim); text-transform: uppercase; letter-spacing: .08em; }
+    .chart-bars { display: flex; align-items: flex-end; gap: var(--sp-3); height: 160px; padding-bottom: var(--sp-3); border-bottom: 1px solid var(--clr-border); margin-bottom: var(--sp-3); }
+    .chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); height: 100%; justify-content: flex-end; }
+    .chart-bar {
+      width: 100%;
+      background: linear-gradient(to top, var(--clr-primary), var(--clr-primary-lt));
+      border-radius: var(--r-sm) var(--r-sm) 0 0;
+      min-height: 4px;
+      transition: all .4s ease;
+      opacity: .8;
+    }
+    .chart-bar:hover { opacity: 1; box-shadow: 0 0 12px rgba(34,197,94,.4); }
+    .chart-bar--accent { background: linear-gradient(to top, var(--clr-accent), #fde68a); }
+    .chart-label { font-family: var(--ff-mono); font-size: 10px; color: var(--clr-text-dim); text-align: center; margin-top: var(--sp-2); }
+    .chart-val   { font-family: var(--ff-mono); font-size: 10px; color: var(--clr-primary); }
+    .chart-legend { display: flex; gap: var(--sp-6); flex-wrap: wrap; }
+    .chart-legend-item { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-xs); color: var(--clr-text-dim); }
+    .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+    .report-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-4);
+      margin-bottom: var(--sp-6);
+    }
+    @media (max-width: 700px) { .report-summary { grid-template-columns: repeat(2, 1fr); } }
+    .rs-card {
+      background: var(--clr-dark-4);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      padding: var(--sp-4);
+    }
+    .rs-label { font-family: var(--ff-mono); font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .08em; color: var(--clr-text-dim); margin-bottom: var(--sp-2); }
+    .rs-val   { font-family: var(--ff-display); font-size: var(--fs-xl); font-weight: 700; color: var(--clr-white); }
+    .rs-delta { font-size: var(--fs-xs); color: var(--clr-primary); margin-top: 4px; }
+    .rs-delta.down { color: var(--clr-danger); }
+
+    .dealer-tiers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-5);
+    }
+    @media (max-width: 760px) { .dealer-tiers { grid-template-columns: 1fr; } }
+    .dealer-tier {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-6);
+      transition: all var(--transition);
+      text-align: center;
+    }
+    .dealer-tier.featured { border-color: var(--clr-primary); box-shadow: var(--shadow-glow); }
+    .dealer-tier:hover { border-color: var(--clr-primary); transform: translateY(-4px); }
+    .dt-badge { margin-bottom: var(--sp-4); }
+    .dt-name  { font-family: var(--ff-display); font-size: var(--fs-2xl); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-2); }
+    .dt-min   { font-family: var(--ff-mono); font-size: var(--fs-xs); color: var(--clr-text-dim); text-transform: uppercase; letter-spacing: .08em; margin-bottom: var(--sp-5); }
+    .dt-perks { text-align: left; display: flex; flex-direction: column; gap: var(--sp-3); margin-bottom: var(--sp-6); }
+    .dt-perk  { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--clr-text-muted); }
+    .dt-perk::before { content: '✓'; color: var(--clr-primary); font-weight: 700; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+<div class="nav-spacer"></div>
+
+<section class="page-hero">
+  <div class="container">
+    <p class="page-hero__eyebrow">EV Products &amp; Distribution</p>
+    <h1 class="page-hero__title">EV <span>Sales</span> &amp; Distribution</h1>
+    <p class="page-hero__subtitle">Authorised distribution of EV components, battery systems, motors, chargers, and assembled vehicles — through a pan-India dealer and direct-sale network.</p>
+    <div class="btn-group mt-8">
+      <a href="#products" class="btn btn--primary btn--lg">Browse Products</a>
+      <a href="#dealer" class="btn btn--outline btn--lg">Become a Dealer</a>
+    </div>
+  </div>
+</section>
+
+<div style="background:var(--clr-dark-4); border-top:1px solid var(--clr-border); border-bottom:1px solid var(--clr-border); padding-block:var(--sp-10);">
+  <div class="container">
+    <div class="grid grid--4">
+      <div class="stat-block"><div class="stat-block__number">10,000+</div><div class="stat-block__label">Units Sold</div></div>
+      <div class="stat-block"><div class="stat-block__number">50+</div><div class="stat-block__label">Active Dealer Points</div></div>
+      <div class="stat-block"><div class="stat-block__number">15+</div><div class="stat-block__label">Brand Partners</div></div>
+      <div class="stat-block"><div class="stat-block__number">12</div><div class="stat-block__label">States Covered</div></div>
+    </div>
+  </div>
+</div>
+
+<section class="section section--dark" id="products">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">What We Sell</span>
+      <h2 class="section-title">Product <span>Categories</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">From individual components to complete conversion kits and assembled vehicles — sourced from verified manufacturers and supplied with full invoice and warranty.</p>
+    </div>
+    <div class="product-cat-grid">
+
+      <div class="product-cat">
+        <span class="pc-icon">🔋</span>
+        <div class="pc-title">Battery Packs</div>
+        <p class="pc-desc">Lithium-ion and LFP battery packs for 2W and 3W applications. Available in 48V, 60V, and 72V configurations with integrated BMS.</p>
+        <div class="pc-specs">
+          <div class="pc-spec"><span class="pc-spec__label">Voltage Range</span><span class="pc-spec__val">48V – 72V</span></div>
+          <div class="pc-spec"><span class="pc-spec__label">Capacity Range</span><span class="pc-spec__val">15Ah – 50Ah</span></div>
+          <div class="pc-spec"><span class="pc-spec__label">Chemistry</span><span class="pc-spec__val">Li-ion / LFP</span></div>
+          <div class="pc-spec"><span class="pc-spec__label">Warranty</span><span class="pc-spec__val">12–18 Months</span></div>
+        </div>
+      </div>
+
+      <div class="product-cat">
+        <span class="pc-icon">⚙️</span>
+        <div class="pc-title">BLDC Motors</div>
+        <p class="pc-desc">Hub-mounted and mid-drive BLDC motors for two and three-wheel conversions. IPM and SPM varieties stocked for different torque and speed requirements.</p>
+        <div class="pc-specs">
+          <div class="pc-spec"><span class="pc-spec__label">Power Range</span><span class="pc-spec__val">250W – 3,000W</span></div>
+          <div class="pc-spec"><span class="pc-spec__label">Type</span><span class="pc-spec__val">Hub / Mid-Drive</span></div>
+          <div class="pc-spec"><span class="pc-spec__label">IP Rating</span><span class="pc-spec__val">IP65</span></div>
+          <div class="pc-spec"><span class="pc-spec__label">Warranty</span><span class="pc-spec__val">12 Months</span></div>
+        </div>
+      </div>
+
+      <div class="product-cat">
+        <span class="pc-icon">🖥️</span>
+        <div class="pc-title">Controllers</div>
+        <p class="pc-desc">BLDC and FOC motor controllers for 2W and 3W EVs. Sine-wave and trapezoidal drive options. Regenerative braking supported models available.</p>
+        <div class="pc-specs">
+          <div class="pc-spec"><span class="pc-spec__label">Voltage</span><span class="pc-spec__val">48V – 72V</span></div>
+          <div class="pc-spec"><span class="pc-spec__label">Current</span><span class="pc-spec__val">25A – 120A</span></div>
+          <div class="pc-spec"><span class="pc-spec__label">Drive Type</span><span class="pc-spec__val">Sine / FOC /

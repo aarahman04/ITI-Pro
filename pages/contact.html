@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="page-title" content="Contact Us"/>
+  <meta name="description" content="Contact ITI Pro — EV training, service, sales, franchise, and partnership enquiries. Reach our team across India."/>
+  <link rel="stylesheet" href="/assets/css/style.css"/>
+  <style>
+
+    /* ── Contact info card ── */
+    .contact-info-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-4);
+    }
+    .contact-info-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-5);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--sp-4);
+      transition: all var(--transition);
+    }
+    .contact-info-card:hover { border-color: var(--clr-primary); transform: translateX(4px); }
+    .cic-icon {
+      width: 48px; height: 48px;
+      background: rgba(34,197,94,.1);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .cic-body { flex: 1; min-width: 0; }
+    .cic-label {
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--clr-primary);
+      margin-bottom: var(--sp-1);
+    }
+    .cic-value {
+      font-size: var(--fs-base);
+      color: var(--clr-white);
+      font-weight: 500;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+    .cic-value a { color: var(--clr-white); transition: color var(--transition); }
+    .cic-value a:hover { color: var(--clr-primary); }
+    .cic-sub { font-size: var(--fs-xs); color: var(--clr-text-dim); margin-top: var(--sp-1); }
+
+    /* ── Map placeholder ── */
+    .map-block {
+      background: var(--clr-dark-4);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 16/9;
+    }
+    .map-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-3);
+      background:
+        radial-gradient(circle at 30% 40%, rgba(34,197,94,.08) 0%, transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(250,204,21,.06) 0%, transparent 50%),
+        var(--clr-dark-4);
+      background-image:
+        linear-gradient(rgba(34,197,94,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34,197,94,.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .map-placeholder .map-pin {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--clr-primary);
+      color: var(--clr-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 0 0 8px rgba(34,197,94,.2), 0 0 0 18px rgba(34,197,94,.08);
+      animation: pulse-glow 2s infinite;
+    }
+    .map-placeholder .map-label {
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--clr-text-dim);
+    }
+    .map-placeholder .map-address {
+      font-size: var(--fs-sm);
+      color: var(--clr-text-muted);
+      max-width: 300px;
+      text-align: center;
+    }
+    .map-note {
+      font-size: var(--fs-xs);
+      color: var(--clr-text-dim);
+      font-family: var(--ff-mono);
+      text-align: center;
+      margin-top: var(--sp-3);
+    }
+
+    /* ── Department contact cards ── */
+    .dept-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-5);
+    }
+    @media (max-width: 1024px) { .dept-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px)  { .dept-grid { grid-template-columns: 1fr; } }
+
+    .dept-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-6);
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .dept-card:hover {
+      border-color: var(--clr-primary);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md), var(--shadow-glow);
+    }
+    .dept-icon {
+      width: 56px; height: 56px;
+      margin: 0 auto var(--sp-4);
+      background: rgba(34,197,94,.1);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+    }
+    .dept-title { font-family: var(--ff-display); font-size: var(--fs-lg); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-2); }
+    .dept-desc  { font-size: var(--fs-xs); color: var(--clr-text-muted); line-height: 1.7; margin-bottom: var(--sp-4); min-height: 56px; }
+    .dept-link {
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      color: var(--clr-primary);
+      word-break: break-word;
+    }
+
+    /* ── Two-col responsive override ── */
+    @media (max-width: 900px) {
+      .contact-two-col { grid-template-columns: 1fr; }
+    }
+
+    /* ── Hours block ── */
+    .hours-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--sp-3) 0;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      font-size: var(--fs-sm);
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row__day { color: var(--clr-text-muted); }
+    .hours-row__time { color: var(--clr-white); font-family: var(--ff-mono); font-size: var(--fs-xs); }
+    .hours-row__time.closed { color: var(--clr-text-dim); }
+  </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+<div class="nav-spacer"></div>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero">
+  <div class="container">
+    <p class="page-hero__eyebrow">Get in Touch</p>
+    <h1 class="page-hero__title">Contact <span>Us</span></h1>
+    <p class="page-hero__subtitle">Have a question about training, services, franchise, partnerships, or careers? Our team is here to help — typically responding within 24 hours.</p>
+    <div class="btn-group mt-8">
+      <a id="hero-phone-btn" href="tel:" class="btn btn--primary btn--lg">📞 Call Us</a>
+      <a id="hero-email-btn" href="mailto:" class="btn btn--outline btn--lg">✉ Email Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUICK STATS ── -->
+<div style="background:var(--clr-dark-4); border-top:1px solid var(--clr-border); border-bottom:1px solid var(--clr-border); padding-block:var(--sp-10);">
+  <div class="container">
+    <div class="grid grid--4">
+      <div class="stat-block"><div class="stat-block__number">24 hrs</div><div class="stat-block__label">Response Time</div></div>
+      <div class="stat-block"><div class="stat-block__number">50+</div><div class="stat-block__label">Office Locations</div></div>
+      <div class="stat-block"><div class="stat-block__number">7</div><div class="stat-block__label">Days a Week</div></div>
+      <div class="stat-block"><div class="stat-block__number">5</div><div class="stat-block__label">Languages Supported</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONTACT MAIN ── -->
+<section class="section section--dark">
+  <div class="container">
+    <div class="two-col contact-two-col" style="align-items: flex-start; gap: var(--sp-10);">
+
+      <!-- LEFT: contact info -->
+      <div>
+        <span class="section-label">Reach Us</span>
+        <h2 class="section-title mb-6">Let's <span>Connect</span></h2>
+        <div class="divider"></div>
+
+        <div class="contact-info-grid mt-6">
+          <div class="contact-info-card">
+            <div class="cic-icon">📞</div>
+            <div class="cic-body">
+              <div class="cic-label">Phone</div>
+              <div class="cic-value" id="ci-phone"></div>
+              <div class="cic-sub">Mon–Sat, 9 AM – 6 PM IST</div>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="cic-icon">✉️</div>
+            <div class="cic-body">
+              <div class="cic-label">Email</div>
+              <div class="cic-value" id="ci-email"></div>
+              <div class="cic-sub">We reply within 24 hours</div>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="cic-icon">📍</div>
+            <div class="cic-body">
+              <div class="cic-label">Head Office</div>
+              <div class="cic-value" id="ci-address"></div>
+              <div class="cic-sub">Visit by prior appointment</div>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="cic-icon">🕐</div>
+            <div class="cic-body">
+              <div class="cic-label">Office Hours</div>
+              <div class="hours-list mt-2">
+                <div class="hours-row"><span class="hours-row__day">Monday – Friday</span><span class="hours-row__time">9:00 AM – 6:00 PM</span></div>
+                <div class="hours-row"><span class="hours-row__day">Saturday</span><span class="hours-row__time">10:00 AM – 4:00 PM</span></div>
+                <div class="hours-row"><span class="hours-row__day">Sunday</span><span class="hours-row__time closed">Closed</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="cic-icon">🌐</div>
+            <div class="cic-body">
+              <div class="cic-label">Social Media</div>
+              <div class="cic-value" style="display:flex; flex-wrap:wrap; gap:var(--sp-3); margin-top:var(--sp-2);" id="ci-social"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: contact form -->
+      <div>
+        <span class="section-label">Send a Message</span>
+        <h2 class="section-title mb-6">Write to <span>Us</span></h2>
+        <div class="divider"></div>
+
+        <div class="card mt-6" style="padding: var(--sp-6);">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Your Name *</label>
+              <input class="form-input" type="text" placeholder="Full name"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone *</label>
+              <input class="form-input" type="tel" placeholder="+91 XXXXX XXXXX"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email *</label>
+            <input class="form-input" type="email" placeholder="you@email.com"/>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">City</label>
+              <input class="form-input" type="text" placeholder="Your city"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Subject *</label>
+              <select class="form-select">
+                <option value="">Select subject</option>
+                <option>Training Enquiry</option>
+                <option>Service Booking</option>
+                <option>Franchise Enquiry</option>
+                <option>Sales / Dealership</option>
+                <option>Career / HR</option>
+                <option>Partnership / Tie-up</option>
+                <option>Media / Press</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Message *</label>
+            <textarea class="form-textarea" placeholder="How can we help you? Share as much detail as possible..."></textarea>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:var(--sp-3); margin-bottom:var(--sp-6);">
+            <input type="checkbox" id="agree-contact" style="width:18px; height:18px; accent-color:var(--clr-primary); flex-shrink:0;"/>
+            <label for="agree-contact" style="font-size:var(--fs-sm); color:var(--clr-text-muted); cursor:pointer;">I agree to be contacted by ITI Pro regarding my enquiry.</label>
+          </div>
+
+          <button class="btn btn--primary w-full btn--lg"
+            onclick="alert('Thank you! Your message has been received. Our team will respond within 24 hours.')">
+            Send Message
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── MAP SECTION ── -->
+<section class="section section--dark2">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Visit Us</span>
+      <h2 class="section-title">Find Our <span>Head Office</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Drop by our Hyderabad headquarters by prior appointment. We are easily accessible by metro, bus, and personal vehicle.</p>
+    </div>
+
+    <div class="map-block">
+      <!-- To activate a real map, replace this placeholder with a Google Maps iframe embed -->
+      <div class="map-placeholder">
+        <div class="map-pin">📍</div>
+        <div class="map-label">Map Placeholder</div>
+        <div class="map-address" id="map-address-text">Address loading...</div>
+      </div>
+    </div>
+
+    <p class="map-note">Replace the map placeholder with a Google Maps embed iframe for live navigation.</p>
+  </div>
+</section>
+
+<!-- ── DEPARTMENT CONTACTS ── -->
+<section class="section section--dark3">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Direct Lines</span>
+      <h2 class="section-title">Department <span>Contacts</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Skip the general queue and reach the right team directly.</p>
+    </div>
+    <div class="dept-grid">
+      <div class="dept-card">
+        <div class="dept-icon">🎓</div>
+        <div class="dept-title">Admissions</div>
+        <p class="dept-desc">For training program enrolment, course details, and scholarship enquiries.</p>
+        <a href="mailto:admissions@itipro.in" class="dept-link">admissions@itipro.in</a>
+      </div>
+      <div class="dept-card">
+        <div class="dept-icon">🔧</div>
+        <div class="dept-title">Service</div>
+        <p class="dept-desc">Book a service appointment, check status, or report a complaint.</p>
+        <a href="mailto:service@itipro.in" class="dept-link">service@itipro.in</a>
+      </div>
+      <div class="dept-card">
+        <div class="dept-icon">🏢</div>
+        <div class="dept-title">Franchise</div>
+        <p class="dept-desc">Franchise applications, partner support, and territory enquiries.</p>
+        <a href="mailto:franchise@itipro.in" class="dept-link">franchise@itipro.in</a>
+      </div>
+      <div class="dept-card">
+        <div class="dept-icon">💼</div>
+        <div class="dept-title">HR &amp; Careers</div>
+        <p class="dept-desc">Job applications, recruitment queries, and internship requests.</p>
+        <a href="mailto:hr@itipro.in" class="dept-link">hr@itipro.in</a>
+      </div>
+      <div class="dept-card">
+        <div class="dept-icon">⚡</div>
+        <div class="dept-title">Sales</div>
+        <p class="dept-desc">Product enquiries, dealer applications, and bulk orders.</p>
+        <a href="mailto:sales@itipro.in" class="dept-link">sales@itipro.in</a>
+      </div>
+      <div class="dept-card">
+        <div class="dept-icon">🤝</div>
+        <div class="dept-title">Partnerships</div>
+        <p class="dept-desc">Institutional tie-ups, government collaborations, and MoUs.</p>
+        <a href="mailto:partners@itipro.in" class="dept-link">partners@itipro.in</a>
+      </div>
+      <div class="dept-card">
+        <div class="dept-icon">📣</div>
+        <div class="dept-title">Media &amp; Press</div>
+        <p class="dept-desc">Press releases, interview requests, and media accreditation.</p>
+        <a href="mailto:media@itipro.in" class="dept-link">media@itipro.in</a>
+      </div>
+      <div class="dept-card">
+        <div class="dept-icon">📞</div>
+        <div class="dept-title">General</div>
+        <p class="dept-desc">For anything else — we will route your enquiry to the right team.</p>
+        <a id="ci-general-email" href="mailto:" class="dept-link"></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="section section--dark2">
+  <div class="container container--md">
+    <div class="section-header section-header--center">
+      <span class="section-label">FAQ</span>
+      <h2 class="section-title">Common <span>Questions</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-header">How quickly will I get a response?<span class="accordion-icon">+</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">Most enquiries are responded to within 24 hours on business days. Service booking requests are typically confirmed within 2 hours during office hours. Franchise enquiries receive a callback within 2 working days from the franchise team.</div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header">Do you have offices outside Hyderabad?<span class="accordion-icon">+</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">Yes. While our head office is in Hyderabad, we have 50+ franchise and company-owned centres across 12+ states including Karnataka, Tamil Nadu, Andhra Pradesh, Telangana, Maharashtra, Gujarat, and Delhi NCR. Contact us to find your nearest centre.</div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header">Can I visit the head office without an appointment?<span class="accordion-icon">+</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">We recommend booking an appointment to ensure the right team member is available for you. Walk-ins are welcome during office hours for general enquiries, but specialist meetings (franchise, partnerships, media) require prior scheduling.</div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header">Which languages does your support team speak?<span class="accordion-icon">+</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">Our central support team works in English, Hindi, Telugu, Tamil, and Kannada. Centre-level support in other regional languages is available at the respective franchise locations.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+(function() {
+  if (typeof SITE === 'undefined') return;
+
+  // Hero buttons
+  document.getElementById('hero-phone-btn').setAttribute('href', 'tel:' + SITE.phone);
+  document.getElementById('hero-email-btn').setAttribute('href', 'mailto:' + SITE.email);
+
+  // Contact info cards
+  document.getElementById('ci-phone').innerHTML =
+    '<a href="tel:' + SITE.phone + '">' + SITE.phone + '</a><br>' +
+    '<a href="tel:' + SITE.phoneAlt + '" style="font-size:var(--fs-sm); color:var(--clr-text-muted);">' + SITE.phoneAlt + '</a>';
+  document.getElementById('ci-email').innerHTML =
+    '<a href="mailto:' + SITE.email + '">' + SITE.email + '</a><br>' +
+    '<a href="mailto:' + SITE.emailSupport + '" style="font-size:var(--fs-sm); color:var(--clr-text-muted);">' + SITE.emailSupport + '</a>';
+  document.getElementById('ci-address').textContent = SITE.address;
+  document.getElementById('map-address-text').textContent = SITE.address;
+
+  // Social links
+  var socialWrap = document.getElementById('ci-social');
+  var socialIcons = { facebook: 'f', instagram: '📷', linkedin: 'in', youtube: '▶', twitter: '✕' };
+  Object.keys(SITE.social).forEach(function(key) {
+    var a = document.createElement('a');
+    a.href = SITE.social[key];
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.setAttribute('aria-label', key);
+    a.style.cssText = 'width:36px; height:36px; display:flex; align-items:center; justify-content:center; border:1px solid var(--clr-border); border-radius:var(--r-md); color:var(--clr-text-muted); transition:all var(--transition);';
+    a.textContent = socialIcons[key] || '●';
+    a.addEventListener('mouseenter', function() { this.style.borderColor = 'var(--clr-primary)'; this.style.color = 'var(--clr-primary)'; });
+    a.addEventListener('mouseleave', function() { this.style.borderColor = 'var(--clr-border)';  this.style.color = 'var(--clr-text-muted)'; });
+    socialWrap.appendChild(a);
+  });
+
+  // General email department card
+  var genEmail = document.getElementById('ci-general-email');
+  genEmail.textContent = SITE.email;
+  genEmail.setAttribute('href', 'mailto:' + SITE.email);
+})();
+</script>
+</body>
+</html>

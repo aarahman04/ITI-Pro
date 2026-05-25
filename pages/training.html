@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="page-title" content="Training"/>
+  <meta name="description" content="ITI Pro EV Training Programs — Seminars, Workshops, Internships, Certifications, Placements and more."/>
+  <link rel="stylesheet" href="/assets/css/style.css"/>
+  <style>
+    .program-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all var(--transition);
+      position: relative;
+    }
+    .program-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--clr-primary), transparent);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .program-card:hover { border-color: var(--clr-primary); transform: translateY(-5px); box-shadow: var(--shadow-md), var(--shadow-glow); }
+    .program-card:hover::before { opacity: 1; }
+    .program-card__header { padding: var(--sp-6) var(--sp-6) 0; display: flex; align-items: flex-start; gap: var(--sp-4); }
+    .program-icon {
+      width: 56px; height: 56px;
+      flex-shrink: 0;
+      background: rgba(34,197,94,.1);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      transition: background var(--transition);
+    }
+    .program-card:hover .program-icon { background: rgba(34,197,94,.2); }
+    .program-card__meta { flex: 1; }
+    .program-card__type {
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--clr-primary);
+      margin-bottom: var(--sp-1);
+    }
+    .program-card__title { font-family: var(--ff-display); font-size: var(--fs-xl); font-weight: 700; color: var(--clr-white); line-height: 1.2; }
+    .program-card__body { padding: var(--sp-4) var(--sp-6); flex: 1; }
+    .program-card__desc { font-size: var(--fs-sm); color: var(--clr-text-muted); line-height: 1.75; margin-bottom: var(--sp-4); }
+    .program-card__tags { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+    .program-card__footer {
+      padding: var(--sp-4) var(--sp-6) var(--sp-6);
+      border-top: 1px solid rgba(255,255,255,.04);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-4);
+      flex-wrap: wrap;
+    }
+    .program-card__stat { display: flex; flex-direction: column; }
+    .program-card__stat-val { font-family: var(--ff-display); font-size: var(--fs-xl); font-weight: 700; color: var(--clr-white); line-height: 1; }
+    .program-card__stat-label { font-size: 10px; font-family: var(--ff-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--clr-text-dim); margin-top: 2px; }
+    .program-card__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--clr-primary);
+      transition: gap var(--transition);
+    }
+    .program-card__cta:hover { gap: var(--sp-3); color: var(--clr-primary-lt); }
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-5);
+    }
+    @media (max-width: 1100px) { .programs-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 580px)  { .programs-grid { grid-template-columns: 1fr; } }
+
+    .feature-highlight {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-8);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: var(--sp-6);
+      align-items: flex-start;
+      transition: all var(--transition);
+    }
+    .feature-highlight:hover { border-color: var(--clr-primary); }
+    .fh-icon {
+      width: 64px; height: 64px;
+      background: rgba(34,197,94,.12);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    .fh-title { font-family: var(--ff-display); font-size: var(--fs-xl); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-2); }
+    .fh-text  { font-size: var(--fs-sm); color: var(--clr-text-muted); line-height: 1.75; }
+    @media (max-width: 600px) { .feature-highlight { grid-template-columns: 1fr; } }
+
+    .placement-strip {
+      background: linear-gradient(135deg, rgba(34,197,94,.1) 0%, rgba(34,197,94,.03) 60%, rgba(250,204,21,.04) 100%);
+      border: 1px solid rgba(34,197,94,.2);
+      border-radius: var(--r-xl);
+      padding: var(--sp-10) var(--sp-8);
+    }
+    .placement-logos { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-6); }
+    .placement-logo-item {
+      background: var(--clr-dark-4);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-full);
+      padding: var(--sp-2) var(--sp-5);
+      font-size: var(--fs-sm);
+      font-weight: 600;
+      font-family: var(--ff-display);
+      color: var(--clr-text-dim);
+      transition: all var(--transition);
+    }
+    .placement-logo-item:hover { border-color: var(--clr-primary); color: var(--clr-primary); }
+  </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+<div class="nav-spacer"></div>
+
+<section class="page-hero">
+  <div class="container">
+    <p class="page-hero__eyebrow">Learn · Build · Lead</p>
+    <h1 class="page-hero__title">EV <span>Training</span> Programs</h1>
+    <p class="page-hero__subtitle">Industry-aligned programs designed to create job-ready EV professionals — from complete beginners to master technicians. NSQF-certified, placement-supported, future-proof.</p>
+    <div class="btn-group mt-8">
+      <a href="/pages/contact.html" class="btn btn--primary btn--lg">Enrol Now</a>
+      <a href="#programs" class="btn btn--outline btn--lg">View All Programs</a>
+    </div>
+  </div>
+</section>
+
+<div style="background: var(--clr-dark-4); border-top:1px solid var(--clr-border); border-bottom:1px solid var(--clr-border); padding-block: var(--sp-10);">
+  <div class="container">
+    <div class="grid grid--4">
+      <div class="stat-block"><div class="stat-block__number">30+</div><div class="stat-block__label">Training Programs</div></div>
+      <div class="stat-block"><div class="stat-block__number">5000+</div><div class="stat-block__label">Certified Alumni</div></div>
+      <div class="stat-block"><div class="stat-block__number">200+</div><div class="stat-block__label">Hiring Partners</div></div>
+      <div class="stat-block"><div class="stat-block__number">98%</div><div class="stat-block__label">Placement Rate</div></div>
+    </div>
+  </div>
+</div>
+
+<section class="section section--dark" id="programs">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Programs</span>
+      <h2 class="section-title">All <span>Training Programs</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Eight distinct pathways — from one-day awareness seminars to six-month certification courses. Every program is hands-on, industry-linked, and placement-supported.</p>
+    </div>
+    <div class="programs-grid">
+
+      <div class="program-card">
+        <div class="program-card__header">
+          <div class="program-icon">🎤</div>
+          <div class="program-card__meta">
+            <div class="program-card__type">Awareness</div>
+            <div class="program-card__title">Seminar</div>
+          </div>
+        </div>
+        <div class="program-card__body">
+          <p class="program-card__desc">Expert-led talks covering EV technology trends, government policy updates, market outlook, and real-world case studies. Open to students, educators, and professionals. Perfect entry point into the EV ecosystem.</p>
+          <div class="program-card__tags">
+            <span class="badge badge--primary">1–2 Days</span>
+            <span class="badge badge--dim">Free / Paid</span>
+            <span class="badge badge--dim">Online + Offline</span>
+          </div>
+        </div>
+        <div class="program-card__footer">
+          <div class="program-card__stat">
+            <div class="program-card__stat-val">₹0–999</div>
+            <div class="program-card__stat-label">Fee Range</div>
+          </div>
+          <a href="/pages/contact.html" class="program-card__cta">Register →</a>
+        </div>
+      </div>
+
+      <div class="program-card">
+        <div class="program-card__header">
+          <div class="program-icon">🔩</div>
+          <div class="program-card__meta">
+            <div class="program-card__type">Hands-On</div>
+            <div class="program-card__title">Workshop</div>
+          </div>
+        </div>
+        <div class="program-card__body">
+          <p class="program-card__desc">Intensive practical workshops on BMS design, BLDC motor drives, EV charging infrastructure, CAN bus diagnostics, and EV conversion. Each session uses real components in fully-equipped labs.</p>
+          <div class="program-card__tags">
+            <span class="badge badge--primary">2–5 Days</span>
+            <span class="badge badge--dim">Hands-On</span>
+            <span class="badge badge--accent">Certificate</span>
+          </div>
+        </div>
+        <div class="program-card__footer">
+          <div class="program-card__stat">
+            <div class="program-card__stat-val">₹999–2,999</div>
+            <div class="program-card__stat-label">Fee Range</div>
+          </div>
+          <a href="/pages/contact.html" class="program-card__cta">Enrol →</a>
+        </div>
+      </div>
+
+      <div class="program-card">
+        <div class="program-card__header">
+          <div class="program-icon">🧪</div>
+          <div class="program-card__meta">
+            <div class="program-card__type">Applied</div>
+            <div class="program-card__title">Projects</div>
+          </div>
+        </div>
+        <div class="program-card__body">
+          <p class="program-card__desc">Capstone and live industry projects covering EV conversion of ICE vehicles, custom battery pack design, onboard charger development, and smart BMS prototyping. Mentored by senior engineers.</p>
+          <div class="program-card__tags">
+            <span class="badge badge--primary">4–12 Weeks</span>
+            <span class="badge badge--accent">Industry Linked</span>
+            <span class="badge badge--dim">Mentored</span>
+          </div>
+        </div>
+        <div class="program-card__footer">
+          <div class="program-card__stat">
+            <div class="program-card__stat-val">₹3,000–8,000</div>
+            <div class="program-card__stat-label">Fee Range</div>
+          </div>
+          <a href="/pages/contact.html" class="program-card__cta">Apply →</a>
+        </div>
+      </div>
+
+      <div class="program-card">
+        <div class="program-card__header">
+          <div class="program-icon">🏭</div>
+          <div class="program-card__meta">
+            <div class="program-card__type">Experience</div>
+            <div class="program-card__title">Internship</div>
+          </div>
+        </div>
+        <div class="program-card__body">
+          <p class="program-card__desc">Paid and stipend-based internship placements at partner EV OEMs, component manufacturers, R&D labs, and service networks. Structured monthly review, dedicated mentor, and completion certificate.</p>
+          <div class="program-card__tags">
+            <span class="badge badge--primary">1–6 Months</span>
+            <span class="badge badge--accent">Stipend</span>
+            <span class="badge badge--dim">Industry Partner</span>
+          </div>
+        </div>
+        <div class="program-card__footer">
+          <div class="program-card__stat">
+            <div class="program-card__stat-val">Paid</div>
+            <div class="program-card__stat-label">Stipend Options</div>
+          </div>
+          <a href="/pages/contact.html" class="program-card__cta">Apply →</a>
+        </div>
+      </div>
+
+      <div class="program-card">
+        <div class="program-card__header">
+          <div class="program-icon">🏅</div>
+          <div class="program-card__meta">
+            <div class="program-card__type">Challenge</div>
+            <div class="program-card__title">Competition</div>
+          </div>
+        </div>
+        <div class="program-card__body">
+          <p class="program-card__desc">ITI Pro hosts and co-sponsors annual EV design competitions, national skill challenges, hackathons, and innovation sprints. Open to individuals, college teams, and professional groups. Cash prizes, trophies, and recruitment spotlight.</p>
+          <div class="program-card__tags">
+            <span class="badge badge--accent">Annual</span>
+            <span class="badge badge--dim">Cash Prizes</span>
+            <span class="badge badge--primary">Open to All</span>
+          </div>
+        </div>
+        <div class="program-card__footer">
+          <div class="program-card__stat">
+            <div class="program-card__stat-val">₹50,000+</div>
+            <div class="program-card__stat-label">Prize Pool</div>
+          </div>
+          <a href="/pages/expo.html" class="program-card__cta">See Expo →</a>
+        </div>
+      </div>
+
+      <div class="program-card">
+        <div class="program-card__header">
+          <div class="program-icon">📚</div>
+          <div class="program-card__meta">
+            <div class="program-card__type">Certification</div>
+            <div class="program-card__title">Course</div>
+          </div>
+        </div>
+        <div class="program-card__body">
+          <p class="program-card__desc">Structured certification courses: EV Technician (Level 3), Battery Pack Engineer (Level 4), Charging Infrastructure Installer (Level 3), and EV Service Manager (Level 5). All NSQF-aligned with theory + lab modules.</p>
+          <div class="program-card__tags">
+            <span class="badge badge--primary">1–6 Months</span>
+            <span class="badge badge--accent">NSQF Certified</span>
+            <span class="badge badge--dim">Govt. Recognised</span>
+          </div>
+        </div>
+        <div class="program-card__footer">
+          <div class="program-card__stat">
+            <div class="program-card__stat-val">₹8,000–60,000</div>
+            <div class="program-card__stat-label">Fee Range</div>
+          </div>
+          <a href="/pages/contact.html" class="program-card__cta">Enrol →</a>
+        </div>
+      </div>
+
+      <div class="program-card">
+        <div class="program-card__header">
+          <div class="program-icon">🏗️</div>
+          <div class="program-card__meta">
+            <div class="program-card__type">Site Experience</div>
+            <div class="program-card__title">Industrial Visit</div>
+          </div>
+        </div>
+        <div class="program-card__body">
+          <p class="program-card__desc">Organised visits to EV manufacturing plants, battery cell factories, charging infra providers, and R&D centres. Pre-visit briefing, guided factory tour, expert Q&A session, and post-visit report assignment included.</p>
+          <div class="program-card__tags">
+            <span class="badge badge--dim">1–2 Days</span>
+            <span class="badge badge--primary">Monthly</span>
+            <span class="badge badge--dim">Group (10–30)</span>
+          </div>
+        </div>
+        <div class="program-card__footer">
+          <div class="program-card__stat">
+            <div class="program-card__stat-val">₹500–1,500</div>
+            <div class="program-card__stat-label">Per Person</div>
+          </div>
+          <a href="/pages/contact.html" class="program-card__cta">Book Slot →</a>
+        </div>
+      </div>
+
+      <div class="program-card">
+        <div class="program-card__header">
+          <div class="program-icon">🎓</div>
+          <div class="program-card__meta">
+            <div class="program-card__type">Career</div>
+            <div class="program-card__title">Placements</div>
+          </div>
+        </div>
+        <div class="program-card__body">
+          <p class="program-card__desc">Dedicated placement cell with 200+ hiring partner companies across OEMs, component makers, service centres, and EV startups. Regular on-campus drives, pre-placement training, resume workshops, and mock interviews.</p>
+          <div class="program-card__tags">
+            <span class="badge badge--accent">98% Rate</span>
+            <span class="badge badge--primary">200+ Partners</span>
+            <span class="badge badge--dim">Free for Alumni</span>
+          </div>
+        </div>
+        <div class="program-card__footer">
+          <div class="program-card__stat">
+            <div class="program-card__stat-val">₹2L–8L</div>
+            <div class="program-card__stat-label">Avg. CTC Range</div>
+          </div>
+          <a href="/pages/career.html" class="program-card__cta">View Jobs →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark2">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Why ITI Pro</span>
+      <h2 class="section-title">What Makes Our Training <span>Different</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap: var(--sp-5);">
+      <div class="feature-highlight">
+        <div class="fh-icon">🔬</div>
+        <div>
+          <div class="fh-title">Industry-Grade Labs &amp; Live Vehicles</div>
+          <p class="fh-text">Every ITI Pro centre is equipped with real EV components — actual battery packs, BLDC motors, controllers, BMS units, and live two-wheelers and three-wheelers for diagnostic practice. Learners never work on simulations when they can work on the real thing.</p>
+        </div>
+      </div>
+      <div class="feature-highlight">
+        <div class="fh-icon">🤝</div>
+        <div>
+          <div class="fh-title">OEM-Partnered Curriculum</div>
+          <p class="fh-text">Our training modules are co-developed with Hero Electric, Ola Electric, Ampere, Ather Energy, and other leading OEMs. This ensures our graduates are trained to the exact standards required by the companies they'll work for — no translation needed.</p>
+        </div>
+      </div>
+      <div class="feature-highlight">
+        <div class="fh-icon">🎯</div>
+        <div>
+          <div class="fh-title">Placement-First Philosophy</div>
+          <p class="fh-text">We don't consider a learner's journey complete until they are employed, self-employed, or launched on a clear entrepreneurship path. Every course ends with placement readiness modules, and our dedicated placement cell works year-round on 200+ active hiring relationships.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark3">
+  <div class="container">
+    <div class="placement-strip">
+      <div class="two-col" style="align-items:center; gap: var(--sp-10);">
+        <div>
+          <span class="section-label">Placements</span>
+          <h2 class="section-title">200+ <span>Hiring Partners</span></h2>
+          <div class="divider"></div>
+          <p class="text-muted mb-6">Our placement cell maintains active relationships with India's top EV companies, fleet operators, and component manufacturers. Graduates from our certified programs are pre-screened and campus-recruited before course completion.</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-4);">
+            <div class="stat-block" style="text-align:left;">
+              <div class="stat-block__number">98%</div>
+              <div class="stat-block__label">Placement Rate</div>
+            </div>
+            <div class="stat-block" style="text-align:left;">
+              <div class="stat-block__number">₹2L–8L</div>
+              <div class="stat-block__label">Avg. First CTC</div>
+            </div>
+            <div class="stat-block" style="text-align:left;">
+              <div class="stat-block__number">45</div>
+              <div class="stat-block__label">Avg. Days to Offer</div>
+            </div>
+            <div class="stat-block" style="text-align:left;">
+              <div class="stat-block__number">200+</div>
+              <div class="stat-block__label">Hiring Partners</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p style="font-family:var(--ff-mono); font-size:var(--fs-xs); text-transform:uppercase; letter-spacing:.12em; color:var(--clr-text-dim); margin-bottom:var(--sp-5);">Where Our Alumni Work</p>
+          <div class="placement-logos">
+            <div class="placement-logo-item">Hero Electric</div>
+            <div class="placement-logo-item">Ola Electric</div>
+            <div class="placement-logo-item">Ather Energy</div>
+            <div class="placement-logo-item">Ampere / Greaves</div>
+            <div class="placement-logo-item">Revolt Motors</div>
+            <div class="placement-logo-item">Okinawa EV</div>
+            <div class="placement-logo-item">Log9 Materials</div>
+            <div class="placement-logo-item">Exponent Energy</div>
+            <div class="placement-logo-item">Euler Motors</div>
+            <div class="placement-logo-item">Altigreen</div>
+            <div class="placement-logo-item">Mahindra Electric</div>
+            <div class="placement-logo-item">Tata Motors EV</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark2">
+  <div class="container container--md">
+    <div class="section-header section-header--center">
+      <span class="section-label">FAQ</span>
+      <h2 class="section-title">Common <span>Questions</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-header">Who can enrol in ITI Pro training programs?<span class="accordion-icon">+</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">Anyone with a minimum 10th/12th pass qualification can enrol in basic-level programs. ITI graduates, diploma holders, and B.Tech / B.E. students can enrol in advanced certifications. We also offer dedicated tracks for experienced auto mechanics and ICE technicians transitioning to EV.</div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header">Are ITI Pro certificates recognised by the government?<span class="accordion-icon">+</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">Yes. Our programs are aligned with the National Skills Qualifications Framework (NSQF) and are affiliated with NSDC. Several programs carry AICTE, MSME, and State Skill Mission certifications. Certificates are accepted by all our 200+ hiring partners as proof of qualification.</div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header">What is the fee structure and are there scholarships?<span class="accordion-icon">+</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">Programs range from free/low-cost seminars (₹0–999) to 6-month certification courses (₹8,000–60,000). EMI options (0% interest, 3–6 months) are available for all programmes above ₹10,000. SC/ST/OBC and girl-student scholarships are available through our government tie-ups. Contact our admissions team for current scholarship availability in your state.</div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header">Is placement guaranteed after completing a course?<span class="accordion-icon">+</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">We maintain a 98% placement rate for graduates of our 3-month and above certificate programs. While individual outcomes depend on performance, every graduate receives placement support — including resume review, mock interviews, referrals to hiring partners, and access to our bi-monthly campus recruitment drives until placed.</div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header">Can institutions affiliate with ITI Pro to offer these programs?<span class="accordion-icon">+</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">Yes. Schools, polytechnics, ITI colleges, and engineering institutions can partner with ITI Pro to offer our certified curriculum on their campus. We provide the content, trainer certification, equipment checklist, and branding. Contact our franchise/partnership team for affiliation pricing and timelines.</div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header">Are programs available online?<span class="accordion-icon">+</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">Seminar and theory modules of certification courses are available online via our learning portal. However, hands-on lab sessions, workshop programs, and industrial visits require physical attendance at an ITI Pro centre or affiliated venue. Hybrid models (online theory + local lab access) are available in cities with partner institutions.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark3">
+  <div class="container container--md">
+    <div class="highlight-box text-center">
+      <span class="section-label">Take the First Step</span>
+      <h2 class="section-title mt-4">Ready to <span>Start Your EV Career?</span></h2>
+      <p style="color:var(--clr-text-muted); font-size:var(--fs-md); max-width:520px; margin-inline:auto; margin-block:var(--sp-5) var(--sp-8);">Talk to our admissions team today. We'll help you find the right program for your background, goals, and budget — and connect you with the EV industry.</p>
+      <div class="btn-group" style="justify-content:center;">
+        <a href="/pages/contact.html" class="btn btn--primary btn--lg">Contact Admissions</a>
+        <a href="/pages/career.html" class="btn btn--outline btn--lg">View Job Openings</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>

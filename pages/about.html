@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="page-title" content="About Us"/>
+  <meta name="description" content="Learn about ITI Pro — India's premier EV training, service and franchise organisation."/>
+  <link rel="stylesheet" href="/assets/css/style.css"/>
+  <style>
+    .mvv-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--sp-5); }
+    .mvv-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-8) var(--sp-6);
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .mvv-card:hover { border-color: var(--clr-primary); transform: translateY(-4px); box-shadow: var(--shadow-md), var(--shadow-glow); }
+    .mvv-icon { font-size: 3rem; margin-bottom: var(--sp-5); display: block; }
+    .mvv-title { font-family: var(--ff-display); font-size: var(--fs-2xl); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-4); }
+    .mvv-text { font-size: var(--fs-sm); color: var(--clr-text-muted); line-height: 1.8; }
+    .values-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--sp-5); }
+    .value-card {
+      background: var(--clr-dark-4);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-5);
+      display: flex;
+      gap: var(--sp-4);
+      transition: all var(--transition);
+    }
+    .value-card:hover { border-color: var(--clr-primary); }
+    .value-icon {
+      width: 48px; height: 48px;
+      flex-shrink: 0;
+      background: rgba(34,197,94,.1);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+    .value-title { font-family: var(--ff-display); font-size: var(--fs-lg); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-1); }
+    .value-text  { font-size: var(--fs-sm); color: var(--clr-text-muted); line-height: 1.7; }
+    .leadership-strip {
+      background: linear-gradient(135deg, rgba(34,197,94,.08) 0%, transparent 60%);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-10) var(--sp-8);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: var(--sp-8);
+      align-items: center;
+    }
+    .patron-avatar {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      background: var(--clr-dark-4);
+      border: 2px solid var(--clr-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      flex-shrink: 0;
+    }
+    .patron-quote { font-size: var(--fs-md); color: var(--clr-text-muted); font-style: italic; line-height: 1.8; margin-bottom: var(--sp-4); }
+    .patron-name  { font-family: var(--ff-display); font-size: var(--fs-xl); font-weight: 700; color: var(--clr-white); }
+    .patron-role  { font-family: var(--ff-mono); font-size: var(--fs-xs); color: var(--clr-primary); text-transform: uppercase; letter-spacing: .1em; }
+    .partner-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--sp-4); }
+    .partner-item {
+      background: var(--clr-dark-4);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      padding: var(--sp-4) var(--sp-3);
+      text-align: center;
+      font-family: var(--ff-display);
+      font-size: var(--fs-base);
+      font-weight: 600;
+      color: var(--clr-text-dim);
+      transition: all var(--transition);
+    }
+    .partner-item:hover { border-color: var(--clr-primary); color: var(--clr-primary); }
+    @media (max-width: 900px) {
+      .mvv-grid { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+      .leadership-strip { grid-template-columns: 1fr; text-align: center; }
+      .patron-avatar { margin-inline: auto; }
+      .partner-grid { grid-template-columns: repeat(2,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+<div class="nav-spacer"></div>
+
+<section class="page-hero">
+  <div class="container">
+    <p class="page-hero__eyebrow">Our Story</p>
+    <h1 class="page-hero__title">About <span>ITI Pro</span></h1>
+    <p class="page-hero__subtitle">A decade of empowering India's electric vehicle ecosystem through world-class training, service, and purposeful innovation.</p>
+    <div class="btn-group mt-8">
+      <a href="/pages/team.html" class="btn btn--primary">Meet Our Team</a>
+      <a href="/pages/contact.html" class="btn btn--outline">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Foundations</span>
+      <h2 class="section-title">Mission · Vision · <span>Values</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="mvv-grid">
+      <div class="mvv-card">
+        <span class="mvv-icon">🎯</span>
+        <div class="mvv-title">Our Mission</div>
+        <p class="mvv-text">To build a skilled, certified EV workforce across India by delivering accessible, industry-relevant training and infrastructure — accelerating the nation's clean mobility transition and creating sustainable livelihoods for millions.</p>
+      </div>
+      <div class="mvv-card">
+        <span class="mvv-icon">🔭</span>
+        <div class="mvv-title">Our Vision</div>
+        <p class="mvv-text">To be India's number-one integrated EV organisation — connecting learners, technicians, entrepreneurs, and enterprises in a single powerful ecosystem — and to position India as the global leader in EV skilled workforce by 2030.</p>
+      </div>
+      <div class="mvv-card">
+        <span class="mvv-icon">🌟</span>
+        <div class="mvv-title">Our Purpose</div>
+        <p class="mvv-text">We believe clean mobility is not a privilege — it's a right. Every course we deliver, every technician we certify, and every franchise we launch is a step towards making India's EV future faster, fairer, and more inclusive.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark2">
+  <div class="container">
+    <div class="two-col">
+      <div>
+        <span class="section-label">Our Journey</span>
+        <h2 class="section-title">Built on <span>Purpose</span></h2>
+        <div class="divider"></div>
+        <p class="text-muted mb-6">ITI Pro was founded with a single conviction: India's EV revolution needed not just vehicles, but a skilled workforce to maintain, repair, and drive adoption of those vehicles across every city and town.</p>
+        <p class="text-muted mb-6">Starting from a single training centre in Hyderabad with a team of five engineers, we grew into a national organisation with franchise hubs, service networks, and a thriving community of over 5,000 alumni.</p>
+        <p class="text-muted mb-8">Our programs are co-designed with leading OEMs, government skill bodies, and industry leaders — ensuring the certificates we award unlock real jobs, real businesses, and real futures.</p>
+        <div class="btn-group">
+          <a href="/pages/franchise.html" class="btn btn--primary">Open a Franchise</a>
+          <a href="/pages/training.html" class="btn btn--outline">Explore Training</a>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">2013</div>
+          <div class="timeline-title">Founded in Hyderabad</div>
+          <p class="timeline-text">ITI Pro began as a 5-person team running EV awareness workshops and basic repair training for local ITI graduates.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2015</div>
+          <div class="timeline-title">First Certification Program</div>
+          <p class="timeline-text">Launched our flagship EV Technician Certification — the first of its kind in Telangana, with 200 enrolments in Year 1.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2017</div>
+          <div class="timeline-title">Franchise Model Launched</div>
+          <p class="timeline-text">Expanded to Bengaluru and Pune with our franchise model, empowering local partners to run ITI Pro-branded centres.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2019</div>
+          <div class="timeline-title">NSDC Government Partnership</div>
+          <p class="timeline-text">Signed MoUs with NSDC and State Skill Missions for officially recognised EV certifications across 4 states.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2022</div>
+          <div class="timeline-title">5,000+ Trained Milestone</div>
+          <p class="timeline-text">Crossed 5,000 certified EV professionals. Expanded to 12 states with 50+ active franchise and company-owned centres.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2024</div>
+          <div class="timeline-title">National EV Expo Launch</div>
+          <p class="timeline-text">Launched ITI Pro EV Expo — India's fastest-growing EV industry event, drawing 200+ brands and 10,000+ visitors.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark3">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">What Drives Us</span>
+      <h2 class="section-title">Core <span>Values</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">These principles guide every decision we make, every program we build, and every relationship we form.</p>
+    </div>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon">🔬</div>
+        <div>
+          <div class="value-title">Innovation</div>
+          <p class="value-text">We continuously evolve our curriculum, tools, and delivery methods to stay ahead of the fast-moving EV industry. Complacency is not in our vocabulary.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🤝</div>
+        <div>
+          <div class="value-title">Integrity</div>
+          <p class="value-text">Transparent operations, honest certifications, fair pricing, and trustworthy service. We do what we say we'll do — every time.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🌐</div>
+        <div>
+          <div class="value-title">Inclusivity</div>
+          <p class="value-text">EV education must reach every learner — ITI graduates, polytechnic students, rural mechanics, and urban youth alike. We design for access, not exclusivity.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">📈</div>
+        <div>
+          <div class="value-title">Impact</div>
+          <p class="value-text">Every course delivered, every job placed, and every franchise launched is measured by real-world impact — not just enrolment numbers.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🔗</div>
+        <div>
+          <div class="value-title">Collaboration</div>
+          <p class="value-text">We believe the EV ecosystem thrives through partnership — with OEMs, institutions, government bodies, and community stakeholders working as one.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🎖️</div>
+        <div>
+          <div class="value-title">Excellence</div>
+          <p class="value-text">From classroom design to trainer quality to service delivery — we hold every element of the ITI Pro experience to the highest standard.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark2">
+  <div class="container container--md">
+    <div class="leadership-strip">
+      <div class="patron-avatar">👨‍💼</div>
+      <div>
+        <p class="patron-quote">"India's EV transition isn't just about vehicles — it's about people. Every technician we train, every centre we open, and every partnership we build is a brick in the foundation of a cleaner, smarter, more prosperous India. At ITI Pro, we're not waiting for the future. We're building it."</p>
+        <div class="patron-name" id="patron-name">Dr. Ramesh Kumar</div>
+        <div class="patron-role">Chief Patron · ITI Pro</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--sm" style="background:var(--clr-dark-4); border-top:1px solid var(--clr-border); border-bottom:1px solid var(--clr-border);">
+  <div class="container">
+    <div class="grid grid--4">
+      <div class="stat-block"><div class="stat-block__number">10+</div><div class="stat-block__label">Years Experience</div></div>
+      <div class="stat-block"><div class="stat-block__number">50+</div><div class="stat-block__label">Centres Nationwide</div></div>
+      <div class="stat-block"><div class="stat-block__number">5000+</div><div class="stat-block__label">Certified Professionals</div></div>
+      <div class="stat-block"><div class="stat-block__number">30+</div><div class="stat-block__label">Industry Partners</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark3">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Ecosystem</span>
+      <h2 class="section-title">Our <span>Partners</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">We work with leading EV brands, government bodies, and educational institutions to deliver real-world impact.</p>
+    </div>
+    <div class="partner-grid">
+      <div class="partner-item">Hero Electric</div>
+      <div class="partner-item">Ola Electric</div>
+      <div class="partner-item">Ather Energy</div>
+      <div class="partner-item">Ampere / Greaves</div>
+      <div class="partner-item">NSDC India</div>
+      <div class="partner-item">APSSDC</div>
+      <div class="partner-item">Telangana Skill</div>
+      <div class="partner-item">Karnataka SUDA</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark2">
+  <div class="container container--md">
+    <div class="highlight-box text-center">
+      <span class="section-label">Join ITI Pro</span>
+      <h2 class="section-title mt-4">Be Part of the <span>Story</span></h2>
+      <p style="color:var(--clr-text-muted); font-size:var(--fs-md); max-width:480px; margin-inline:auto; margin-block:var(--sp-4) var(--sp-8);">As a student, trainer, franchise partner, or industry collaborator — there's a place for you in the ITI Pro ecosystem.</p>
+      <div class="btn-group" style="justify-content:center;">
+        <a href="/pages/training.html" class="btn btn--primary btn--lg">Start Training</a>
+        <a href="/pages/franchise.html" class="btn btn--outline btn--lg">Franchise</a>
+        <a href="/pages/career.html" class="btn btn--ghost btn--lg">Careers</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+  const patronEl = document.getElementById('patron-name');
+  if (patronEl && SITE.team && SITE.team.length) {
+    const patron = SITE.team.find(m => m.role.toLowerCase().includes('patron'));
+    if (patron) patronEl.textContent = patron.name;
+  }
+</script>
+</body>
+</html>

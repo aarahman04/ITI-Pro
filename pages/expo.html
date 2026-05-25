@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="page-title" content="EV Expo"/>
+  <meta name="description" content="ITI Pro EV Expo — India's fastest-growing electric vehicle industry event. Brands, technology, careers, and innovation under one roof."/>
+  <link rel="stylesheet" href="/assets/css/style.css"/>
+  <style>
+
+    /* ── Expo hero special ── */
+    .expo-hero {
+      position: relative;
+      overflow: hidden;
+    }
+    .expo-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(250,204,21,.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .expo-date-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-3);
+      background: rgba(34,197,94,.1);
+      border: 1px solid var(--clr-primary);
+      border-radius: var(--r-md);
+      padding: var(--sp-3) var(--sp-5);
+      margin-bottom: var(--sp-6);
+    }
+    .edb-icon { font-size: 1.5rem; }
+    .edb-text { font-family: var(--ff-mono); font-size: var(--fs-sm); color: var(--clr-primary); font-weight: 700; letter-spacing: .05em; }
+    .edb-text small { display: block; font-size: 10px; color: var(--clr-text-muted); font-weight: 400; text-transform: uppercase; letter-spacing: .12em; margin-top: 2px; }
+
+    /* ── Countdown ── */
+    .countdown {
+      display: flex;
+      gap: var(--sp-3);
+      margin-top: var(--sp-6);
+      flex-wrap: wrap;
+    }
+    .countdown-box {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      padding: var(--sp-4) var(--sp-5);
+      text-align: center;
+      min-width: 80px;
+    }
+    .cb-num {
+      font-family: var(--ff-display);
+      font-size: var(--fs-3xl);
+      font-weight: 700;
+      color: var(--clr-primary);
+      line-height: 1;
+    }
+    .cb-label {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--clr-text-dim);
+      margin-top: var(--sp-2);
+    }
+
+    /* ── Highlights grid ── */
+    .highlights-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-5);
+    }
+    @media (max-width: 1024px) { .highlights-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px)  { .highlights-grid { grid-template-columns: 1fr; } }
+
+    .highlight-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-6);
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .highlight-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--clr-primary), transparent);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .highlight-card:hover { border-color: var(--clr-primary); transform: translateY(-4px); box-shadow: var(--shadow-md), var(--shadow-glow); }
+    .highlight-card:hover::before { opacity: 1; }
+    .hc-icon {
+      width: 56px; height: 56px;
+      background: rgba(34,197,94,.1);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: var(--sp-4);
+    }
+    .hc-num { font-family: var(--ff-display); font-size: var(--fs-2xl); font-weight: 700; color: var(--clr-white); line-height: 1; margin-bottom: var(--sp-2); }
+    .hc-title { font-family: var(--ff-display); font-size: var(--fs-lg); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-2); }
+    .hc-text { font-size: var(--fs-sm); color: var(--clr-text-muted); line-height: 1.7; }
+
+    /* ── Schedule day tabs ── */
+    .day-tabs {
+      display: flex;
+      gap: var(--sp-2);
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: var(--sp-8);
+    }
+    .day-tab {
+      padding: var(--sp-3) var(--sp-6);
+      border-radius: var(--r-md);
+      border: 1px solid var(--clr-border);
+      background: transparent;
+      color: var(--clr-text-muted);
+      font-family: var(--ff-display);
+      font-size: var(--fs-base);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      min-width: 120px;
+    }
+    .day-tab small {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--clr-text-dim);
+      font-weight: 400;
+    }
+    .day-tab.active small { color: rgba(0,0,0,.7); }
+    .day-tab:hover, .day-tab.active {
+      background: var(--clr-primary);
+      color: var(--clr-dark);
+      border-color: var(--clr-primary);
+    }
+
+    /* ── Schedule rows ── */
+    .schedule-list { display: flex; flex-direction: column; gap: var(--sp-3); }
+    .schedule-day { display: none; }
+    .schedule-day.active { display: flex; flex-direction: column; gap: var(--sp-3); }
+    .schedule-row {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-5) var(--sp-6);
+      display: grid;
+      grid-template-columns: 140px 1fr auto;
+      gap: var(--sp-5);
+      align-items: center;
+      transition: all var(--transition);
+    }
+    .schedule-row:hover { border-color: var(--clr-primary); transform: translateX(4px); }
+    .schedule-row.keynote { border-color: rgba(250,204,21,.3); background: linear-gradient(90deg, rgba(250,204,21,.05), var(--clr-dark-3) 40%); }
+    .sr-time {
+      font-family: var(--ff-mono);
+      font-size: var(--fs-sm);
+      color: var(--clr-primary);
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .sr-time small { display: block; font-size: 10px; color: var(--clr-text-dim); font-weight: 400; margin-top: 2px; }
+    .sr-main { display: flex; flex-direction: column; gap: var(--sp-1); }
+    .sr-title { font-family: var(--ff-display); font-size: var(--fs-lg); font-weight: 700; color: var(--clr-white); line-height: 1.3; }
+    .sr-speaker { font-size: var(--fs-xs); color: var(--clr-text-muted); }
+    .sr-speaker strong { color: var(--clr-text); }
+    .sr-loc {
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      color: var(--clr-text-dim);
+      text-align: right;
+      white-space: nowrap;
+    }
+    @media (max-width: 760px) {
+      .schedule-row { grid-template-columns: 1fr; gap: var(--sp-3); }
+      .schedule-row:hover { transform: none; }
+      .sr-loc { text-align: left; }
+    }
+
+    /* ── Speakers grid ── */
+    .speakers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-5);
+    }
+    @media (max-width: 1024px) { .speakers-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 768px)  { .speakers-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px)  { .speakers-grid { grid-template-columns: 1fr; } }
+
+    .speaker-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-5);
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .speaker-card:hover { border-color: var(--clr-primary); transform: translateY(-3px); }
+    .sc-avatar {
+      width: 80px; height: 80px;
+      margin: 0 auto var(--sp-4);
+      border-radius: 50%;
+      background: var(--clr-dark-4);
+      border: 2px solid var(--clr-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ff-display);
+      font-weight: 700;
+      color: var(--clr-primary);
+      font-size: var(--fs-xl);
+    }
+    .sc-name { font-family: var(--ff-display); font-size: var(--fs-base); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-1); line-height: 1.3; }
+    .sc-role { font-size: var(--fs-xs); color: var(--clr-text-dim); font-family: var(--ff-mono); margin-bottom: var(--sp-3); }
+    .sc-org  { font-size: var(--fs-xs); color: var(--clr-primary); font-family: var(--ff-mono); }
+
+    /* ── Sponsor tiers ── */
+    .sponsor-tier {
+      margin-bottom: var(--sp-8);
+    }
+    .sponsor-tier-label {
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--clr-primary);
+      text-align: center;
+      margin-bottom: var(--sp-5);
+      position: relative;
+    }
+    .sponsor-tier-label::before, .sponsor-tier-label::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--clr-border));
+    }
+    .sponsor-tier-label::before { right: calc(50% + 100px); background: linear-gradient(90deg, transparent, var(--clr-border)); }
+    .sponsor-tier-label::after  { left:  calc(50% + 100px); background: linear-gradient(-90deg, transparent, var(--clr-border)); }
+    .sponsor-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--sp-4);
+    }
+    .sponsor-pill {
+      background: var(--clr-dark-4);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      padding: var(--sp-3) var(--sp-6);
+      font-family: var(--ff-display);
+      font-weight: 600;
+      color: var(--clr-text-dim);
+      transition: all var(--transition);
+    }
+    .sponsor-pill.title { font-size: var(--fs-lg); padding: var(--sp-4) var(--sp-8); }
+    .sponsor-pill:hover { border-color: var(--clr-primary); color: var(--clr-primary); }
+
+    /* ── Past editions ── */
+    .past-editions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-5);
+    }
+    @media (max-width: 900px) { .past-editions { grid-template-columns: 1fr; } }
+    .past-edition {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-6);
+      transition: all var(--transition);
+    }
+    .past-edition:hover { border-color: var(--clr-primary); }
+    .pe-year {
+      font-family: var(--ff-display);
+      font-size: var(--fs-3xl);
+      font-weight: 700;
+      color: var(--clr-primary);
+      line-height: 1;
+      margin-bottom: var(--sp-3);
+    }
+    .pe-title { font-family: var(--ff-display); font-size: var(--fs-lg); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-2); }
+    .pe-meta {
+      font-size: var(--fs-xs);
+      color: var(--clr-text-dim);
+      font-family: var(--ff-mono);
+      margin-bottom: var(--sp-4);
+    }
+    .pe-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-2);
+      padding-top: var(--sp-4);
+      border-top: 1px solid var(--clr-border);
+    }
+    .pe-stat-num {
+      font-family: var(--ff-display);
+      font-size: var(--fs-md);
+      font-weight: 700;
+      color: var(--clr-white);
+    }
+    .pe-stat-label { font-size: 10px; color: var(--clr-text-dim); font-family: var(--ff-mono); text-transform: uppercase; letter-spacing: .08em; }
+  </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+<div class="nav-spacer"></div>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero expo-hero">
+  <div class="container">
+    <p class="page-hero__eyebrow">ITI Pro Annual Expo</p>
+    <div class="expo-date-badge">
+      <span class="edb-icon">📅</span>
+      <div class="edb-text">14–16 August 2025<small>Pragati Maidan · New Delhi</small></div>
+    </div>
+    <h1 class="page-hero__title">India's Premier <span>EV Industry Expo</span></h1>
+    <p class="page-hero__subtitle">Three days. 200+ brands. 50+ speakers. 10,000+ visitors. The most important EV industry event of the year — where manufacturers, technicians, policymakers, and learners converge.</p>
+    <div class="btn-group mt-8">
+      <a href="#register" class="btn btn--primary btn--lg">Register Now</a>
+      <a href="#schedule" class="btn btn--outline btn--lg">View Schedule</a>
+    </div>
+
+    <!-- Countdown -->
+    <div class="countdown">
+      <div class="countdown-box"><div class="cb-num">85</div><div class="cb-label">Days</div></div>
+      <div class="countdown-box"><div class="cb-num">12</div><div class="cb-label">Hours</div></div>
+      <div class="countdown-box"><div class="cb-num">34</div><div class="cb-label">Mins</div></div>
+      <div class="countdown-box"><div class="cb-num">21</div><div class="cb-label">Secs</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUICK STATS ── -->
+<div style="background:var(--clr-dark-4); border-top:1px solid var(--clr-border); border-bottom:1px solid var(--clr-border); padding-block:var(--sp-10);">
+  <div class="container">
+    <div class="grid grid--4">
+      <div class="stat-block"><div class="stat-block__number">200+</div><div class="stat-block__label">Exhibiting Brands</div></div>
+      <div class="stat-block"><div class="stat-block__number">50+</div><div class="stat-block__label">Industry Speakers</div></div>
+      <div class="stat-block"><div class="stat-block__number">10K+</div><div class="stat-block__label">Expected Visitors</div></div>
+      <div class="stat-block"><div class="stat-block__number">3 Days</div><div class="stat-block__label">Of Programming</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── EVENT HIGHLIGHTS ── -->
+<section class="section section--dark">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">What to Expect</span>
+      <h2 class="section-title">Event <span>Highlights</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Three days packed with product launches, technical talks, career fairs, hands-on workshops, and the biggest EV networking opportunity in India.</p>
+    </div>
+    <div class="highlights-grid">
+      <div class="highlight-card">
+        <div class="hc-icon">🚗</div>
+        <div class="hc-num">200+</div>
+        <div class="hc-title">Product Showcase</div>
+        <p class="hc-text">India's largest EV product showcase — vehicles, batteries, components, charging infrastructure, and emerging tech all under one roof.</p>
+      </div>
+      <div class="highlight-card">
+        <div class="hc-icon">🎤</div>
+        <div class="hc-num">50+</div>
+        <div class="hc-title">Industry Talks</div>
+        <p class="hc-text">Keynotes and panels with EV OEM CEOs, government policymakers, investors, and the brightest minds in clean mobility.</p>
+      </div>
+      <div class="highlight-card">
+        <div class="hc-icon">🛠️</div>
+        <div class="hc-num">20+</div>
+        <div class="hc-title">Live Workshops</div>
+        <p class="hc-text">Hands-on workshops on battery design, motor diagnostics, charging installation, and EV conversion — taught by ITI Pro trainers.</p>
+      </div>
+      <div class="highlight-card">
+        <div class="hc-icon">💼</div>
+        <div class="hc-num">100+</div>
+        <div class="hc-title">Career Fair</div>
+        <p class="hc-text">100+ EV companies hiring on-site. Walk in with your resume, walk out with an interview — or even an offer letter.</p>
+      </div>
+      <div class="highlight-card">
+        <div class="hc-icon">🏆</div>
+        <div class="hc-num">₹10L+</div>
+        <div class="hc-title">Skill Competition</div>
+        <p class="hc-text">National EV Skill Competition finals — cash prizes worth ₹10+ Lakhs across diagnostics, design, and innovation categories.</p>
+      </div>
+      <div class="highlight-card">
+        <div class="hc-icon">🚀</div>
+        <div class="hc-num">50+</div>
+        <div class="hc-title">Startup Pavilion</div>
+        <p class="hc-text">Curated pavilion for India's most promising EV startups. Meet founders, see prototypes, and explore partnership opportunities.</p>
+      </div>
+      <div class="highlight-card">
+        <div class="hc-icon">🤝</div>
+        <div class="hc-num">∞</div>
+        <div class="hc-title">Networking</div>
+        <p class="hc-text">Dedicated networking lounges, evening mixers, and curated B2B meetings. The industry comes to one place once a year.</p>
+      </div>
+      <div class="highlight-card">
+        <div class="hc-icon">🎉</div>
+        <div class="hc-num">3</div>
+        <div class="hc-title">Cultural Evenings</div>
+        <p class="hc-text">Live music, food festival, and celebratory awards nights — because the EV industry needs to celebrate too.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SCHEDULE ── -->
+<section class="section section--dark2" id="schedule">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">3-Day Programme</span>
+      <h2 class="section-title">Expo <span>Schedule</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">A carefully curated programme across three days. Switch between days to see the full schedule.</p>
+    </div>
+
+    <!-- Day tabs -->
+    <div class="day-tabs">
+      <button class="day-tab active" data-day="1">Day 1<small>14 Aug · Thu</small></button>
+      <button class="day-tab"        data-day="2">Day 2<small>15 Aug · Fri</small></button>
+      <button class="day-tab"        data-day="3">Day 3<small>16 Aug · Sat</small></button>
+    </div>
+
+    <!-- Day 1 -->
+    <div class="schedule-day active" data-day="1">
+      <div class="schedule-row">
+        <div class="sr-time">9:00 AM<small>Registration</small></div>
+        <div class="sr-main">
+          <div class="sr-title">Gates Open · Registration &amp; Welcome Kit Pickup</div>
+          <div class="sr-speaker">Main entrance · Pragati Maidan</div>
+        </div>
+        <div class="sr-loc">📍 Hall A</div>
+      </div>
+      <div class="schedule-row keynote">
+        <div class="sr-time">10:00 AM<small>Keynote</small></div>
+        <div class="sr-main">
+          <div class="sr-title">Opening Keynote: India's EV Roadmap 2030</div>
+          <div class="sr-speaker"><strong>Hon'ble Minister</strong> · Ministry of Heavy Industries</div>
+        </div>
+        <div class="sr-loc">📍 Main Stage</div>
+      </div>
+      <div class="schedule-row">
+        <div class="sr-time">11:30 AM<small>Panel</small></div>
+        <div class="sr-main">
+          <div class="sr-title">Panel: Building India's EV Talent Pipeline</div>
+          <div class="sr-speaker"><strong>Arjun Mehta</strong> (ITI Pro CEO), <strong>NSDC India</strong>, <strong>Hero Electric</strong>, <strong>Ola</strong></div>
+        </div>
+        <div class="sr-loc">📍 Main Stage</div>
+      </div>
+      <div class="schedule-row">
+        <div class="sr-time">1:00 PM<small>Lunch</small></div>
+        <div class="sr-main">
+          <div class="sr-title">Networking Lunch &amp; Exhibition Floor Walk</div>
+          <div class="sr-speaker">All halls open · Brand meet-and-greets</div>
+        </div>
+        <div class="sr-loc">📍 Food Court</div>
+      </div>
+      <div class="schedule-row">
+        <div class="sr-time">2:30 PM<small>Workshop</small></div>
+        <div class="sr-main">
+          <div class="sr-title">Workshop: EV Battery Pack Diagnostics (Live Demo)</div>
+          <div class="sr-speaker"><strong>Vikram Joshi</strong> · CTO Training, ITI Pro</div>
+        </div>
+        <div class="sr-loc">📍 Hall B · Workshop 1</div>
+      </div>
+      <div class="schedule-row">
+        <div class="sr-time">4:00 PM<small>Talk</small></div>
+        <div class="sr-main">
+          <div class="sr-title">Fireside Chat: Funding India's EV Startups</div>
+          <div class="sr-speaker"><strong>Leading VC Partners</strong> · Sequoia, Blume, Stride</div>
+        </div>
+        <div class="sr-loc">📍 Main Stage</div>
+      </div>
+      <div class="schedule-row">
+        <div class="sr-time">6:00 PM<small>Evening</small></div>
+        <div class="sr-main">
+          <div class="sr-title">Opening Night Reception &amp; Cultural Show</div>
+          <div class="sr-speaker">By invitation · Sponsored networking</div>
+        </div>
+        <div class="sr-loc">📍 Lawn</div>
+      </div>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="schedule-day" data-day="2">
+      <div class="schedule-row">
+        <div class="sr-time">9:30 AM<small>Open</small></div>
+        <div class="sr-main">
+          <div class="sr-title">Doors Open · Day 2 Begins</div>
+          <div class="sr-speaker">Exhibition halls open to public</div>
+        </div>
+        <div class="sr-loc">📍 All Halls</div>
+      </div>
+      <div class="schedule-row keynote">
+        <div class="sr-time">10:30 AM<small>Keynote</small></div>
+        <div class="sr-main">
+          <div class="sr-title">The Future of Battery Technology in India</div>
+          <div class="sr-speaker"><strong>Akshay Singhal</strong> · Founder &amp; CEO, Log9 Materials</div>
+        </div>
+        <div class="sr-loc">📍 Main Stage</div>
+      </div>
+      <div class="schedule-row">
+        <div class="sr-time">12:00 PM<small>Workshop</small></div>
+        <div class="sr-main">
+          <div class="sr-title">Workshop: BLDC Motor Tear-down &amp; Rebuild</div>
+          <div class="sr-speaker"><strong>Anil Verma</strong> · CTO Technical, ITI Pro</div>
+        </div>
+        <div class="sr-loc">📍 Hall B · Workshop 2</div>
+      </div>
+      <div class="schedule-row">
+        <div class="sr-time">1:30 PM<small>Lunch</small></div>
+        <div class="sr-main">
+          <div class="sr-title">Lunch · Sponsor Pavilion Walkthrough</div>
+          <div class="sr-speaker">Open networking with sponsors and exhibitors</div>
+        </div>
+        <div class="sr-loc">📍 Food Court</div>
+      </div>
+      <div class="schedule-row keynote">
+        <div class="sr-time">3:00 PM<small>Career</small></div>
+        <div class="sr-main">
+          <div class="sr-title">EV Career Fair · 100+ Companies Hiring</div>
+          <div class="sr-speaker">Open registration · Bring 5 copies of your resume</div>
+        </div>
+        <div class="sr-loc">📍 Hall C</div>
+      </div>
+      <div class="schedule-row">
+        <div class="sr-time">5:00 PM<small>Competition</small></div>
+        <div class="sr-main">
+          <div class="sr-title">National EV Skill Competition · Semi-Finals</div>
+          <div class="sr-speaker">Diagnostics, design, and innovation tracks</div>
+        </div>
+        <div class="sr-loc">📍 Hall D</div>
+      </div>
+      <div class="schedule-row">
+        <div class="sr-time">7:00 PM<small>Mixer</small></div>
+        <div class="sr-main">
+          <div class="sr-title">Industry Mixer &amp; Live Music</div>
+          <div class="sr-speaker">All-access pass holders welcome</div>
+        </div>
+        <div class="sr-loc">📍 Outdoor Lawn</div>
+      </div>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="schedule-day" data-day="3">
+      <div class="schedule-row">
+        <div class="sr-time">9:30 AM<small>Open</small></div>
+        <div class="sr-main">
+          <div class="sr-title">Doors Open · Final Day</div>
+          <div class="sr-speaker">Family-friendly day · Public welcome</div>
+        </div>
+        <div class="sr-loc">📍 All Halls</div>
+      </div>
+      <div class="schedule-row">
+        <div class="sr-time">10:30 AM<small>Talk</small></div>
+        <div class="sr-main">
+          <div class="sr-title">EV Charging Infrastructure · The Next Frontier</div>
+          <div class="sr-speaker"><strong>Tata Power EZ Charge</strong>, <strong>Statiq</strong>, <strong>ChargeZone</strong></div>
+        </div>
+        <div class="sr-loc">📍 Main Stage</div>
+      </div>
+      <div class="schedule-row">
+        <div class="sr-time">12:00 PM<small>Workshop</small></div>
+        <div class="sr-main">
+          <div class="sr-title">Workshop: Build Your Own EV (Conversion Demo)</div>
+          <div class="sr-speaker"><strong>ITI Pro Senior Trainers</strong></div>
+        </div>
+        <div class="sr-loc">📍 Hall B</div>
+      </div>
+      <div class="schedule-row keynote">
+        <div class="sr-time">2:00 PM<small>Finals</small></div>
+        <div class="sr-main">
+          <div class="sr-title">National EV Skill Competition · Grand Finale</div>
+          <div class="sr-speaker">Live judging · ₹10L+ in prizes</div>
+        </div>
+        <div class="sr-loc">📍 Main Stage</div>
+      </div>
+      <div class="schedule-row">
+        <div class="sr-time">4:30 PM<small>Awards</small></div>
+        <div class="sr-main">
+          <div class="sr-title">ITI Pro EV Excellence Awards 2025</div>
+          <div class="sr-speaker">Recognising EV brands, innovators, and educators</div>
+        </div>
+        <div class="sr-loc">📍 Main Stage</div>
+      </div>
+      <div class="schedule-row">
+        <div class="sr-time">6:00 PM<small>Closing</small></div>
+        <div class="sr-main">
+          <div class="sr-title">Closing Ceremony &amp; Vote of Thanks</div>
+          <div class="sr-speaker"><strong>Dr. Ramesh Kumar</strong> · Chief Patron, ITI Pro</div>
+        </div>
+        <div class="sr-loc">📍 Main Stage</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SPEAKERS ── -->
+<section class="section section--dark3">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Featured Speakers</span>
+      <h2 class="section-title">Industry <span>Leaders Speaking</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">A line-up of EV industry leaders, policymakers, investors, and innovators sharing the stage.</p>
+    </div>
+    <div class="speakers-grid">
+      <div class="speaker-card"><div class="sc-avatar">AM</div><div class="sc-name">Arjun Mehta</div><div class="sc-role">Chief Executive Officer</div><div class="sc-org">ITI Pro</div></div>
+      <div class="speaker-card"><div class="sc-avatar">AS</div><div class="sc-name">Akshay Singhal</div><div class="sc-role">Founder &amp; CEO</div><div class="sc-org">Log9 Materials</div></div>
+      <div class="speaker-card"><div class="sc-avatar">TM</div><div class="sc-name">Tarun Mehta</div><div class="sc-role">Co-founder &amp; CEO</div><div class="sc-org">Ather Energy</div></div>
+      <div class="speaker-card"><div class="sc-avatar">SS</div><div class="sc-name">Sohinder Gill</div><div class="sc-role">Director General</div><div class="sc-org">SMEV India</div></div>
+      <div class="speaker-card"><div class="sc-avatar">RK</div><div class="sc-name">Dr. Ramesh Kumar</div><div class="sc-role">Chief Patron</div><div class="sc-org">ITI Pro</div></div>
+      <div class="speaker-card"><div class="sc-avatar">SK</div><div class="sc-name">Suman Mishra</div><div class="sc-role">MD &amp; CEO</div><div class="sc-org">Mahindra Electric</div></div>
+      <div class="speaker-card"><div class="sc-avatar">PB</div><div class="sc-name">Pawan Mulukutla</div><div class="sc-role">Executive Director</div><div class="sc-org">WRI India</div></div>
+      <div class="speaker-card"><div class="sc-avatar">NS</div><div class="sc-name">Nehal Gupta</div><div class="sc-role">Director</div><div class="sc-org">AMU Leasing</div></div>
+    </div>
+    <p class="text-center text-dim mt-8" style="font-size: var(--fs-xs); font-family: var(--ff-mono);">
+      Final speaker list confirmed by July 2025. <a href="/pages/contact.html" style="color: var(--clr-primary);">Stay updated →</a>
+    </p>
+  </div>
+</section>
+
+<!-- ── SPONSORS ── -->
+<section class="section section--dark">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Sponsored By</span>
+      <h2 class="section-title">Our <span>Sponsors &amp; Partners</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">India's leading EV brands and institutions supporting the ITI Pro EV Expo 2025.</p>
+    </div>
+
+    <div class="sponsor-tier">
+      <div class="sponsor-tier-label">Title Sponsor</div>
+      <div class="sponsor-row">
+        <div class="sponsor-pill title">Hero Electric</div>
+      </div>
+    </div>
+
+    <div class="sponsor-tier">
+      <div class="sponsor-tier-label">Platinum Sponsors</div>
+      <div class="sponsor-row">
+        <div class="sponsor-pill">Ola Electric</div>
+        <div class="sponsor-pill">Ather Energy</div>
+        <div class="sponsor-pill">Mahindra Electric</div>
+      </div>
+    </div>
+
+    <div class="sponsor-tier">
+      <div class="sponsor-tier-label">Gold Sponsors</div>
+      <div class="sponsor-row">
+        <div class="sponsor-pill">Ampere · Greaves</div>
+        <div class="sponsor-pill">Revolt Motors</div>
+        <div class="sponsor-pill">Okinawa EV</div>
+        <div class="sponsor-pill">Log9 Materials</div>
+        <div class="sponsor-pill">Tata Power EZ</div>
+      </div>
+    </div>
+
+    <div class="sponsor-tier">
+      <div class="sponsor-tier-label">Government &amp; Knowledge Partners</div>
+      <div class="sponsor-row">
+        <div class="sponsor-pill">NSDC India</div>
+        <div class="sponsor-pill">APSSDC</div>
+        <div class="sponsor-pill">Telangana Skill</div>
+        <div class="sponsor-pill">Karnataka SUDA</div>
+        <div class="sponsor-pill">WRI India</div>
+        <div class="sponsor-pill">SMEV India</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PAST EDITIONS ── -->
+<section class="section section--dark2">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">History</span>
+      <h2 class="section-title">Past <span>Editions</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">A look back at how the ITI Pro EV Expo has grown into India's most important annual EV gathering.</p>
+    </div>
+    <div class="past-editions">
+      <div class="past-edition">
+        <div class="pe-year">2024</div>
+        <div class="pe-title">Expo Goes National</div>
+        <div class="pe-meta">📅 Aug 2024 · 📍 Delhi</div>
+        <div class="pe-stats">
+          <div><div class="pe-stat-num">150</div><div class="pe-stat-label">Brands</div></div>
+          <div><div class="pe-stat-num">7.5K</div><div class="pe-stat-label">Visitors</div></div>
+          <div><div class="pe-stat-num">40+</div><div class="pe-stat-label">Speakers</div></div>
+        </div>
+      </div>
+      <div class="past-edition">
+        <div class="pe-year">2023</div>
+        <div class="pe-title">First Regional Expo</div>
+        <div class="pe-meta">📅 Sep 2023 · 📍 Hyderabad</div>
+        <div class="pe-stats">
+          <div><div class="pe-stat-num">80</div><div class="pe-stat-label">Brands</div></div>
+          <div><div class="pe-stat-num">3.2K</div><div class="pe-stat-label">Visitors</div></div>
+          <div><div class="pe-stat-num">20+</div><div class="pe-stat-label">Speakers</div></div>
+        </div>
+      </div>
+      <div class="past-edition">
+        <div class="pe-year">2022</div>
+        <div class="pe-title">The Beginning</div>
+        <div class="pe-meta">📅 Oct 2022 · 📍 Hyderabad</div>
+        <div class="pe-stats">
+          <div><div class="pe-stat-num">35</div><div class="pe-stat-label">Brands</div></div>
+          <div><div class="pe-stat-num">1.1K</div><div class="pe-stat-label">Visitors</div></div>
+          <div><div class="pe-stat-num">10+</div><div class="pe-stat-label">Speakers</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── REGISTRATION CTA ── -->
+<section class="section section--dark3" id="register">
+  <div class="container container--md">
+    <div class="highlight-box text-center">
+      <span class="section-label">Don't Miss Out</span>
+      <h2 class="section-title mt-4">Register for <span>EV Expo 2025</span></h2>
+      <p style="color:var(--clr-text-muted); font-size:var(--fs-md); max-width:520px; margin-inline:auto; margin-block:var(--sp-5) var(--sp-8);">
+        Visitor passes start free. Early-bird workshop &amp; full-access passes are deeply discounted before 1 July 2025. Secure your spot today.
+      </p>
+      <div class="btn-group" style="justify-content:center;">
+        <a href="/pages/contact.html" class="btn btn--primary btn--lg">Register as Visitor</a>
+        <a href="/pages/contact.html" class="btn btn--outline btn--lg">Become an Exhibitor</a>
+        <a href="/pages/contact.html" class="btn btn--ghost btn--lg">Sponsor Enquiry</a>
+      </div>
+      <p class="mt-8 text-dim" style="font-size:var(--fs-xs); font-family:var(--ff-mono);">
+        Press &amp; media accreditation? Contact <a href="mailto:media@itipro.in" style="color:var(--clr-primary);">media@itipro.in</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+(function() {
+  // Day tab switcher
+  document.querySelectorAll('.day-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var day = this.getAttribute('data-day');
+      document.querySelectorAll('.day-tab').forEach(function(t) { t.classList.remove('active'); });
+      this.classList.add('active');
+      document.querySelectorAll('.schedule-day').forEach(function(d) { d.classList.remove('active'); });
+      var target = document.querySelector('.schedule-day[data-day="' + day + '"]');
+      if (target) target.classList.add('active');
+    });
+  });
+
+  // Live countdown — counts down to 14 Aug 2025, 9:00 AM IST
+  var expoDate = new Date('2025-08-14T09:00:00+05:30').getTime();
+  var boxes = document.querySelectorAll('.countdown-box .cb-num');
+  if (boxes.length === 4) {
+    function updateCountdown() {
+      var now = Date.now();
+      var diff = expoDate - now;
+      if (diff <= 0) {
+        boxes[0].textContent = '0';
+        boxes[1].textContent = '0';
+        boxes[2].textContent = '0';
+        boxes[3].textContent = 'LIVE';
+        return;
+      }
+      var days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      var secs  = Math.floor((diff % (1000 * 60)) / 1000);
+      boxes[0].textContent = days;
+      boxes[1].textContent = hours;
+      boxes[2].textContent = mins;
+      boxes[3].textContent = secs;
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="page-title" content="Service"/>
+  <meta name="description" content="ITI Pro — Certified EV service, diagnostics and maintenance for two and three-wheelers. Onsite and centre-based."/>
+  <link rel="stylesheet" href="/assets/css/style.css"/>
+  <style>
+    .service-type-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-5);
+    }
+    @media (max-width: 900px) { .service-type-grid { grid-template-columns: 1fr; } }
+
+    .service-type-card {
+      background: var(--clr-dark-3);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-8) var(--sp-6);
+      display: flex;
+      flex-direction: column;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .service-type-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--clr-primary), transparent);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .service-type-card:hover { border-color: var(--clr-primary); transform: translateY(-5px); box-shadow: var(--shadow-md), var(--shadow-glow); }
+    .service-type-card:hover::after { opacity: 1; }
+    .stc-icon {
+      width: 64px; height: 64px;
+      background: rgba(34,197,94,.1);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-bottom: var(--sp-5);
+      transition: background var(--transition);
+    }
+    .service-type-card:hover .stc-icon { background: rgba(34,197,94,.2); }
+    .stc-title { font-family: var(--ff-display); font-size: var(--fs-2xl); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-3); }
+    .stc-desc  { font-size: var(--fs-sm); color: var(--clr-text-muted); line-height: 1.8; flex: 1; margin-bottom: var(--sp-6); }
+    .stc-list  { display: flex; flex-direction: column; gap: var(--sp-2); margin-bottom: var(--sp-6); }
+    .stc-list-item { display: flex; align-items: flex-start; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--clr-text-muted); }
+    .stc-list-item::before { content: '→'; color: var(--clr-primary); font-weight: 700; flex-shrink: 0; }
+
+    .report-mock {
+      background: var(--clr-dark-4);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-5);
+    }
+    .report-mock__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: var(--sp-4);
+      border-bottom: 1px solid var(--clr-border);
+      margin-bottom: var(--sp-4);
+    }
+    .report-mock__title { font-family: var(--ff-display); font-size: var(--fs-lg); font-weight: 700; color: var(--clr-white); }
+    .report-mock__status {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      font-family: var(--ff-mono);
+      font-size: var(--fs-xs);
+      color: var(--clr-primary);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .report-mock__status::before { content: ''; width: 7px; height: 7px; background: var(--clr-primary); border-radius: 50%; }
+    .report-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--sp-3) 0;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      font-size: var(--fs-sm);
+    }
+    .report-row:last-child { border-bottom: none; }
+    .report-row__label { color: var(--clr-text-dim); }
+    .report-row__value { color: var(--clr-text-muted); font-weight: 500; }
+    .report-row__value.ok   { color: var(--clr-primary); }
+    .report-row__value.warn { color: var(--clr-accent); }
+    .report-row__value.bad  { color: var(--clr-danger); }
+
+    .tariff-note {
+      background: rgba(34,197,94,.05);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      padding: var(--sp-4) var(--sp-5);
+      font-size: var(--fs-sm);
+      color: var(--clr-text-dim);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--sp-3);
+      margin-top: var(--sp-4);
+    }
+    .tariff-note .tn-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+    .onsite-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--sp-4);
+      margin-top: var(--sp-8);
+    }
+    @media (max-width: 900px) { .onsite-steps { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .onsite-steps { grid-template-columns: 1fr; } }
+    .onsite-step {
+      background: var(--clr-dark-4);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-5);
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .onsite-step:hover { border-color: var(--clr-primary); }
+    .os-num {
+      font-family: var(--ff-display);
+      font-size: var(--fs-3xl);
+      font-weight: 700;
+      color: rgba(34,197,94,.2);
+      line-height: 1;
+      margin-bottom: var(--sp-3);
+    }
+    .os-title { font-family: var(--ff-display); font-size: var(--fs-lg); font-weight: 700; color: var(--clr-white); margin-bottom: var(--sp-2); }
+    .os-text  { font-size: var(--fs-xs); color: var(--clr-text-muted); line-height: 1.7; }
+
+    .coverage-pills { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-5); }
+    .coverage-pill {
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-full);
+      padding: var(--sp-2) var(--sp-4);
+      font-size: var(--fs-sm);
+      color: var(--clr-text-muted);
+      background: var(--clr-dark-4);
+      transition: all var(--transition);
+    }
+    .coverage-pill:hover { border-color: var(--clr-primary); color: var(--clr-primary); }
+  </style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+<div class="nav-spacer"></div>
+
+<section class="page-hero">
+  <div class="container">
+    <p class="page-hero__eyebrow">Certified EV Service</p>
+    <h1 class="page-hero__title">Professional <span>EV Service</span></h1>
+    <p class="page-hero__subtitle">Transparent, certified, and reliable EV repair, diagnostics, and maintenance — at our service centres or at your doorstep. Every job backed by a 30-day workmanship warranty.</p>
+    <div class="btn-group mt-8">
+      <a href="/pages/contact.html" class="btn btn--primary btn--lg">Book a Service</a>
+      <a href="#tariff" class="btn btn--outline btn--lg">View Tariff</a>
+    </div>
+  </div>
+</section>
+
+<div style="background: var(--clr-dark-4); border-top:1px solid var(--clr-border); border-bottom:1px solid var(--clr-border); padding-block: var(--sp-10);">
+  <div class="container">
+    <div class="grid grid--4">
+      <div class="stat-block"><div class="stat-block__number">50+</div><div class="stat-block__label">Service Centres</div></div>
+      <div class="stat-block"><div class="stat-block__number">12+</div><div class="stat-block__label">States Covered</div></div>
+      <div class="stat-block"><div class="stat-block__number">10,000+</div><div class="stat-block__label">Vehicles Serviced</div></div>
+      <div class="stat-block"><div class="stat-block__number">30-Day</div><div class="stat-block__label">Workmanship Warranty</div></div>
+    </div>
+  </div>
+</div>
+
+<section class="section section--dark" id="services">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Service Types</span>
+      <h2 class="section-title">How We <span>Serve You</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Three distinct service offerings — from detailed diagnostic reporting to onsite visits — designed to match every situation and requirement.</p>
+    </div>
+    <div class="service-type-grid">
+
+      <div class="service-type-card">
+        <div class="stc-icon">📋</div>
+        <div class="stc-title">Service Report</div>
+        <p class="stc-desc">Every vehicle we service receives a detailed digital inspection and service report. Full transparency on faults found, root cause analysis, actions taken, parts replaced, and next-service recommendations. Reports are emailed as PDFs with photographic evidence.</p>
+        <div class="stc-list">
+          <div class="stc-list-item">Digital PDF report within 2 hours of service</div>
+          <div class="stc-list-item">Battery health percentage and cycle count</div>
+          <div class="stc-list-item">Motor performance baseline and fault codes</div>
+          <div class="stc-list-item">Controller and BMS status with fault log</div>
+          <div class="stc-list-item">Photographic evidence of all issues</div>
+          <div class="stc-list-item">Next-service date recommendation</div>
+        </div>
+        <a href="/pages/contact.html" class="btn btn--outline">Request Report Sample</a>
+      </div>
+
+      <div class="service-type-card">
+        <div class="stc-icon">🗂️</div>
+        <div class="stc-title">Service Chart / Tariff</div>
+        <p class="stc-desc">We publish a fully transparent, pre-approved tariff chart for all standard EV service categories. No hidden charges, no surprise bills. Labour rates are fixed. Parts are billed at MRP with invoice. All service includes GST-compliant billing.</p>
+        <div class="stc-list">
+          <div class="stc-list-item">Published MRP tariff — no hidden costs</div>
+          <div class="stc-list-item">Fixed labour rates for all service types</div>
+          <div class="stc-list-item">Parts at MRP with original invoice</div>
+          <div class="stc-list-item">GST-compliant billing for all jobs</div>
+          <div class="stc-list-item">Discount packages for fleet customers</div>
+          <div class="stc-list-item">Annual maintenance contracts available</div>
+        </div>
+        <a href="#tariff" class="btn btn--outline">View Full Tariff</a>
+      </div>
+
+      <div class="service-type-card">
+        <div class="stc-icon">🚐</div>
+        <div class="stc-title">Onsite / Office Service</div>
+        <p class="stc-desc">Can't bring your EV to a centre? Our mobile service unit comes to you. Equipped with advanced diagnostic tools, common parts inventory, and a certified technician. Available for residential owners, fleet operators, and corporate campuses.</p>
+        <div class="stc-list">
+          <div class="stc-list-item">Available 7 days a week, 8 AM – 8 PM</div>
+          <div class="stc-list-item">Certified technicians with OEM training</div>
+          <div class="stc-list-item">Advanced portable diagnostic toolkit</div>
+          <div class="stc-list-item">Common parts stocked in service van</div>
+          <div class="stc-list-item">Digital report delivered post-service</div>
+          <div class="stc-list-item">Fleet and corporate monthly plans</div>
+        </div>
+        <a href="/pages/contact.html" class="btn btn--outline">Book Onsite Visit</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark2">
+  <div class="container">
+    <div class="two-col" style="align-items:start; gap: var(--sp-12);">
+      <div>
+        <span class="section-label">Transparency</span>
+        <h2 class="section-title">What Your <span>Service Report</span> Looks Like</h2>
+        <div class="divider"></div>
+        <p class="text-muted mb-6">Every completed service generates a structured digital report. You'll know exactly what was inspected, what was found, and what was done — with photos and clear language, not technical jargon.</p>
+        <div class="feature-list">
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Battery state-of-health (SoH %) and remaining cycle life estimate</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Motor RPM baseline, temperature readings, and fault codes cleared</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Controller firmware version and update status</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Charger output voltage/current check and cable condition</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Parts replaced with OEM part numbers and warranty terms</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Next-service interval recommendation</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="report-mock">
+          <div class="report-mock__header">
+            <div>
+              <div class="report-mock__title">Service Report #SR-2024-4821</div>
+              <div style="font-size:var(--fs-xs); color:var(--clr-text-dim); font-family:var(--ff-mono); margin-top:4px;">Hero Electric Optima · Reg: TS-09 EV 4321</div>
+            </div>
+            <div class="report-mock__status">Completed</div>
+          </div>
+          <div class="report-row"><span class="report-row__label">Battery SoH</span><span class="report-row__value ok">87% — Good</span></div>
+          <div class="report-row"><span class="report-row__label">Battery Cycles Used</span><span class="report-row__value">412 / 800</span></div>
+          <div class="report-row"><span class="report-row__label">Motor Status</span><span class="report-row__value ok">Normal — No Faults</span></div>
+          <div class="report-row"><span class="report-row__label">Controller Temp (peak)</span><span class="report-row__value warn">54°C — Monitor</span></div>
+          <div class="report-row"><span class="report-row__label">BMS Fault Codes</span><span class="report-row__value ok">Cleared — 2 historical</span></div>
+          <div class="report-row"><span class="report-row__label">Charger Output</span><span class="report-row__value ok">5.1A @ 58.4V — OK</span></div>
+          <div class="report-row"><span class="report-row__label">Brake System</span><span class="report-row__value warn">Rear pad — replace soon</span></div>
+          <div class="report-row"><span class="report-row__label">Next Service Due</span><span class="report-row__value">Dec 2025 or 3,000 km</span></div>
+          <div style="margin-top:var(--sp-4); padding-top:var(--sp-4); border-top:1px solid var(--clr-border); display:flex; justify-content:space-between; font-size:var(--fs-xs); color:var(--clr-text-dim);">
+            <span>Technician: Vikram J. (Cert #ITI-4821)</span>
+            <span>15 Oct 2024</span>
+          </div>
+        </div>
+        <div style="margin-top:var(--sp-3); text-align:center; font-size:var(--fs-xs); color:var(--clr-text-dim); font-family:var(--ff-mono);">Sample report — actual reports include photographs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark3" id="tariff">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Transparent Pricing</span>
+      <h2 class="section-title">Service <span>Tariff Chart</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Standard published labour rates for 2W and 3W electric vehicles. No surprises. Parts are billed separately at MRP.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th><th>Service Type</th><th>2-Wheeler (₹)</th><th>3-Wheeler (₹)</th><th>Est. Time</th><th>Warranty</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>General Inspection &amp; Health Check</td><td>299</td><td>499</td><td>1 hr</td><td>N/A</td></tr>
+          <tr><td>2</td><td>Battery SoH Diagnostic</td><td>499</td><td>799</td><td>2 hrs</td><td>Report only</td></tr>
+          <tr><td>3</td><td>Full Battery Diagnostic + BMS Scan</td><td>799</td><td>1,199</td><td>3 hrs</td><td>Report only</td></tr>
+          <tr><td>4</td><td>Motor Performance Diagnostic</td><td>699</td><td>999</td><td>2–3 hrs</td><td>30 days</td></tr>
+          <tr><td>5</td><td>Controller Diagnostic + Fault Clear</td><td>599</td><td>899</td><td>1–2 hrs</td><td>30 days</td></tr>
+          <tr><td>6</td><td>Charger Check &amp; Basic Repair</td><td>599</td><td>899</td><td>1–2 hrs</td><td>30 days</td></tr>
+          <tr><td>7</td><td>BMS Inspection &amp; Cell Balancing</td><td>999</td><td>1,499</td><td>3–4 hrs</td><td>30 days</td></tr>
+          <tr><td>8</td><td>Controller Replacement (Labour)</td><td>1,499</td><td>2,499</td><td>4 hrs</td><td>30 days</td></tr>
+          <tr><td>9</td><td>Motor Replacement (Labour)</td><td>1,299</td><td>1,999</td><td>3–4 hrs</td><td>30 days</td></tr>
+          <tr><td>10</td><td>Battery Pack Replacement (Labour)</td><td>999</td><td>1,499</td><td>3–4 hrs</td><td>30 days</td></tr>
+          <tr><td>11</td><td>Wiring Harness Inspection + Repair</td><td>799</td><td>1,199</td><td>2–4 hrs</td><td>30 days</td></tr>
+          <tr><td>12</td><td>Brake System Service</td><td>399</td><td>699</td><td>1–2 hrs</td><td>30 days</td></tr>
+          <tr><td>13</td><td>Full Service Package (All-in-One)</td><td>2,499</td><td>3,999</td><td>1 day</td><td>30 days</td></tr>
+          <tr><td>14</td><td>Annual Maintenance Contract (AMC)</td><td>5,999/yr</td><td>8,999/yr</td><td>3 visits/yr</td><td>Covered</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tariff-note">
+      <span class="tn-icon">ℹ️</span>
+      <div><strong style="color:var(--clr-text);">Notes:</strong> All prices are labour-only. Parts billed separately at MRP with original invoice. Onsite service incurs a convenience fee of ₹150–₹500 depending on distance. Fleet customers (5+ vehicles) receive a 15% discount on all labour rates. Prices subject to change — confirm with your nearest centre before booking.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark2">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Mobile Service</span>
+      <h2 class="section-title">We Come <span>to You</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Our mobile service unit brings the centre to your home, office, or fleet yard. Equipped with the same diagnostic tools and parts stock as our fixed centres.</p>
+    </div>
+
+    <div class="two-col" style="align-items:center;">
+      <div>
+        <div class="feature-list mb-8">
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Available 7 days a week, 8 AM to 8 PM across all covered cities</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Certified ITI Pro technicians with OEM-level training and toolkits</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Portable advanced EV diagnostic equipment — not just a multimeter</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Common replacement parts stocked in the service van</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Digital service report emailed within 2 hours of job completion</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">30-day workmanship warranty on all onsite repairs</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Fleet contracts: monthly retainer plans for 5+ vehicle operators</div></div>
+        </div>
+        <p style="font-family:var(--ff-mono); font-size:var(--fs-xs); text-transform:uppercase; letter-spacing:.12em; color:var(--clr-text-dim); margin-bottom:var(--sp-3);">Cities Currently Covered</p>
+        <div class="coverage-pills">
+          <div class="coverage-pill">Hyderabad</div>
+          <div class="coverage-pill">Bengaluru</div>
+          <div class="coverage-pill">Pune</div>
+          <div class="coverage-pill">Chennai</div>
+          <div class="coverage-pill">Mumbai</div>
+          <div class="coverage-pill">Delhi NCR</div>
+          <div class="coverage-pill">Ahmedabad</div>
+          <div class="coverage-pill">Kolkata</div>
+          <div class="coverage-pill">Coimbatore</div>
+          <div class="coverage-pill">Vijayawada</div>
+          <div class="coverage-pill">+ More</div>
+        </div>
+        <div class="mt-8">
+          <a href="/pages/contact.html" class="btn btn--primary btn--lg">Book Onsite Service</a>
+        </div>
+      </div>
+      <div>
+        <p style="font-family:var(--ff-mono); font-size:var(--fs-xs); text-transform:uppercase; letter-spacing:.12em; color:var(--clr-text-dim); margin-bottom:var(--sp-5);">How Onsite Booking Works</p>
+        <div class="onsite-steps" style="grid-template-columns:1fr 1fr; gap:var(--sp-4);">
+          <div class="onsite-step">
+            <div class="os-num">01</div>
+            <div class="os-title">Book Online or Call</div>
+            <p class="os-text">Use our contact form or call us to describe the issue and share your location.</p>
+          </div>
+          <div class="onsite-step">
+            <div class="os-num">02</div>
+            <div class="os-title">Confirm Slot</div>
+            <p class="os-text">We confirm your appointment within 2 hours and share the technician's details.</p>
+          </div>
+          <div class="onsite-step">
+            <div class="os-num">03</div>
+            <div class="os-title">Technician Arrives</div>
+            <p class="os-text">Certified technician arrives at your location with full diagnostic kit and spare parts.</p>
+          </div>
+          <div class="onsite-step">
+            <div class="os-num">04</div>
+            <div class="os-title">Report + Invoice</div>
+            <p class="os-text">Receive a digital service report and GST-compliant invoice by email within 2 hours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark3">
+  <div class="container container--md">
+    <div class="section-header section-header--center">
+      <span class="section-label">FAQ</span>
+      <h2 class="section-title">Service <span>Questions</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-header">Which vehicle types do you service?<span class="accordion-icon">+</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">We service all electric two-wheelers (e-scooters, e-bikes, e-mopeds) and electric three-wheelers (e-rickshaws, cargo EVs, passenger e-autos) from all major brands including Hero Electric, Ola, Ather, Ampere, Okinawa, Mahindra Electric, and more. Contact us if you're unsure whether your vehicle model is covered.</div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header">Do you use OEM parts or aftermarket parts?<span class="accordion-icon">+</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">We always recommend and prefer OEM-authorised or OEM-equivalent parts. If you request budget aftermarket parts, we will inform you clearly and note it in your service report. All parts are billed at MRP with an original purchase invoice provided to you.</div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header">What is covered under the 30-day workmanship warranty?<span class="accordion-icon">+</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">The 30-day workmanship warranty covers the labour and repair work performed by our technician. If the same fault recurs within 30 days of a repair job due to technician error or improper installation, we redo the work at no charge. The warranty does not cover new faults, physical damage, or issues arising from misuse after service.</div></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header">How do I book an AMC (Annual Maintenance Contract)?<span class="accordion-icon">+</span></div>
+        <div class="accordion-body"><div class="accordion-body-inner">AMC can be booked via our contact form, by phone, or at any ITI Pro service centre. The AMC covers 3 scheduled service visits per year, priority booking, and a 10% discount on all parts. Fleet AMC (for 5+ vehicles) includes additional visits and a dedicated account manager. Pricing varies by vehicle type and location.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dark2">
+  <div class="container container--md">
+    <div class="highlight-box text-center">
+      <span class="section-label">Ready to Book?</span>
+      <h2 class="section-title mt-4">Schedule Your <span>EV Service</span> Today</h2>
+      <p style="color:var(--clr-text-muted); font-size:var(--fs-md); max-width:480px; margin-inline:auto; margin-block:var(--sp-5) var(--sp-8);">At-centre or at your door — our certified technicians are ready. Transparent pricing. Digital reports. 30-day warranty.</p>
+      <div class="btn-group" style="justify-content:center;">
+        <a href="/pages/contact.html" class="btn btn--primary btn--lg">Book a Service</a>
+        <a href="#tariff" class="btn btn--outline btn--lg">View Tariff</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
