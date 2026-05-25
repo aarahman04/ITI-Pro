@@ -39,35 +39,35 @@ const SITE = {
 
   // Navigation links
   nav: [
-    { label: "Home",      href: "/index.html" },
-    { label: "About",     href: "/pages/about.html" },
-    { label: "Team",      href: "/pages/team.html" },
-    { label: "Training",  href: "/pages/training.html" },
-    { label: "Service",   href: "/pages/service.html" },
-    { label: "Sales",     href: "/pages/sales.html" },
-    { label: "Franchise", href: "/pages/franchise.html" },
-    { label: "Customers", href: "/pages/customers.html" },
-    { label: "Gallery",   href: "/pages/photo-gallery.html",
+    { label: "Home",      href: "index.html" },
+    { label: "About",     href: "pages/about.html" },
+    { label: "Team",      href: "pages/team.html" },
+    { label: "Training",  href: "pages/training.html" },
+    { label: "Service",   href: "pages/service.html" },
+    { label: "Sales",     href: "pages/sales.html" },
+    { label: "Franchise", href: "pages/franchise.html" },
+    { label: "Customers", href: "pages/customers.html" },
+    { label: "Gallery",   href: "pages/photo-gallery.html",
       children: [
-        { label: "Photo Gallery", href: "/pages/photo-gallery.html" },
-        { label: "Video Gallery", href: "/pages/video-gallery.html" },
+        { label: "Photo Gallery", href: "pages/photo-gallery.html" },
+        { label: "Video Gallery", href: "pages/video-gallery.html" },
       ]
     },
-    { label: "Career",    href: "/pages/career.html" },
-    { label: "Expo",      href: "/pages/expo.html" },
-    { label: "Contact",   href: "/pages/contact.html" },
+    { label: "Career",    href: "pages/career.html" },
+    { label: "Expo",      href: "pages/expo.html" },
+    { label: "Contact",   href: "pages/contact.html" },
   ],
 
   // Footer quick links
   footerLinks: [
-    { label: "Home",      href: "/index.html" },
-    { label: "About",     href: "/pages/about.html" },
-    { label: "Training",  href: "/pages/training.html" },
-    { label: "Service",   href: "/pages/service.html" },
-    { label: "Sales",     href: "/pages/sales.html" },
-    { label: "Franchise", href: "/pages/franchise.html" },
-    { label: "Career",    href: "/pages/career.html" },
-    { label: "Contact",   href: "/pages/contact.html" },
+    { label: "Home",      href: "index.html" },
+    { label: "About",     href: "pages/about.html" },
+    { label: "Training",  href: "pages/training.html" },
+    { label: "Service",   href: "pages/service.html" },
+    { label: "Sales",     href: "pages/sales.html" },
+    { label: "Franchise", href: "pages/franchise.html" },
+    { label: "Career",    href: "pages/career.html" },
+    { label: "Contact",   href: "pages/contact.html" },
   ],
 
   // Team members
