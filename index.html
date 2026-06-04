@@ -398,11 +398,7 @@
 
         <!-- Right: visual -->
         <div class="hero-visual">
-          <div class="hero-img-placeholder">
-            <span class="ev-icon">⚡</span>
-            <p>Hero Image Placeholder</p>
-            <p style="font-size:10px; opacity:.5;">Replace with real EV photo</p>
-          </div>
+          <img class="hero-visual-img" src="./assets/images/gallery/gallery-07.jpeg" alt="Premium electric scooter by ITI Pro" loading="eager"/>
           <div class="hero-float-tag hero-float-1">
             <span class="tag-icon">🎓</span>
             <div><div class="tag-text">Certified Programs</div><div class="tag-sub">NSQF Aligned</div></div>
@@ -467,9 +463,8 @@
         </div>
       </div>
       <div style="display:flex; flex-direction:column; gap: var(--sp-5);">
-        <div style="background: var(--clr-dark-3); border:1px solid var(--clr-border); border-radius: var(--r-xl); overflow:hidden; aspect-ratio:4/3; display:flex; align-items:center; justify-content:center; color: var(--clr-text-dim); flex-direction:column; gap:var(--sp-3);">
-          <span style="font-size:3.5rem">🏢</span>
-          <p style="font-size:var(--fs-xs); font-family:var(--ff-mono); text-transform:uppercase; letter-spacing:.1em;">About Image Placeholder</p>
+        <div style="background: var(--clr-dark-3); border:1px solid var(--clr-border); border-radius: var(--r-xl); overflow:hidden; aspect-ratio:4/3;">
+          <img src="./assets/images/gallery/gallery-17.jpeg" alt="ITI Pro EV showroom with component cutaway display" loading="lazy" style="width:100%; height:100%; object-fit:cover; display:block;"/>
         </div>
         <div class="grid grid--2" style="gap:var(--sp-4);">
           <div class="card" style="padding:var(--sp-4);">
@@ -669,6 +664,61 @@
   </div>
 </section>
 
+<!-- ████ LEADERSHIP ████ -->
+<section class="section section--dark2">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Leadership</span>
+      <h2 class="section-title">Led by <span>EV Experts</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">A dedicated leadership team driving ITI Pro's mission across strategy, finance, and operations.</p>
+    </div>
+    <div id="home-leaders" style="display:grid; grid-template-columns:repeat(4,1fr); gap:var(--sp-5);"></div>
+    <div class="text-center mt-10">
+      <a href="./pages/team.html" class="btn btn--outline">Meet the Full Team →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ████ FLYER PROMO BAND ████ -->
+<section class="section section--dark3">
+  <div class="container">
+    <div id="home-flyer"></div>
+  </div>
+</section>
+
+<!-- ████ CONTACT + MAP ████ -->
+<section class="section section--dark2" id="contact">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Find Us</span>
+      <h2 class="section-title">Visit or <span>Contact Us</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Reach out for training, service, sales, or franchise enquiries — or drop by our office.</p>
+    </div>
+    <div class="two-col" style="align-items:stretch; gap:var(--sp-8);">
+      <div style="display:flex; flex-direction:column; gap:var(--sp-4); justify-content:center;">
+        <a id="home-phone" href="#" class="card" style="display:flex; gap:var(--sp-4); align-items:center; text-decoration:none;">
+          <span style="font-size:1.6rem;">📞</span>
+          <span><span style="display:block; font-family:var(--ff-mono); font-size:var(--fs-xs); text-transform:uppercase; letter-spacing:.1em; color:var(--clr-primary);">Call Us</span><span id="home-phone-val" style="color:var(--clr-white); font-weight:600;"></span></span>
+        </a>
+        <a id="home-email" href="#" class="card" style="display:flex; gap:var(--sp-4); align-items:center; text-decoration:none;">
+          <span style="font-size:1.6rem;">✉️</span>
+          <span><span style="display:block; font-family:var(--ff-mono); font-size:var(--fs-xs); text-transform:uppercase; letter-spacing:.1em; color:var(--clr-primary);">Email</span><span id="home-email-val" style="color:var(--clr-white); font-weight:600;"></span></span>
+        </a>
+        <div class="card" style="display:flex; gap:var(--sp-4); align-items:flex-start;">
+          <span style="font-size:1.6rem;">📍</span>
+          <span><span style="display:block; font-family:var(--ff-mono); font-size:var(--fs-xs); text-transform:uppercase; letter-spacing:.1em; color:var(--clr-primary);">Office</span><span id="home-address-val" style="color:var(--clr-text-muted);"></span></span>
+        </div>
+        <a id="home-directions" href="#" target="_blank" rel="noopener" class="btn btn--primary">📍 Open in Google Maps</a>
+      </div>
+      <div style="position:relative; min-height:320px; border:1px solid var(--clr-border); border-radius:var(--r-xl); overflow:hidden;">
+        <iframe id="home-map" title="ITI Pro location" width="100%" height="100%" style="position:absolute; inset:0; border:0; min-height:320px;" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ████ CTA BAND ████ -->
 <section class="section cta-band">
   <div class="container container--md">
@@ -690,5 +740,60 @@
 <div id="footer-placeholder"></div>
 <script src="./assets/js/config.js"></script>
 <script src="./assets/js/main.js"></script>
+<script src="./assets/js/ev-catalog.js"></script>
+<script>
+(function(){
+  function asset(p){ return './' + p; }
+
+  // Leadership strip
+  var lg = document.getElementById('home-leaders');
+  if (lg && SITE.team) {
+    SITE.team.forEach(function(m){
+      var img = m.photo
+        ? '<img src="'+asset(m.photo)+'" alt="'+m.name+'" loading="lazy" style="width:100%; aspect-ratio:1/1; object-fit:cover; display:block;"/>'
+        : '<div style="width:100%; aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; font-size:3rem; background:var(--clr-dark-4);">👤</div>';
+      var d = document.createElement('div');
+      d.className = 'card';
+      d.style.cssText = 'padding:0; overflow:hidden;';
+      d.innerHTML = img +
+        '<div style="padding:var(--sp-4);">'+
+          '<div style="font-family:var(--ff-mono); font-size:var(--fs-xs); color:var(--clr-primary); text-transform:uppercase; letter-spacing:.1em; margin-bottom:4px;">'+m.role+'</div>'+
+          '<div style="font-family:var(--ff-display); font-size:var(--fs-lg); font-weight:700; color:var(--clr-white); line-height:1.2;">'+m.name+'</div>'+
+        '</div>';
+      lg.appendChild(d);
+    });
+  }
+
+  // Flyer band
+  EVCatalog.renderFlyerBanner('home-flyer', {
+    index: 0,
+    eyebrow: 'Go Electric',
+    title: 'Stop Paying for Petrol',
+    text: 'No fuel cost. Low maintenance. An eco-friendly ride. Smart riders across India are switching to electric with ITI Pro — are you?',
+    ctaText: 'Explore EV Products',
+    ctaHref: './pages/sales.html',
+    ctaSecondary: { text: 'Book a Service', href: './pages/service.html' }
+  });
+
+  // Contact + map
+  if (typeof SITE !== 'undefined') {
+    var ph = document.getElementById('home-phone'), phv = document.getElementById('home-phone-val');
+    if (ph) { ph.href = 'tel:' + SITE.phone; phv.textContent = SITE.phone; }
+    var em = document.getElementById('home-email'), emv = document.getElementById('home-email-val');
+    if (em) { em.href = 'mailto:' + SITE.email; emv.textContent = SITE.email; }
+    var ad = document.getElementById('home-address-val');
+    if (ad) ad.textContent = SITE.address;
+    var mf = document.getElementById('home-map');
+    if (mf && SITE.mapEmbed) mf.src = SITE.mapEmbed;
+    var db = document.getElementById('home-directions');
+    if (db && SITE.mapLink) db.href = SITE.mapLink;
+  }
+
+  // Responsive leadership grid
+  var mq = window.matchMedia('(max-width: 900px)');
+  function applyCols(){ if (lg) lg.style.gridTemplateColumns = mq.matches ? 'repeat(2,1fr)' : 'repeat(4,1fr)'; }
+  applyCols(); mq.addEventListener('change', applyCols);
+})();
+</script>
 </body>
 </html>

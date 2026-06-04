@@ -174,7 +174,6 @@
       <button class="dept-btn active" data-dept="all">All Members</button>
       <button class="dept-btn" data-dept="executive">Executive</button>
       <button class="dept-btn" data-dept="finance">Finance</button>
-      <button class="dept-btn" data-dept="technical">Technical</button>
       <button class="dept-btn" data-dept="operations">Operations</button>
     </div>
 
@@ -185,9 +184,9 @@
 <section class="section--sm section--dark2" style="padding-block: var(--sp-12);">
   <div class="container">
     <div class="grid grid--4">
-      <div class="stat-block"><div class="stat-block__number">13</div><div class="stat-block__label">Leadership Roles</div></div>
-      <div class="stat-block"><div class="stat-block__number">80+</div><div class="stat-block__label">Yrs Combined Exp.</div></div>
-      <div class="stat-block"><div class="stat-block__number">8</div><div class="stat-block__label">Departments</div></div>
+      <div class="stat-block"><div class="stat-block__number">4</div><div class="stat-block__label">Core Leaders</div></div>
+      <div class="stat-block"><div class="stat-block__number">50+</div><div class="stat-block__label">Yrs Combined Exp.</div></div>
+      <div class="stat-block"><div class="stat-block__number">3</div><div class="stat-block__label">Functions</div></div>
       <div class="stat-block"><div class="stat-block__number">12+</div><div class="stat-block__label">States Served</div></div>
     </div>
   </div>
@@ -209,36 +208,25 @@
 <script src="../assets/js/main.js"></script>
 <script>
 (function() {
-  const deptMap = {
-    'Chief Patron':      'executive',
-    'CEO':               'executive',
-    'CFO — Finance':     'finance',
-    'CFO — Foreign':     'finance',
-    'CMO':               'executive',
-    'CTO — Training':    'technical',
-    'CTO — Technical':   'technical',
-    'COO — Operations':  'operations',
-    'CPO — Production':  'operations',
-    'HR Manager':        'operations',
-    'Admin Manager':     'operations',
-    'Operation Manager': 'operations',
-    'Executive':         'executive',
-  };
   function initials(name) {
-    return name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+    return name.replace(/[.()]/g,'').split(' ').filter(Boolean).map(w => w[0]).join('').slice(0,2).toUpperCase();
   }
+  function assetUrl(p){ return (location.pathname.indexOf('/pages/')!==-1?'../':'./') + p; }
   const grid = document.getElementById('team-grid');
   SITE.team.forEach(function(member) {
-    const dept = deptMap[member.role] || 'executive';
+    const dept = member.dept || 'executive';
     const card = document.createElement('div');
     card.className = 'team-card';
     card.setAttribute('data-dept', dept);
-    card.innerHTML =
-      '<div class="team-card__photo-wrap">' +
-        '<div class="team-card__photo-placeholder">' +
+    const photoInner = member.photo
+      ? '<img src="' + assetUrl(member.photo) + '" alt="' + member.name + '" loading="lazy" style="width:100%;aspect-ratio:1/1;object-fit:cover;display:block;"/>'
+      : '<div class="team-card__photo-placeholder">' +
           '<div class="avatar-icon">👤</div>' +
           '<div class="avatar-initials">' + initials(member.name) + '</div>' +
-        '</div>' +
+        '</div>';
+    card.innerHTML =
+      '<div class="team-card__photo-wrap">' +
+        photoInner +
         '<div class="team-card__role-badge">' + dept + '</div>' +
       '</div>' +
       '<div class="team-card__body">' +

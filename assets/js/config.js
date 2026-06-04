@@ -10,12 +10,16 @@ const SITE = {
   taglineSub: "Training · Service · Sales · Franchise",
 
   // Contact
-  phone: "+91 98765 43210",
-  phoneAlt: "+91 91234 56789",
+  phone: "+91 94405 58121",
+  phoneAlt: "+91 83285 79907",
   email: "info@itipro.in",
   emailSupport: "support@itipro.in",
-  address: "ITI Pro House, Plot No. 42, EV Industrial Zone, Hyderabad — 500032, Telangana, India",
+  address: "ITI Pro EV House, EV Industrial Zone, Hyderabad — 500032, Telangana, India",
   addressShort: "Hyderabad, Telangana, India",
+
+  // Location / Google Maps
+  mapLink:  "https://maps.app.goo.gl/3zW82gujKuQZQWNx8",
+  mapEmbed: "https://www.google.com/maps?q=Hyderabad%2C%20Telangana%2C%20India&z=12&output=embed",
 
   // Social Links
   social: {
@@ -70,21 +74,45 @@ const SITE = {
     { label: "Contact",   href: "pages/contact.html" },
   ],
 
-  // Team members
+  // Leadership team — real ITI Pro leaders
   team: [
-    { role: "Chief Patron",       name: "Dr. Ramesh Kumar",  email: "patron@itipro.in",        phone: "+91 98001 00001", brief: "Visionary leader with 30+ years in industrial training and EV technology policy." },
-    { role: "CEO",                name: "Arjun Mehta",       email: "ceo@itipro.in",           phone: "+91 98001 00002", brief: "Driving organizational growth and EV ecosystem partnerships across India." },
-    { role: "CFO — Finance",      name: "Priya Sharma",      email: "cfo@itipro.in",           phone: "+91 98001 00003", brief: "Overseeing financial planning, compliance, and sustainable investment strategies." },
-    { role: "CFO — Foreign",      name: "Karthik Nair",      email: "cfo.foreign@itipro.in",   phone: "+91 98001 00004", brief: "Managing international finance, forex, and global expansion financing." },
-    { role: "CMO",                name: "Sneha Reddy",       email: "cmo@itipro.in",           phone: "+91 98001 00005", brief: "Leading brand strategy, digital campaigns, and EV awareness programs." },
-    { role: "CTO — Training",     name: "Vikram Joshi",      email: "cto.training@itipro.in",  phone: "+91 98001 00006", brief: "Designing cutting-edge EV training curricula and certification frameworks." },
-    { role: "CTO — Technical",    name: "Anil Verma",        email: "cto.tech@itipro.in",      phone: "+91 98001 00007", brief: "Leading R&D, EV hardware integration, and technical infrastructure." },
-    { role: "COO — Operations",   name: "Meera Pillai",      email: "coo@itipro.in",           phone: "+91 98001 00008", brief: "Streamlining operations, supply chain, and service delivery nationwide." },
-    { role: "CPO — Production",   name: "Suresh Iyer",       email: "cpo@itipro.in",           phone: "+91 98001 00009", brief: "Overseeing product development cycles and manufacturing partnerships." },
-    { role: "HR Manager",         name: "Lakshmi Das",       email: "hr@itipro.in",            phone: "+91 98001 00010", brief: "Building a skilled EV workforce through hiring, training, and culture." },
-    { role: "Admin Manager",      name: "Rajan Bose",        email: "admin@itipro.in",         phone: "+91 98001 00011", brief: "Managing administrative processes, facilities, and organizational compliance." },
-    { role: "Operation Manager",  name: "Divya Choudhury",   email: "ops@itipro.in",           phone: "+91 98001 00012", brief: "Coordinating day-to-day field operations and franchise networks." },
-    { role: "Executive",          name: "Rahul Patil",       email: "exec1@itipro.in",         phone: "+91 98001 00013", brief: "Executing business development and client relationship initiatives." },
+    {
+      role: "CEO",
+      name: "Prof. Mohammed Iftheqar",
+      dept: "executive",
+      email: "ceo@itipro.in",
+      phone: "+91 94405 58121",
+      photo: "assets/images/leaders/ceo-mohammed-iftheqar.png",
+      brief: "As Chief Executive Officer, Prof. Mohammed Iftheqar sets ITI Pro's vision and strategy across EV training, service, and distribution — leading the mission to electrify India's mobility workforce.",
+      featured: true,
+    },
+    {
+      role: "Deputy CEO",
+      name: "Shroff. Mohd. Fayazali",
+      dept: "executive",
+      email: "deputyceo@itipro.in",
+      phone: "+91 91824 47663",
+      photo: "assets/images/leaders/deputy-ceo-fayazali.jpeg",
+      brief: "As Deputy CEO, Shroff. Mohd. Fayazali oversees execution of company strategy, partnerships, and regional expansion — ensuring ITI Pro's EV ecosystem scales smoothly and sustainably.",
+    },
+    {
+      role: "Deputy CFO",
+      name: "Mohammed Sardar",
+      dept: "finance",
+      email: "cfo@itipro.in",
+      phone: "+91 95058 04228",
+      photo: "assets/images/leaders/cfo-mohammed-sardar.png",
+      brief: "As Deputy Chief Financial Officer, Mohammed Sardar leads financial planning, budgeting, and compliance — building a strong, transparent foundation for the company's growth in the EV sector.",
+    },
+    {
+      role: "Operations Director (OOD)",
+      name: "Mohammed Malik",
+      dept: "operations",
+      email: "operations@itipro.in",
+      phone: "+91 83285 79907",
+      photo: "assets/images/leaders/ood-mohammed-malik.jpeg",
+      brief: "As Officer of Operations, Mohammed Malik directs on-ground operations — coordinating service delivery, logistics, and field teams to keep ITI Pro's EV operations running efficiently every day.",
+    },
   ],
 
   currentYear: new Date().getFullYear(),

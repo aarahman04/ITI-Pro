@@ -224,8 +224,8 @@
     <div class="card" style="display:flex; gap:var(--sp-5); align-items:flex-start;">
       <div style="font-size:2rem; flex-shrink:0;">💡</div>
       <div>
-        <div class="card__title">Replace Placeholders With Real Photos</div>
-        <p class="card__text">All gallery items currently use placeholder graphics. To add real photos, edit the <code style="background:var(--clr-dark-4); padding:2px 6px; border-radius:var(--r-sm); font-size:.9em; color:var(--clr-primary);">photos</code> array in this page's inline script and replace the <code style="background:var(--clr-dark-4); padding:2px 6px; border-radius:var(--r-sm); font-size:.9em; color:var(--clr-primary);">image: ''</code> field with the path or URL of your photo file (e.g. <code style="background:var(--clr-dark-4); padding:2px 6px; border-radius:var(--r-sm); font-size:.9em; color:var(--clr-primary);">/assets/img/event-2024.jpg</code>). When an image path is provided, the placeholder is automatically replaced.</p>
+        <div class="card__title">Click Any Photo to Enlarge</div>
+        <p class="card__text">This gallery showcases real photos from across the ITI Pro EV ecosystem — battery production, electric scooters, service work, and launch events. Use the category filters above to browse by type, and click any image to open it full-size in the lightbox viewer. New photos are added to the <code style="background:var(--clr-dark-4); padding:2px 6px; border-radius:var(--r-sm); font-size:.9em; color:var(--clr-primary);">assets/images/gallery</code> folder.</p>
       </div>
     </div>
   </div>
@@ -251,38 +251,40 @@
 <div id="footer-placeholder"></div>
 <script src="../assets/js/config.js"></script>
 <script src="../assets/js/main.js"></script>
+<script src="../assets/js/ev-catalog.js"></script>
 <script>
 (function() {
-  // Photos array — replace `image` with real paths to use real photos
+  function assetUrl(p){ return (location.pathname.indexOf('/pages/')!==-1?'../':'./') + p; }
+  const G = function(n){ return assetUrl('assets/images/gallery/' + n + '.jpeg'); };
+
+  // Real ITI Pro photos from the EV media archive
   const photos = [
-    { cat: 'training', caption: 'EV Motor Workshop — Hyderabad 2024',          icon: '🔧',  date: 'Mar 2024', loc: 'Hyderabad',    featured: true,  image: '' },
-    { cat: 'expo',     caption: 'ITI Pro EV Expo 2024 — Main Stage',           icon: '🏆',  date: 'Aug 2024', loc: 'Delhi',        featured: false, image: '' },
-    { cat: 'training', caption: 'Battery Pack Assembly — Hands-on Session',    icon: '🔋',  date: 'Apr 2024', loc: 'Bengaluru',    featured: false, image: '' },
-    { cat: 'service',  caption: 'Onsite Service Visit — Fleet Client',         icon: '🔧',  date: 'May 2024', loc: 'Pune',         featured: false, image: '' },
-    { cat: 'team',     caption: 'Leadership Annual Meet 2024',                 icon: '👥',  date: 'Feb 2024', loc: 'Hyderabad',    featured: false, image: '' },
-    { cat: 'events',   caption: 'National EV Skill Competition Finals',        icon: '🏅',  date: 'Sep 2024', loc: 'Chennai',      featured: true,  image: '' },
-    { cat: 'training', caption: 'Industrial Visit — Ola Electric Factory',     icon: '🏭',  date: 'Jun 2024', loc: 'Tamil Nadu',   featured: false, image: '' },
-    { cat: 'expo',     caption: 'EV Product Launch — Expo 2024',               icon: '⚡',  date: 'Aug 2024', loc: 'Delhi',        featured: false, image: '' },
-    { cat: 'service',  caption: 'Service Centre Launch — Bengaluru',           icon: '🎉',  date: 'Jul 2024', loc: 'Bengaluru',    featured: false, image: '' },
-    { cat: 'team',     caption: 'Trainer Certification Ceremony',              icon: '🎓',  date: 'Mar 2024', loc: 'Hyderabad',    featured: false, image: '' },
-    { cat: 'events',   caption: 'Government MoU Signing Ceremony',             icon: '🤝',  date: 'Apr 2024', loc: 'Andhra Pradesh', featured: false, image: '' },
-    { cat: 'training', caption: 'Seminar — EV Policy &amp; Market Outlook',    icon: '🎤',  date: 'Jan 2024', loc: 'Hyderabad',    featured: false, image: '' },
-    { cat: 'expo',     caption: 'Expo Workshop Floor Walkthrough',             icon: '🚶',  date: 'Aug 2024', loc: 'Delhi',        featured: false, image: '' },
-    { cat: 'training', caption: 'BLDC Motor Diagnostics Lab',                  icon: '⚙️',  date: 'May 2024', loc: 'Pune',         featured: false, image: '' },
-    { cat: 'service',  caption: 'Mobile Service Van — Field Deployment',       icon: '🚐',  date: 'Jun 2024', loc: 'Mumbai',       featured: false, image: '' },
-    { cat: 'events',   caption: 'Alumni Reunion — Batch of 2022',              icon: '🎊',  date: 'Oct 2024', loc: 'Hyderabad',    featured: false, image: '' },
-    { cat: 'team',     caption: 'Field Operations Team — Annual Awards',       icon: '🏆',  date: 'Dec 2023', loc: 'Hyderabad',    featured: false, image: '' },
-    { cat: 'training', caption: 'Charging Infrastructure Training',            icon: '🔌',  date: 'Jul 2024', loc: 'Coimbatore',   featured: false, image: '' },
+    { cat: 'service',  caption: 'Technicians Servicing an EV Battery Pack',     icon: '🔧',  date: '2026', loc: 'Service Bay', featured: true,  image: G('gallery-04') },
+    { cat: 'products', caption: 'EV Showroom — Component Cutaway Display',       icon: '⚡',  date: '2026', loc: 'Showroom',    featured: true,  image: G('gallery-17') },
+    { cat: 'products', caption: 'Automated Prismatic Battery Cell Production',   icon: '🔋',  date: '2026', loc: 'Factory',     featured: false, image: G('gallery-01') },
+    { cat: 'products', caption: 'EV Battery Module — Busbar Assembly',           icon: '🔋',  date: '2026', loc: 'Factory',     featured: false, image: G('gallery-02') },
+    { cat: 'products', caption: 'E-Bike Manufacturing Floor',                    icon: '🏭',  date: '2026', loc: 'Factory',     featured: false, image: G('gallery-03') },
+    { cat: 'products', caption: 'Cylindrical Cell Battery Production Line',       icon: '🔋',  date: '2026', loc: 'Factory',     featured: false, image: G('gallery-05') },
+    { cat: 'products', caption: 'Assembling Cylindrical Battery Packs',          icon: '🔧',  date: '2026', loc: 'Factory',     featured: false, image: G('gallery-06') },
+    { cat: 'vehicles', caption: 'Premium Red Electric Scooter',                  icon: '🛵',  date: '2026', loc: 'Showroom',    featured: false, image: G('gallery-07') },
+    { cat: 'vehicles', caption: '100% Electric Scooter Showroom',                icon: '⚡',  date: '2026', loc: 'Showroom',    featured: false, image: G('gallery-08') },
+    { cat: 'vehicles', caption: 'Neon Green Electric Scooter',                   icon: '🛵',  date: '2026', loc: 'Showroom',    featured: false, image: G('gallery-09') },
+    { cat: 'vehicles', caption: 'Electric Scooter Stock — Ready to Dispatch',    icon: '📦',  date: '2026', loc: 'Warehouse',   featured: false, image: G('gallery-10') },
+    { cat: 'vehicles', caption: 'Metro Electric Scooter in Showroom',            icon: '🛵',  date: '2026', loc: 'Showroom',    featured: false, image: G('gallery-11') },
+    { cat: 'vehicles', caption: 'Orange Electric Scooter',                       icon: '🛵',  date: '2026', loc: 'Showroom',    featured: false, image: G('gallery-12') },
+    { cat: 'events',   caption: 'Electric Scooter Dealer Launch Event',          icon: '🎉',  date: '2026', loc: 'Launch',      featured: true,  image: G('gallery-14') },
+    { cat: 'vehicles', caption: 'Matte Green Electric Scooter Showcase',         icon: '🛵',  date: '2026', loc: 'Showroom',    featured: false, image: G('gallery-15') },
+    { cat: 'vehicles', caption: 'Electric Scooter Showroom Lineup',              icon: '🛵',  date: '2026', loc: 'Showroom',    featured: false, image: G('gallery-16') },
+    { cat: 'vehicles', caption: 'Blue Electric Scooter Display',                 icon: '🛵',  date: '2026', loc: 'Showroom',    featured: false, image: G('gallery-13') },
   ];
 
   // Categories with labels and icons
   const categories = [
-    { id: 'all',      label: 'All Photos',  icon: '📷' },
-    { id: 'training', label: 'Training',    icon: '🎓' },
-    { id: 'expo',     label: 'Expo',        icon: '🏆' },
-    { id: 'service',  label: 'Service',     icon: '🔧' },
-    { id: 'team',     label: 'Team',        icon: '👥' },
-    { id: 'events',   label: 'Events',      icon: '🎉' },
+    { id: 'all',      label: 'All Photos', icon: '📷' },
+    { id: 'vehicles', label: 'Vehicles',   icon: '🛵' },
+    { id: 'products', label: 'Products',   icon: '🔋' },
+    { id: 'service',  label: 'Service',    icon: '🔧' },
+    { id: 'events',   label: 'Events',     icon: '🎉' },
   ];
 
   // Build filter buttons with counts
@@ -324,6 +326,11 @@
           '<div class="photo-item__meta"><span>📅 ' + p.date + '</span><span>📍 ' + p.loc + '</span></div>' +
         '</div>' +
       '</div>';
+    if (p.image) {
+      item.addEventListener('click', function() {
+        if (window.EVCatalog) EVCatalog.openLightbox(p.image, p.caption, '📍 ' + p.loc);
+      });
+    }
     grid.appendChild(item);
   });
 

@@ -238,6 +238,29 @@
   </div>
 </section>
 
+<!-- ── GENUINE SPARE PARTS ── -->
+<section class="section section--dark2" id="parts">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Genuine Parts</span>
+      <h2 class="section-title">EV Spare Parts We <span>Fit &amp; Stock</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Every repair uses genuine, quality-checked components — from brakes and controllers to chargers, motors and drivetrain parts. Browse a selection of what we keep in stock for fast, reliable service.</p>
+    </div>
+    <div id="service-parts"></div>
+    <div class="text-center mt-10">
+      <a href="./sales.html#catalog" class="btn btn--outline btn--lg">View Full Parts Catalog →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICE FLYER ── -->
+<section class="section section--dark">
+  <div class="container">
+    <div id="service-flyer"></div>
+  </div>
+</section>
+
 <section class="section section--dark2">
   <div class="container">
     <div class="two-col" style="align-items:start; gap: var(--sp-12);">
@@ -437,5 +460,17 @@
 <div id="footer-placeholder"></div>
 <script src="../assets/js/config.js"></script>
 <script src="../assets/js/main.js"></script>
+<script src="../assets/js/ev-catalog.js"></script>
+<script>
+  EVCatalog.renderProducts('service-parts', { withFilter: true, cats: ['brakes','controllers','chargers','motors','drivetrain','accessories'] });
+  EVCatalog.renderFlyerBanner('service-flyer', {
+    index: 5,
+    reverse: true,
+    eyebrow: 'Smart Ownership',
+    ctaText: 'Book a Service',
+    ctaHref: './contact.html',
+    ctaSecondary: { text: 'View Tariff', href: '#tariff' }
+  });
+</script>
 </body>
 </html>

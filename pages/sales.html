@@ -182,4 +182,115 @@
         <div class="pc-specs">
           <div class="pc-spec"><span class="pc-spec__label">Voltage</span><span class="pc-spec__val">48V – 72V</span></div>
           <div class="pc-spec"><span class="pc-spec__label">Current</span><span class="pc-spec__val">25A – 120A</span></div>
-          <div class="pc-spec"><span class="pc-spec__label">Drive Type</span><span class="pc-spec__val">Sine / FOC /
+          <div class="pc-spec"><span class="pc-spec__label">Drive Type</span><span class="pc-spec__val">Sine / FOC</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FULL PRODUCT CATALOG ── -->
+<section class="section section--dark2" id="catalog">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">In Stock</span>
+      <h2 class="section-title">EV Spare Parts <span>Catalog</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Browse our full range of genuine EV spare parts and components — motors, batteries, controllers, chargers, brakes, body panels and complete conversion kits. Use the filters to find exactly what you need, and click any product to view it larger.</p>
+    </div>
+    <div id="sales-products"></div>
+  </div>
+</section>
+
+<!-- ── FLYER PROMO ── -->
+<section class="section section--dark">
+  <div class="container">
+    <div id="sales-flyer"></div>
+  </div>
+</section>
+
+<!-- ── DEALER TIERS ── -->
+<section class="section section--dark3" id="dealer">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Partner With Us</span>
+      <h2 class="section-title">Become an <span>ITI Pro Dealer</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Stock genuine EV parts and vehicles with margin protection, marketing support, and priority supply. Choose the partnership tier that fits your business.</p>
+    </div>
+    <div class="dealer-tiers">
+      <div class="dealer-tier">
+        <div class="dt-badge"><span class="badge badge--dim">Starter</span></div>
+        <div class="dt-name">Retail Partner</div>
+        <div class="dt-min">Min. order ₹50,000</div>
+        <div class="dt-perks">
+          <div class="dt-perk">Access to full parts catalog</div>
+          <div class="dt-perk">Standard dealer pricing</div>
+          <div class="dt-perk">GST invoicing &amp; warranty support</div>
+          <div class="dt-perk">Email &amp; phone support</div>
+        </div>
+        <a href="./contact.html" class="btn btn--outline w-full">Apply</a>
+      </div>
+      <div class="dealer-tier featured">
+        <div class="dt-badge"><span class="badge badge--primary">Most Popular</span></div>
+        <div class="dt-name">Authorised Dealer</div>
+        <div class="dt-min">Min. order ₹2,00,000</div>
+        <div class="dt-perks">
+          <div class="dt-perk">Best volume pricing &amp; margins</div>
+          <div class="dt-perk">Priority stock allocation</div>
+          <div class="dt-perk">Co-branded marketing material</div>
+          <div class="dt-perk">Dedicated relationship manager</div>
+          <div class="dt-perk">Service &amp; training tie-up</div>
+        </div>
+        <a href="./contact.html" class="btn btn--primary w-full">Apply Now</a>
+      </div>
+      <div class="dealer-tier">
+        <div class="dt-badge"><span class="badge badge--accent">Enterprise</span></div>
+        <div class="dt-name">Distributor</div>
+        <div class="dt-min">Min. order ₹10,00,000</div>
+        <div class="dt-perks">
+          <div class="dt-perk">Territory distribution rights</div>
+          <div class="dt-perk">Bulk &amp; custom-order pricing</div>
+          <div class="dt-perk">Franchise &amp; service onboarding</div>
+          <div class="dt-perk">Joint business planning</div>
+        </div>
+        <a href="./contact.html" class="btn btn--outline w-full">Talk to Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="section section--dark2">
+  <div class="container container--md">
+    <div class="highlight-box text-center">
+      <span class="section-label">Get a Quote</span>
+      <h2 class="section-title mt-4">Need Parts or <span>Bulk Supply?</span></h2>
+      <p style="color:var(--clr-text-muted); font-size:var(--fs-md); max-width:520px; margin-inline:auto; margin-block:var(--sp-5) var(--sp-8);">
+        Tell us what you're looking for — single components, full conversion kits, or bulk orders — and our sales team will send a quote with availability and pricing.
+      </p>
+      <div class="btn-group" style="justify-content:center;">
+        <a href="./contact.html" class="btn btn--primary btn--lg">Request a Quote</a>
+        <a href="./service.html" class="btn btn--outline btn--lg">EV Service</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/ev-catalog.js"></script>
+<script>
+  EVCatalog.renderProducts('sales-products', { withFilter: true });
+  EVCatalog.renderFlyerBanner('sales-flyer', {
+    index: 4,
+    eyebrow: 'Why Go Electric',
+    ctaText: 'Browse Vehicles',
+    ctaHref: '#catalog',
+    ctaSecondary: { text: 'Contact Sales', href: './contact.html' }
+  });
+</script>
+</body>
+</html>

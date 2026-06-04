@@ -299,6 +299,29 @@
   </div>
 </section>
 
+<!-- ── WHAT WE SUPPLY ── -->
+<section class="section section--dark" id="supply">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">What We Supply</span>
+      <h2 class="section-title">EV Products Our <span>Customers Trust</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">From individual spare parts to complete conversion kits — here's a snapshot of the genuine EV components we supply to dealers, fleets, and service centres nationwide.</p>
+    </div>
+    <div id="customer-products"></div>
+    <div class="text-center mt-10">
+      <a href="./sales.html#catalog" class="btn btn--outline btn--lg">Explore Full Catalog →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── CUSTOMER FLYER ── -->
+<section class="section section--dark2">
+  <div class="container">
+    <div id="customer-flyer"></div>
+  </div>
+</section>
+
 <!-- ── TESTIMONIALS ── -->
 <section class="section section--dark3">
   <div class="container">
@@ -507,6 +530,22 @@
     });
   });
 })();
+</script>
+<script src="../assets/js/ev-catalog.js"></script>
+<script>
+  EVCatalog.renderProducts('customer-products', {
+    cats: ['motors','batteries','controllers','chargers'],
+    limit: 8
+  });
+  EVCatalog.renderFlyerBanner('customer-flyer', {
+    index: 1,
+    eyebrow: 'Proven Value',
+    title: 'The EVs Our Customers Rely On',
+    text: '100% electric, zero fuel cost and running costs as low as 20 paise per kilometre — the reason fleets, dealers and institutions partner with ITI Pro.',
+    ctaText: 'Become a Partner',
+    ctaHref: './contact.html',
+    ctaSecondary: { text: 'View Products', href: './sales.html#catalog' }
+  });
 </script>
 </body>
 </html>
