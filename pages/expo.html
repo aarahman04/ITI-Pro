@@ -754,9 +754,28 @@
   </div>
 </section>
 
+<!-- ── EXPO FLYER ── -->
+<section class="section section--dark2">
+  <div class="container">
+    <div id="expo-flyer"></div>
+  </div>
+</section>
+
 <div id="footer-placeholder"></div>
 <script src="../assets/js/config.js"></script>
 <script src="../assets/js/main.js"></script>
+<script src="../assets/js/ev-catalog.js"></script>
+<script>
+  EVCatalog.renderFlyerBanner('expo-flyer', {
+    index: 4,
+    eyebrow: 'See It Live',
+    title: 'Experience the Future of EV at Our Expo',
+    text: 'Smarter rides and better tomorrows — discover the latest electric vehicles, components and innovations from across India\'s EV industry under one roof.',
+    ctaText: 'Register for Expo',
+    ctaHref: './contact.html',
+    ctaSecondary: { text: 'View Gallery', href: './photo-gallery.html' }
+  });
+</script>
 <script>
 (function() {
   // Day tab switcher

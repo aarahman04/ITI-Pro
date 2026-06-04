@@ -289,9 +289,9 @@
 <div style="background:var(--clr-dark-4); border-top:1px solid var(--clr-border); border-bottom:1px solid var(--clr-border); padding-block:var(--sp-10);">
   <div class="container">
     <div class="grid grid--4">
-      <div class="stat-block"><div class="stat-block__number">100+</div><div class="stat-block__label">Videos Published</div></div>
-      <div class="stat-block"><div class="stat-block__number">50K+</div><div class="stat-block__label">Total Views</div></div>
-      <div class="stat-block"><div class="stat-block__number">8</div><div class="stat-block__label">Content Categories</div></div>
+      <div class="stat-block"><div class="stat-block__number">6</div><div class="stat-block__label">Videos Available</div></div>
+      <div class="stat-block"><div class="stat-block__number">100%</div><div class="stat-block__label">Hands-On Content</div></div>
+      <div class="stat-block"><div class="stat-block__number">HD</div><div class="stat-block__label">Video Quality</div></div>
       <div class="stat-block"><div class="stat-block__number">5</div><div class="stat-block__label">Languages</div></div>
     </div>
   </div>
@@ -309,20 +309,20 @@
     <div class="featured-video-wrap">
       <div class="featured-video">
         <div class="fv-embed">
-          <!-- To activate, replace placeholder div below with: <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe> -->
-          <div class="fv-placeholder">
-            <div class="play-icon">▶</div>
-            <div class="fv-placeholder-label">Featured Video Placeholder — Replace with YouTube embed</div>
-          </div>
+          <video controls preload="metadata" playsinline title="Inside the ITI Pro EV Training Lab"
+                 style="position:absolute;inset:0;width:100%;height:100%;background:#000;">
+            <source src="../assets/videos/training/train-vid-03.mp4" type="video/mp4"/>
+            Your browser does not support embedded video.
+          </video>
         </div>
         <div class="fv-body">
           <div class="fv-info">
             <div class="fv-badge"><span class="badge badge--primary">⚡ Featured</span></div>
-            <div class="fv-title">ITI Pro — India's #1 EV Training &amp; Service Organisation</div>
+            <div class="fv-title">Inside the ITI Pro EV Training Lab</div>
             <div class="fv-meta">
-              <span>📅 Updated Nov 2024</span>
-              <span>⏱️ 8 min</span>
-              <span class="text-primary">👁 12,400 views</span>
+              <span>📅 2026</span>
+              <span>🎓 Hands-On Training</span>
+              <span class="text-primary">▶ Watch now</span>
             </div>
           </div>
           <a href="./contact.html" class="btn btn--primary">Get in Touch</a>
@@ -362,8 +362,8 @@
     <div class="card" style="display:flex; gap:var(--sp-5); align-items:flex-start;">
       <div style="font-size:2rem; flex-shrink:0;">💡</div>
       <div>
-        <div class="card__title">Adding Real YouTube Videos</div>
-        <p class="card__text">All video cards currently use placeholder play icons. To embed a real YouTube video, edit the <code style="background:var(--clr-dark-4); padding:2px 6px; border-radius:var(--r-sm); font-size:.9em; color:var(--clr-primary);">videos</code> array in this page's inline script and replace the <code style="background:var(--clr-dark-4); padding:2px 6px; border-radius:var(--r-sm); font-size:.9em; color:var(--clr-primary);">videoId: ''</code> field with the YouTube video ID (the part after <code style="background:var(--clr-dark-4); padding:2px 6px; border-radius:var(--r-sm); font-size:.9em; color:var(--clr-primary);">watch?v=</code>). When a valid video ID is provided, the placeholder is automatically replaced with an embedded iframe.</p>
+        <div class="card__title">Locally-Hosted EV Videos</div>
+        <p class="card__text">These videos are real ITI Pro training and showcase clips streamed directly from the <code style="background:var(--clr-dark-4); padding:2px 6px; border-radius:var(--r-sm); font-size:.9em; color:var(--clr-primary);">assets/videos</code> folder — with standard playback controls and no autoplay. To add more, drop an MP4 into that folder and add an entry with a <code style="background:var(--clr-dark-4); padding:2px 6px; border-radius:var(--r-sm); font-size:.9em; color:var(--clr-primary);">src</code> path to the <code style="background:var(--clr-dark-4); padding:2px 6px; border-radius:var(--r-sm); font-size:.9em; color:var(--clr-primary);">videos</code> array. A <code style="background:var(--clr-dark-4); padding:2px 6px; border-radius:var(--r-sm); font-size:.9em; color:var(--clr-primary);">videoId</code> field is also supported for YouTube embeds.</p>
       </div>
     </div>
   </div>
@@ -391,30 +391,25 @@
 <script src="../assets/js/main.js"></script>
 <script>
 (function() {
-  // Videos array — replace `videoId` with real YouTube IDs to activate embeds
+  function assetUrl(p){ return (location.pathname.indexOf('/pages/')!==-1?'../':'./') + p; }
+  const TV = function(n){ return assetUrl('assets/videos/training/' + n + '.mp4'); };
+  const GV = function(n){ return assetUrl('assets/videos/gallery/' + n + '.mp4'); };
+
+  // Real ITI Pro training & showcase videos (local MP4 files)
   const videos = [
-    { cat: 'training', title: 'EV Battery Training Workshop Highlights',  desc: 'A 5-minute walkthrough of our hands-on battery training session.',          duration: '5:24',  date: 'Aug 2024', views: '4.2K',  videoId: '' },
-    { cat: 'expo',     title: 'ITI Pro EV Expo 2024 — Full Recap',         desc: 'The best moments from India\'s fastest-growing EV industry event.',          duration: '7:18',  date: 'Sep 2024', views: '8.7K',  videoId: '' },
-    { cat: 'technical',title: 'How to Diagnose an EV Motor — Live Demo',   desc: 'Step-by-step diagnostic walkthrough on a real BLDC hub motor.',             duration: '12:05', date: 'Jul 2024', views: '15.3K', videoId: '' },
-    { cat: 'stories',  title: 'Alumni Success Story — From ITI to OEM',    desc: 'Suresh Anand shares his journey from polytechnic student to EV technician.', duration: '6:42',  date: 'Jun 2024', views: '3.1K',  videoId: '' },
-    { cat: 'business', title: 'Franchise Partner Interview — Pune Centre', desc: 'Anita Desai on her experience opening an ITI Pro Training Studio.',         duration: '9:15',  date: 'May 2024', views: '2.4K',  videoId: '' },
-    { cat: 'training', title: 'Industrial Visit — Inside an EV Factory',   desc: 'Behind-the-scenes look at electric scooter manufacturing in Tamil Nadu.',   duration: '4:38',  date: 'Apr 2024', views: '6.8K',  videoId: '' },
-    { cat: 'technical',title: 'BMS Cell Balancing — Complete Tutorial',    desc: 'Active vs passive cell balancing explained, with real-world examples.',     duration: '14:22', date: 'Mar 2024', views: '11.6K', videoId: '' },
-    { cat: 'stories',  title: 'Female Technicians Leading EV Service',     desc: 'Meet the women redefining the EV service industry across India.',           duration: '8:09',  date: 'Mar 2024', views: '5.5K',  videoId: '' },
-    { cat: 'expo',     title: 'EV Skill Competition — Final Round',        desc: 'The grand finale of our national EV technician skill competition.',         duration: '10:44', date: 'Sep 2024', views: '7.2K',  videoId: '' },
-    { cat: 'training', title: 'Seminar — EV Policy &amp; 2030 Roadmap',    desc: 'Industry experts decode India\'s EV policy and market outlook.',            duration: '23:11', date: 'Feb 2024', views: '9.0K',  videoId: '' },
-    { cat: 'technical',title: 'Controller Replacement — Fast Walkthrough', desc: 'How our certified technicians replace EV controllers in under 30 minutes.', duration: '5:53',  date: 'Jan 2024', views: '13.4K', videoId: '' },
-    { cat: 'business', title: 'Dealer Onboarding — What to Expect',        desc: 'Everything you need to know about joining the ITI Pro dealer network.',     duration: '6:28',  date: 'Oct 2024', views: '1.8K',  videoId: '' },
+    { cat: 'training', title: 'EV Battery Pack Assembly — Hands-On Demo',     desc: 'Trainees assemble and test lithium battery packs under expert guidance in our EV lab.',        date: '2026', src: TV('train-vid-01') },
+    { cat: 'training', title: 'BLDC Motor & Controller Wiring Walkthrough',   desc: 'A step-by-step look at connecting a BLDC motor, controller and harness the right way.',         date: '2026', src: TV('train-vid-02') },
+    { cat: 'training', title: 'Inside the ITI Pro EV Training Lab',           desc: 'Take a tour of our hands-on training floor where students work on live EV systems.',             date: '2026', src: TV('train-vid-03') },
+    { cat: 'training', title: 'E-Scooter Diagnostics & Service Training',     desc: 'Certified trainers demonstrate fault diagnosis and servicing on a real electric scooter.',       date: '2026', src: TV('train-vid-04') },
+    { cat: 'training', title: 'EV Charging & Battery Safety Session',         desc: 'Essential charging practices and battery-safety procedures every EV technician must know.',      date: '2026', src: TV('train-vid-05') },
+    { cat: 'showcase', title: 'ITI Pro EV Showcase',                          desc: 'A quick look at the electric vehicles and technology that power the ITI Pro ecosystem.',         date: '2026', src: GV('gallery-vid-01') },
   ];
 
   // Categories
   const categories = [
-    { id: 'all',       label: 'All Videos', icon: '🎥' },
-    { id: 'training',  label: 'Training',   icon: '🎓' },
-    { id: 'technical', label: 'Technical',  icon: '🔧' },
-    { id: 'expo',      label: 'Expo',       icon: '🏆' },
-    { id: 'stories',   label: 'Stories',    icon: '💬' },
-    { id: 'business',  label: 'Business',   icon: '💼' },
+    { id: 'all',      label: 'All Videos', icon: '🎥' },
+    { id: 'training', label: 'Training',   icon: '🎓' },
+    { id: 'showcase', label: 'Showcase',   icon: '⚡' },
   ];
 
   // Build filter buttons
@@ -437,7 +432,13 @@
 
     var catLabel = (categories.find(function(c){return c.id===v.cat;}) || {}).label || v.cat;
     var embedInner;
-    if (v.videoId && v.videoId.length > 0) {
+    if (v.src && v.src.length > 0) {
+      embedInner =
+        '<video controls preload="metadata" playsinline title="' + v.title + '" style="position:absolute;inset:0;width:100%;height:100%;background:#000;">' +
+          '<source src="' + v.src + '" type="video/mp4"/>' +
+          'Your browser does not support embedded video.' +
+        '</video>';
+    } else if (v.videoId && v.videoId.length > 0) {
       embedInner =
         '<iframe src="https://www.youtube.com/embed/' + v.videoId + '" allowfullscreen loading="lazy" title="' + v.title + '"></iframe>';
     } else {
@@ -451,7 +452,7 @@
     card.innerHTML =
       '<div class="video-card__embed">' +
         '<div class="video-card__cat-badge">' + catLabel + '</div>' +
-        '<div class="video-card__duration">' + v.duration + '</div>' +
+        (v.duration ? '<div class="video-card__duration">' + v.duration + '</div>' : '') +
         embedInner +
       '</div>' +
       '<div class="video-card__body">' +
@@ -459,7 +460,7 @@
         '<p class="video-card__desc">' + v.desc + '</p>' +
         '<div class="video-card__meta">' +
           '<span>📅 ' + v.date + '</span>' +
-          '<span class="views">👁 ' + v.views + ' views</span>' +
+          '<span class="views">▶ ' + catLabel + '</span>' +
         '</div>' +
       '</div>';
     grid.appendChild(card);

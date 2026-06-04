@@ -82,6 +82,17 @@
       transition: all var(--transition);
     }
     .partner-item:hover { border-color: var(--clr-primary); color: var(--clr-primary); }
+    /* Leadership grid */
+    .about-leaders { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--sp-5); }
+    .about-leader { background:var(--clr-dark-3); border:1px solid var(--clr-border); border-radius:var(--r-lg); overflow:hidden; transition:all var(--transition); display:flex; flex-direction:column; }
+    .about-leader:hover { border-color:var(--clr-primary); transform:translateY(-5px); box-shadow:var(--shadow-md),var(--shadow-glow); }
+    .about-leader img { width:100%; aspect-ratio:1/1; object-fit:cover; display:block; background:var(--clr-dark-4); }
+    .about-leader__body { padding:var(--sp-4); }
+    .about-leader__role { font-family:var(--ff-mono); font-size:var(--fs-xs); color:var(--clr-primary); text-transform:uppercase; letter-spacing:.1em; margin-bottom:var(--sp-1); }
+    .about-leader__name { font-family:var(--ff-display); font-size:var(--fs-lg); font-weight:700; color:var(--clr-white); line-height:1.2; }
+    .patron-avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+    @media (max-width: 1024px) { .about-leaders { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width: 480px)  { .about-leaders { grid-template-columns:1fr; } }
     @media (max-width: 900px) {
       .mvv-grid { grid-template-columns: 1fr; }
       .values-grid { grid-template-columns: 1fr; }
@@ -241,14 +252,37 @@
   </div>
 </section>
 
+<!-- ── LEADERSHIP TEAM ── -->
+<section class="section section--dark" id="leadership">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Leadership</span>
+      <h2 class="section-title">Meet the <span>Team Behind ITI Pro</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">A focused leadership team steering ITI Pro across strategy, finance, and operations in India's electric-vehicle ecosystem.</p>
+    </div>
+    <div class="about-leaders" id="about-leaders"></div>
+    <div class="text-center mt-10">
+      <a href="./team.html" class="btn btn--outline btn--lg">View Full Team →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT FLYER ── -->
 <section class="section section--dark2">
+  <div class="container">
+    <div id="about-flyer"></div>
+  </div>
+</section>
+
+<section class="section section--dark3">
   <div class="container container--md">
     <div class="leadership-strip">
-      <div class="patron-avatar">👨‍💼</div>
+      <div class="patron-avatar" id="patron-avatar">👨‍💼</div>
       <div>
         <p class="patron-quote">"India's EV transition isn't just about vehicles — it's about people. Every technician we train, every centre we open, and every partnership we build is a brick in the foundation of a cleaner, smarter, more prosperous India. At ITI Pro, we're not waiting for the future. We're building it."</p>
-        <div class="patron-name" id="patron-name">Dr. Ramesh Kumar</div>
-        <div class="patron-role">Chief Patron · ITI Pro</div>
+        <div class="patron-name" id="patron-name">Prof. Mohammed Iftheqar</div>
+        <div class="patron-role" id="patron-role">Chief Executive Officer · ITI Pro</div>
       </div>
     </div>
   </div>
@@ -304,12 +338,52 @@
 <div id="footer-placeholder"></div>
 <script src="../assets/js/config.js"></script>
 <script src="../assets/js/main.js"></script>
+<script src="../assets/js/ev-catalog.js"></script>
 <script>
-  const patronEl = document.getElementById('patron-name');
-  if (patronEl && SITE.team && SITE.team.length) {
-    const patron = SITE.team.find(m => m.role.toLowerCase().includes('patron'));
-    if (patron) patronEl.textContent = patron.name;
+(function(){
+  function asset(p){ return (location.pathname.indexOf('/pages/')!==-1?'../':'./') + p; }
+
+  // Render leadership grid
+  var grid = document.getElementById('about-leaders');
+  if (grid && SITE.team) {
+    SITE.team.forEach(function(m){
+      var card = document.createElement('div');
+      card.className = 'about-leader';
+      var img = m.photo
+        ? '<img src="'+asset(m.photo)+'" alt="'+m.name+'" loading="lazy"/>'
+        : '<div style="width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:3rem;background:var(--clr-dark-4);">👤</div>';
+      card.innerHTML = img +
+        '<div class="about-leader__body">'+
+          '<div class="about-leader__role">'+m.role+'</div>'+
+          '<div class="about-leader__name">'+m.name+'</div>'+
+        '</div>';
+      grid.appendChild(card);
+    });
   }
+
+  // Feature the CEO in the patron strip
+  var ceo = (SITE.team || []).find(function(m){ return /ceo|chief executive/i.test(m.role); }) || (SITE.team||[])[0];
+  if (ceo) {
+    var nameEl = document.getElementById('patron-name');
+    var roleEl = document.getElementById('patron-role');
+    var avEl   = document.getElementById('patron-avatar');
+    if (nameEl) nameEl.textContent = ceo.name;
+    if (roleEl) roleEl.textContent = (ceo.role === 'CEO' ? 'Chief Executive Officer' : ceo.role) + ' · ITI Pro';
+    if (avEl && ceo.photo) avEl.innerHTML = '<img src="'+asset(ceo.photo)+'" alt="'+ceo.name+'"/>';
+  }
+
+  // Flyer banner
+  EVCatalog.renderFlyerBanner('about-flyer', {
+    index: 0,
+    reverse: true,
+    eyebrow: 'Our Promise',
+    title: 'Driving India Toward Cleaner Mobility',
+    text: 'No fuel cost, low maintenance and zero emissions — ITI Pro exists to make electric mobility practical, affordable and accessible across India.',
+    ctaText: 'Explore Training',
+    ctaHref: './training.html',
+    ctaSecondary: { text: 'Our Services', href: './service.html' }
+  });
+})();
 </script>
 </body>
 </html>

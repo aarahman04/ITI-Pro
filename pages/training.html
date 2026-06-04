@@ -7,6 +7,26 @@
   <meta name="description" content="ITI Pro EV Training Programs — Seminars, Workshops, Internships, Certifications, Placements and more."/>
   <link rel="stylesheet" href="../assets/css/style.css"/>
   <style>
+    /* ── Training media (photos + videos) ── */
+    .train-media-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--sp-4); }
+    @media (max-width:1024px){ .train-media-grid{ grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:540px){ .train-media-grid{ grid-template-columns:1fr; } }
+    .train-photo { position:relative; border:1px solid var(--clr-border); border-radius:var(--r-lg); overflow:hidden; cursor:pointer; background:var(--clr-dark-4); transition:all var(--transition); }
+    .train-photo:hover { border-color:var(--clr-primary); transform:translateY(-4px); box-shadow:var(--shadow-md),var(--shadow-glow); }
+    .train-photo img { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; transition:transform var(--transition-slow); }
+    .train-photo:hover img { transform:scale(1.06); }
+    .train-photo__cap { position:absolute; inset:auto 0 0 0; background:linear-gradient(to top, rgba(6,14,6,.92), transparent); color:var(--clr-white); font-size:var(--fs-xs); font-weight:600; padding:var(--sp-6) var(--sp-3) var(--sp-3); }
+    .train-video-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--sp-5); }
+    @media (max-width:1024px){ .train-video-grid{ grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:600px){ .train-video-grid{ grid-template-columns:1fr; } }
+    .train-video { background:var(--clr-dark-3); border:1px solid var(--clr-border); border-radius:var(--r-lg); overflow:hidden; display:flex; flex-direction:column; transition:all var(--transition); }
+    .train-video:hover { border-color:var(--clr-primary); box-shadow:var(--shadow-md); }
+    .train-video__embed { position:relative; padding-bottom:56.25%; height:0; background:#000; }
+    .train-video__embed video { position:absolute; inset:0; width:100%; height:100%; }
+    .train-video__body { padding:var(--sp-4); }
+    .train-video__title { font-family:var(--ff-display); font-size:var(--fs-base); font-weight:700; color:var(--clr-white); line-height:1.3; margin-bottom:var(--sp-2); }
+    .train-video__desc { font-size:var(--fs-xs); color:var(--clr-text-muted); line-height:1.6; }
+
     .program-card {
       background: var(--clr-dark-3);
       border: 1px solid var(--clr-border);
@@ -377,6 +397,79 @@
   </div>
 </section>
 
+<!-- ── INSIDE OUR TRAINING (PHOTOS) ── -->
+<section class="section section--dark2" id="inside-training">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">On the Floor</span>
+      <h2 class="section-title">Inside Our <span>Training Labs</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Real moments from our hands-on EV training — wiring controllers, building battery packs, and servicing live vehicles. Click any photo to enlarge.</p>
+    </div>
+    <div class="train-media-grid" id="train-photos"></div>
+  </div>
+</section>
+
+<!-- ── TRAINING VIDEOS ── -->
+<section class="section section--dark3" id="training-videos">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <span class="section-label">Watch &amp; Learn</span>
+      <h2 class="section-title">Training <span>Videos</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Hands-on demonstrations recorded in our EV labs — from battery assembly to motor wiring and live diagnostics. Press play to watch (videos do not autoplay).</p>
+    </div>
+    <div class="train-video-grid" id="train-videos"></div>
+    <div class="text-center mt-10">
+      <a href="./video-gallery.html" class="btn btn--outline btn--lg">🎥 See All Videos</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── LEARNING OUTCOMES & BENEFITS ── -->
+<section class="section section--dark2">
+  <div class="container">
+    <div class="two-col" style="align-items:start; gap: var(--sp-12);">
+      <div>
+        <span class="section-label">What You Gain</span>
+        <h2 class="section-title">Learning <span>Outcomes</span></h2>
+        <div class="divider"></div>
+        <p class="text-muted mb-6">Every ITI Pro program is built around practical, job-ready skills. By the end of your training you will be able to:</p>
+        <div class="feature-list">
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Diagnose and repair EV motors, controllers and battery systems with confidence</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Assemble, test and balance lithium-ion battery packs safely</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Wire BLDC motors, controllers and harnesses to spec</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Service e-scooters and e-rickshaws end-to-end, brakes to BMS</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Read wiring diagrams and use professional diagnostic tools</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Follow EV charging and high-voltage safety procedures</div></div>
+        </div>
+      </div>
+      <div>
+        <span class="section-label">Why It Matters</span>
+        <h2 class="section-title">Benefits &amp; <span>Career Paths</span></h2>
+        <div class="divider"></div>
+        <p class="text-muted mb-6">India's EV sector is hiring faster than skilled technicians can be trained. A certification from ITI Pro opens doors to:</p>
+        <div class="feature-list">
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">EV Service Technician &amp; Workshop roles at OEMs and dealerships</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Battery Pack &amp; BMS Assembly jobs at manufacturers</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Charging Infrastructure installation &amp; maintenance</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Self-employment — start your own EV service centre</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">NSQF-aligned certification recognised by 200+ hiring partners</div></div>
+          <div class="feature-item"><div class="feature-item__dot"></div><div class="feature-item__text">Placement assistance with a 98% placement track record</div></div>
+        </div>
+        <div class="mt-8"><a href="./contact.html" class="btn btn--primary">Enrol Today</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRAINING FLYER ── -->
+<section class="section section--dark3">
+  <div class="container">
+    <div id="training-flyer"></div>
+  </div>
+</section>
+
 <section class="section section--dark2">
   <div class="container">
     <div class="section-header section-header--center">
@@ -513,5 +606,55 @@
 <div id="footer-placeholder"></div>
 <script src="../assets/js/config.js"></script>
 <script src="../assets/js/main.js"></script>
+<script src="../assets/js/ev-catalog.js"></script>
+<script>
+(function(){
+  function asset(p){ return (location.pathname.indexOf('/pages/')!==-1?'../':'./') + p; }
+
+  var photos = [
+    { img:'assets/images/training/train-img-04.jpeg', cap:'Hands-on EV scooter service training' },
+    { img:'assets/images/training/train-img-01.jpeg', cap:'EV controller wiring class in session' },
+    { img:'assets/images/training/train-img-03.jpeg', cap:'Practising on electrical trainer kits' },
+    { img:'assets/images/training/train-img-02.jpeg', cap:'Lithium battery pack assembly practical' }
+  ];
+  var pg = document.getElementById('train-photos');
+  photos.forEach(function(p){
+    var src = asset(p.img);
+    var d = document.createElement('div');
+    d.className = 'train-photo';
+    d.innerHTML = '<img src="'+src+'" alt="'+p.cap+'" loading="lazy"/><div class="train-photo__cap">'+p.cap+'</div>';
+    d.addEventListener('click', function(){ if(window.EVCatalog) EVCatalog.openLightbox(src, p.cap, 'ITI Pro EV Training'); });
+    pg.appendChild(d);
+  });
+
+  var videos = [
+    { src:'assets/videos/training/train-vid-01.mp4', t:'EV Battery Pack Assembly — Hands-On Demo', d:'Trainees assemble and test lithium battery packs under expert guidance.' },
+    { src:'assets/videos/training/train-vid-02.mp4', t:'BLDC Motor & Controller Wiring', d:'A step-by-step look at connecting a motor, controller and harness correctly.' },
+    { src:'assets/videos/training/train-vid-03.mp4', t:'Inside the ITI Pro EV Training Lab', d:'A tour of our hands-on training floor where students work on live EV systems.' },
+    { src:'assets/videos/training/train-vid-04.mp4', t:'E-Scooter Diagnostics & Service', d:'Trainers demonstrate fault diagnosis and servicing on a real electric scooter.' },
+    { src:'assets/videos/training/train-vid-05.mp4', t:'EV Charging & Battery Safety', d:'Essential charging practices and battery-safety procedures for technicians.' }
+  ];
+  var vg = document.getElementById('train-videos');
+  videos.forEach(function(v){
+    var src = asset(v.src);
+    var c = document.createElement('div');
+    c.className = 'train-video';
+    c.innerHTML =
+      '<div class="train-video__embed"><video controls preload="metadata" playsinline title="'+v.t+'"><source src="'+src+'" type="video/mp4"/>Your browser does not support embedded video.</video></div>'+
+      '<div class="train-video__body"><div class="train-video__title">'+v.t+'</div><p class="train-video__desc">'+v.d+'</p></div>';
+    vg.appendChild(c);
+  });
+
+  EVCatalog.renderFlyerBanner('training-flyer', {
+    index: 2,
+    eyebrow: 'Build a Career',
+    title: 'Turn EV Skills Into a Livelihood',
+    text: 'India is going electric — and skilled EV technicians are in demand everywhere. Train with ITI Pro and step into a future-proof career or your own EV business.',
+    ctaText: 'Enrol Now',
+    ctaHref: './contact.html',
+    ctaSecondary: { text: 'Franchise Options', href: './franchise.html' }
+  });
+})();
+</script>
 </body>
 </html>

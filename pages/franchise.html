@@ -715,8 +715,25 @@
   </div>
 </section>
 
+<!-- ── FRANCHISE FLYER ── -->
+<section class="section section--dark2">
+  <div class="container">
+    <div id="franchise-flyer"></div>
+  </div>
+</section>
+
 <div id="footer-placeholder"></div>
 <script src="../assets/js/config.js"></script>
 <script src="../assets/js/main.js"></script>
+<script src="../assets/js/ev-catalog.js"></script>
+<script>
+  EVCatalog.renderFlyerBanner('franchise-flyer', {
+    index: 2,
+    eyebrow: 'Business Opportunity',
+    ctaText: 'Apply for a Franchise',
+    ctaHref: './contact.html',
+    ctaSecondary: { text: 'Explore Training', href: './training.html' }
+  });
+</script>
 </body>
 </html>
